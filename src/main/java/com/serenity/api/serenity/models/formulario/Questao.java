@@ -9,7 +9,7 @@ public class Questao implements Ordenavel {
     private String titulo;
 
     @Override
-    public Comparable getValorOrdenacao() {
+    public Comparable<String> getValorOrdenacao() {
         return titulo;
     }
 

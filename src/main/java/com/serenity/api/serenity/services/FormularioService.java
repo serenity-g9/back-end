@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -83,7 +84,7 @@ public class FormularioService {
 
                 respostaUsuarios.add(new RespostaUsuario(
                         response.path("responseId").asText(),
-                        LocalDateTime.parse(response.path("lastSubmittedTime").asText()),
+                        OffsetDateTime.parse(response.path("lastSubmittedTime").asText()).toLocalDateTime(),
                         respostas
                 ));
             }
