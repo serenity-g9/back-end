@@ -33,7 +33,7 @@ public class FormularioService {
 
     private static final String SECRET_PATH = "secret";
     private static final String CREDENCIAIS_JSON = SECRET_PATH + "/credenciais.json";
-    private static final List<String> ESCOPOES = List.of("https://www.googleapis.com/auth/drive");
+    private static final List<String> ESCOPOS = List.of("https://www.googleapis.com/auth/drive");
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -42,7 +42,7 @@ public class FormularioService {
         GoogleClientSecrets googleClientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new FileReader(CREDENCIAIS_JSON));
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                netHttpTransport, JSON_FACTORY, googleClientSecrets, ESCOPOES)
+                netHttpTransport, JSON_FACTORY, googleClientSecrets, ESCOPOS)
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(SECRET_PATH)))
                 .setAccessType("offline")
                 .build();
