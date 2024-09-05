@@ -52,7 +52,6 @@ public class UsuarioController {
         usuarioAtualizado.setId(id);
         Usuario usuarioRetorno = usuarioRepository.save(usuarioAtualizado);
         return  ResponseEntity.status(200).body(usuarioRetorno);
-
     }
 
     @DeleteMapping("/{id}")
@@ -64,7 +63,7 @@ public class UsuarioController {
         return ResponseEntity.status(404).build();
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Usuario> logar( @RequestParam String email, @RequestParam String senha){
         Optional<Usuario> usuario = usuarioRepository.findByEmailAndSenha(email, senha);
 
