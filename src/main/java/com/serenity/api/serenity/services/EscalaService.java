@@ -68,4 +68,12 @@ public class EscalaService {
 
         escalaRepository.deleteById(id);
     }
+
+    public List<Escala> buscarEscalasPorIdUsuario(int idUsuario){
+        return escalaRepository.findAllByIdColaborador(idUsuario);
+    }
+
+    public List<Escala> buscarEscalasPorIdEvento(int idEvento){
+        return escalaRepository.findAllByIdEvento(idEvento);
+    }
 }
