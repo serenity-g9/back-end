@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.models.Parceiro;
+import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.services.ParceiroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

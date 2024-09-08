@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.models.Colaborador;
 import com.serenity.api.serenity.models.Escala;
 import com.serenity.api.serenity.repositories.ColaboradorRepository;
 import com.serenity.api.serenity.repositories.EscalaRepository;
@@ -33,11 +34,21 @@ public class EscalaService {
     public Escala cadastrar(Escala escala) {
         escala.setId(null);
 
-        if (!colaboradorRepository.existsById(escala.getIdColaborador()) || !eventoRepository.existsById(escala.getIdEvento())) {
+        Optional<Colaborador> colaboradorOpt = colaboradorRepository.findById(escala.getIdColaborador());
+
+        if (colaboradorOpt.isEmpty() || !eventoRepository.existsById(escala.getIdEvento())) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
+        if (escala.getFaturamento() == null) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+        }
+
         escala.setDataHorario(LocalDateTime.now());
+
+        Colaborador colaborador = colaboradorOpt.get();
+        colaborador.addFaturamento(escala);
+        colaboradorRepository.save(colaborador);
 
         return escalaRepository.save(escala);
     }
@@ -67,13 +78,5 @@ public class EscalaService {
         }
 
         escalaRepository.deleteById(id);
-    }
-
-    public List<Escala> buscarEscalasPorIdUsuario(int idUsuario){
-        return escalaRepository.findAllByIdColaborador(idUsuario);
-    }
-
-    public List<Escala> buscarEscalasPorIdEvento(int idEvento){
-        return escalaRepository.findAllByIdEvento(idEvento);
     }
 }

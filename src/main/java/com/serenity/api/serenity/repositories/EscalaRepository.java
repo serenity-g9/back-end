@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface EscalaRepository extends JpaRepository<Escala, Integer> {
-    List<Escala> findAllByIdColaborador(int id);
-    List<Escala> findAllByIdEvento(int id);
 }

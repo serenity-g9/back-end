@@ -1,21 +1,19 @@
 package com.serenity.api.serenity.models;
 
-import com.serenity.api.serenity.interfaces.IProfissional;
-import com.serenity.api.serenity.services.RegistroService;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-public class Colaborador implements IProfissional {
+@ToString
+public class Colaborador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,11 +23,21 @@ public class Colaborador implements IProfissional {
     private String intermitente;
     private Boolean ASO;
 
-    @Autowired
-    private RegistroService registroService;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Faturamento> faturamentos = new ArrayList<>();
 
-    @Override
-    public List<Registro> getRegistros() {
-        return registroService.buscarRegistrosPorIdUsuario(id);
+    public Double getFaturamento() {
+        Double total = 0.0;
+
+        for (Faturamento faturamento : faturamentos) {
+            total += faturamento.getFaturamento();
+        }
+
+        return total;
+    }
+
+    public void addFaturamento(Faturamento faturamento) {
+        faturamentos.add(faturamento);
     }
 }

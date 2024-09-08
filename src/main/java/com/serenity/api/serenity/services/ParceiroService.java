@@ -18,6 +18,9 @@ public class ParceiroService {
     @Autowired
     private ParceiroRepository parceiroRepository;
 
+    @Autowired
+    private RegistroService registroService;
+
     public Parceiro cadastrar(Parceiro parceiro) {
         parceiro.setId(null);
         return parceiroRepository.save(parceiro);

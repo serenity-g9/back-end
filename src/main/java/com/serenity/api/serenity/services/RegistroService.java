@@ -1,6 +1,5 @@
 package com.serenity.api.serenity.services;
 
-import com.serenity.api.serenity.models.Escala;
 import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.repositories.RegistroRepository;
 import jakarta.transaction.Transactional;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,9 +18,6 @@ public class RegistroService {
 
     @Autowired
     private RegistroRepository registroRepository;
-
-    @Autowired
-    private EscalaService escalaService;
 
     public Registro cadastrar(Registro registro) {
         registro.setId(null);
@@ -58,20 +53,5 @@ public class RegistroService {
         }
 
         return registroRepository.save(registro);
-    }
-
-    public List<Registro> buscarRegistrosPorIdUsuario(int idUsuario) {
-        List<Integer> idsEscala = new ArrayList<>();
-
-        for (Escala escala : escalaService.buscarEscalasPorIdUsuario(idUsuario)) {
-            idsEscala.add(escala.getId());
-        }
-
-        return registroRepository.findAllByIdEscalaIn(idsEscala);
-    }
-
-    public List<Registro> buscarRegistros() {
-
-        return registroRepository.findAll();
     }
 }

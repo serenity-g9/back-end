@@ -1,6 +1,8 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.models.Colaborador;
+import com.serenity.api.serenity.models.Comissao;
+import com.serenity.api.serenity.models.Faturamento;
 import com.serenity.api.serenity.repositories.ColaboradorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +53,28 @@ public class ColaboradorService {
         }
 
         return colaboradorRepository.save(colaborador);
+    }
+
+    public Colaborador cadastrarComissao(Comissao comissao, int id) {
+        Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
+
+        if (colaborador.isEmpty()) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+        }
+
+        comissao.setIdColaborador(id);
+        colaborador.get().addFaturamento(comissao);
+
+        return colaboradorRepository.save(colaborador.get());
+    }
+
+    public List<Faturamento> buscarFaturaveis(int id) {
+        Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
+
+        if (colaborador.isEmpty()) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+        }
+
+        return colaborador.get().getFaturamentos();
     }
 }
