@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.escala.EscalaRequest;
 import com.serenity.api.serenity.models.Escala;
 import com.serenity.api.serenity.services.EscalaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,12 @@ public class EscalaController {
     }
 
     @PostMapping
-    public ResponseEntity<Escala> cadastrar(@RequestBody Escala escala) {
-        return ResponseEntity.status(201).body(escalaService.cadastrar(escala));
+    public ResponseEntity<Escala> cadastrar(@RequestBody EscalaRequest escalaRequest) {
+        return ResponseEntity.status(201).body(escalaService.cadastrar(escalaRequest));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Escala> buscarPorId(@PathVariable int id) {
+    public ResponseEntity<Escala> buscarPorId(@PathVariable Integer id) {
         return ResponseEntity.status(200).body(escalaService.buscarPorId(id));
     }
 

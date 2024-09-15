@@ -1,18 +1,18 @@
 package com.serenity.api.serenity.enums;
 
 public enum FuncaoAlocacao {
-    ATENDENTES_DE_BAR(1, "Atendentes de bar"),
-    REPOSITORES(2, "Repositores"),
-    CARREGADORES(3, "Carregadores"),
-    VIGIA_NOTURNO(4, "Vigia noturno"),
-    LIMPEZA(5, "Limpeza"),
-    GARCOM(6, "Garçom"),
-    DOSADOR(7, "Dosador"),
-    BARBACK(8, "Barback"),
-    LIDER_DE_BAR(9, "Líder de bar"),
-    COORDENADOR(10, "Coordenador"),
-    RH(11, "RH"),
-    APOIO_DE_RH(12, "Apoio de RH");
+    ATENDENTES_DE_BAR(0, "Atendentes de bar"),
+    REPOSITORES(1, "Repositores"),
+    CARREGADORES(2, "Carregadores"),
+    VIGIA_NOTURNO(3, "Vigia noturno"),
+    LIMPEZA(4, "Limpeza"),
+    GARCOM(5, "Garçom"),
+    DOSADOR(6, "Dosador"),
+    BARBACK(7, "Barback"),
+    LIDER_DE_BAR(8, "Líder de bar"),
+    COORDENADOR(9, "Coordenador"),
+    RH(10, "RH"),
+    APOIO_DE_RH(11, "Apoio de RH");
 
     private final int id;
     private final String valor;

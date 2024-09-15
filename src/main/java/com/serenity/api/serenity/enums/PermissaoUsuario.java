@@ -1,13 +1,12 @@
 package com.serenity.api.serenity.enums;
 
-public enum TipoRegistro {
-    ENTRADA(0, "Entrada"),
-    SAIDA(1, "Saída");
+public enum PermissaoUsuario {
+    SUPER(0, "Super");
 
     private final int id;
     private final String valor;
 
-    TipoRegistro(int id, String valor) {
+    PermissaoUsuario(int id, String valor) {
         this.id = id;
         this.valor = valor;
     }

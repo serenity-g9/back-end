@@ -14,4 +14,6 @@ public class Parceiro {
 
     @OneToOne
     private Usuario usuario;
+
+    private Integer permissao;
 }

@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.registro.RegistroRequest;
 import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.services.RegistroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +22,18 @@ public class RegistroController {
     }
 
     @PostMapping
-    public ResponseEntity<Registro> cadastrar(@RequestBody Registro registro) {
-        return ResponseEntity.status(201).body(registroService.cadastrar(registro));
+    public ResponseEntity<Registro> cadastrar(@RequestBody RegistroRequest registroRequest) {
+        return ResponseEntity.status(201).body(registroService.cadastrar(registroRequest));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Registro> buscarPorId(@PathVariable int id){
-        return ResponseEntity.status(200).body(registroService.buscarPorId(id).get());
+        return ResponseEntity.status(200).body(registroService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Registro> atualizar(@PathVariable int id, @RequestBody Registro registroAtualizado) {
-        return  ResponseEntity.status(200).body(registroService.atualizar(id, registroAtualizado));
+        return ResponseEntity.status(200).body(registroService.atualizar(id, registroAtualizado));
     }
 
     @DeleteMapping("/{id}")

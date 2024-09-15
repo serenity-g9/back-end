@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.parceiro.ParceiroRequest;
 import com.serenity.api.serenity.models.Parceiro;
 import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.services.ParceiroService;
@@ -22,8 +23,8 @@ public class ParceiroController {
     }
 
     @PostMapping
-    public ResponseEntity<Parceiro> cadastrar(@RequestBody Parceiro parceiro) {
-        return ResponseEntity.status(201).body(parceiroService.cadastrar(parceiro));
+    public ResponseEntity<Parceiro> cadastrar(@RequestBody ParceiroRequest parceiroRequest) {
+        return ResponseEntity.status(201).body(parceiroService.cadastrar(parceiroRequest));
     }
 
     @GetMapping("/{id}")

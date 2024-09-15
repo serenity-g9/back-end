@@ -1,8 +1,10 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.dtos.registro.RegistroRequest;
 import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.repositories.RegistroRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,12 @@ public class RegistroService {
     @Autowired
     private RegistroRepository registroRepository;
 
-    public Registro cadastrar(Registro registro) {
-        registro.setId(null);
+    public Registro cadastrar(RegistroRequest registroRequest) {
+
+        var registro = new Registro();
+        BeanUtils.copyProperties(registroRequest, registro);
         registro.setDataHorario(LocalDateTime.now());
+
         return registroRepository.save(registro);
     }
 
@@ -29,14 +34,14 @@ public class RegistroService {
         return registroRepository.findAll();
     }
 
-    public Optional<Registro> buscarPorId(Integer id) {
-        Optional<Registro> registro = registroRepository.findById(id);
+    public Registro buscarPorId(Integer id) {
+        Optional<Registro> registroOpt = registroRepository.findById(id);
 
-        if (registro.isEmpty()) {
+        if (registroOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return registro;
+        return registroOpt.get();
     }
 
     public void deletar(Integer id) {
