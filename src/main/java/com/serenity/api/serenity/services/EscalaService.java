@@ -73,6 +73,6 @@ public class EscalaService {
         Escala escala = new Escala();
         BeanUtils.copyProperties(escalaUpdateRequest, escala);
         escala.setId(id);
-        return escalaRepository.save(escala);
+        return new EscalaResponse(escalaRepository.save(escala));
     }
 }
