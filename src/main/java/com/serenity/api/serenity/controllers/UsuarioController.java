@@ -2,6 +2,9 @@ package com.serenity.api.serenity.controllers;
 
 
 import com.serenity.api.serenity.dtos.usuario.LoginResponse;
+import com.serenity.api.serenity.dtos.usuario.UsuarioRequest;
+import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
+import com.serenity.api.serenity.dtos.usuario.UsuarioUpdateRequest;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +27,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
-        return ResponseEntity.status(201).body(usuarioService.cadastrar(usuario));
+    public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody UsuarioRequest usuarioRequest) {
+        return ResponseEntity.status(201).body(usuarioService.cadastrar(usuarioRequest));
     }
 
     @GetMapping("/{id}")
@@ -34,8 +37,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizar(@PathVariable int id, @RequestBody Usuario usuarioAtualizado) {
-        return ResponseEntity.status(200).body(usuarioService.atualizar(id, usuarioAtualizado));
+    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable int id, @RequestBody UsuarioUpdateRequest usuarioUpdateRequest) {
+        return ResponseEntity.status(200).body(usuarioService.atualizar(id, usuarioUpdateRequest));
     }
 
     @DeleteMapping("/{id}")

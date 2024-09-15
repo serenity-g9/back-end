@@ -1,7 +1,7 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.evento.EventoRequest;
 import com.serenity.api.serenity.dtos.evento.EventoResponse;
-import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.services.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class EventoController {
     }
 
     @PostMapping
-    public ResponseEntity<Evento> cadastrar(@RequestBody Evento evento) {
-        return ResponseEntity.status(201).body(eventoService.cadastrar(evento));
+    public ResponseEntity<EventoResponse> cadastrar(@RequestBody EventoRequest eventoRequest) {
+        return ResponseEntity.status(201).body(eventoService.cadastrar(eventoRequest));
     }
 
     @GetMapping("/{id}")
@@ -32,8 +32,8 @@ public class EventoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventoResponse> atualizar(@PathVariable int id, @RequestBody Evento eventoAtualizado) {
-        return  ResponseEntity.status(200).body(eventoService.atualizar(id, eventoAtualizado));
+    public ResponseEntity<EventoResponse> atualizar(@PathVariable int id, @RequestBody EventoRequest eventoRequest) {
+        return  ResponseEntity.status(200).body(eventoService.atualizar(id, eventoRequest));
     }
 
     @DeleteMapping("/{id}")

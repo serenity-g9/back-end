@@ -2,7 +2,7 @@ package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.dtos.pagamento.PagamentoRequest;
 import com.serenity.api.serenity.dtos.pagamento.PagamentoResponse;
-import com.serenity.api.serenity.models.Pagamento;
+import com.serenity.api.serenity.dtos.pagamento.PagamentoUpdateRequest;
 import com.serenity.api.serenity.services.PagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class PagamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Pagamento> cadastrar(@RequestBody PagamentoRequest pagamentoRequest) {
+    public ResponseEntity<PagamentoResponse> cadastrar(@RequestBody PagamentoRequest pagamentoRequest) {
         return ResponseEntity.status(201).body(pagamentoService.cadastrar(pagamentoRequest));
     }
 
@@ -34,8 +34,8 @@ public class PagamentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PagamentoResponse> atualizar(@PathVariable int id, @RequestBody Pagamento pagamento) {
-        return ResponseEntity.status(200).body(pagamentoService.atualizar(id, pagamento));
+    public ResponseEntity<PagamentoResponse> atualizar(@PathVariable int id, @RequestBody PagamentoUpdateRequest pagamentoUpdateRequest) {
+        return ResponseEntity.status(200).body(pagamentoService.atualizar(id, pagamentoUpdateRequest));
     }
 
     @DeleteMapping("/{id}")

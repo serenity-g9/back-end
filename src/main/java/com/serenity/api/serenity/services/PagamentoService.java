@@ -35,7 +35,7 @@ public class PagamentoService {
                 .collect(Collectors.toList());
     }
 
-    public Pagamento cadastrar(PagamentoRequest pagamentoRequest) {
+    public PagamentoResponse cadastrar(PagamentoRequest pagamentoRequest) {
 
         Optional<Agendamento> agendamentoOpt = agendamentoRepository.findById(pagamentoRequest.idAgendamento());
 
@@ -51,7 +51,7 @@ public class PagamentoService {
         pagamento.setVencimento(LocalDate.from(pagamento.getEmissao().plusDays(pagamentoRequest.prazoDias())));
         pagamento.setEfetuado(false);
 
-        return pagamentoRepository.save(pagamento);
+        return new PagamentoResponse(pagamentoRepository.save(pagamento));
     }
 
     public PagamentoResponse buscarPorId(int id) {

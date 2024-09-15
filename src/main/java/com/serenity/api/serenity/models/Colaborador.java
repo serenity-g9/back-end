@@ -1,22 +1,30 @@
 package com.serenity.api.serenity.models;
 
+import com.serenity.api.serenity.enums.FuncaoInteresse;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@ToString
 public class Colaborador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String regiaoResidencia;
-    private String intermitente;
-    private Boolean ASO;
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Set<FuncaoInteresse> funcoesInteresse;
+
+    private String cidadeResidencia;
+    private String estado;
+    private String apresentacao;
+    private String experiencia;
+    private String linkSocial;
+    private Boolean sociaisAbertas;
 
     @OneToOne
     private Usuario usuario;

@@ -2,7 +2,7 @@ package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.dtos.escala.EscalaRequest;
 import com.serenity.api.serenity.dtos.escala.EscalaResponse;
-import com.serenity.api.serenity.models.Escala;
+import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
 import com.serenity.api.serenity.services.EscalaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class EscalaController {
     }
 
     @PostMapping
-    public ResponseEntity<Escala> cadastrar(@RequestBody EscalaRequest escalaRequest) {
+    public ResponseEntity<EscalaResponse> cadastrar(@RequestBody EscalaRequest escalaRequest) {
         return ResponseEntity.status(201).body(escalaService.cadastrar(escalaRequest));
     }
 
@@ -33,8 +33,8 @@ public class EscalaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EscalaResponse> atualizar(@PathVariable int id, @RequestBody Escala escala) {
-        return ResponseEntity.status(200).body(escalaService.atualizar(id, escala));
+    public ResponseEntity<EscalaResponse> atualizar(@PathVariable int id, @RequestBody EscalaUpdateRequest escalaUpdateRequest) {
+        return ResponseEntity.status(200).body(escalaService.atualizar(id, escalaUpdateRequest));
     }
 
     @DeleteMapping("/{id}")

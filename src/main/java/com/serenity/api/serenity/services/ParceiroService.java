@@ -3,7 +3,6 @@ package com.serenity.api.serenity.services;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroRequest;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroResponse;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroUpdateRequest;
-import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.models.Parceiro;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.ParceiroRepository;
@@ -29,7 +28,7 @@ public class ParceiroService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Parceiro cadastrar(ParceiroRequest parceiroRequest) {
+    public ParceiroResponse cadastrar(ParceiroRequest parceiroRequest) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(parceiroRequest.idUsuario());
 
         if (usuarioOpt.isEmpty()) {
@@ -40,7 +39,7 @@ public class ParceiroService {
         BeanUtils.copyProperties(parceiroRequest, parceiro);
         parceiro.setUsuario(usuarioOpt.get());
 
-        return parceiroRepository.save(parceiro);
+        return new ParceiroResponse(parceiroRepository.save(parceiro));
     }
 
     public List<ParceiroResponse> listar() {

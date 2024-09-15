@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record PagamentoResponse(
+        Integer id,
         Double valor,
         LocalDateTime emissao,
         LocalDate vencimento,
@@ -14,6 +15,7 @@ public record PagamentoResponse(
 ) {
     public PagamentoResponse(Pagamento pagamento) {
         this(
+                pagamento.getId(),
                 pagamento.getValor(),
                 pagamento.getEmissao(),
                 pagamento.getVencimento(),

@@ -4,6 +4,7 @@ import com.serenity.api.serenity.enums.TipoRegistro;
 import com.serenity.api.serenity.models.Escala;
 
 public record EscalaResponse(
+        Integer id,
         String funcaoEscala,
         Integer qtdColaborador,
         Integer qtdHora,
@@ -13,6 +14,7 @@ public record EscalaResponse(
 ) {
     public EscalaResponse(Escala escala) {
         this(
+                escala.getId(),
                 TipoRegistro.getValor(escala.getFuncaoEscala()),
                 escala.getQtdColaborador(),
                 escala.getQtdHora(),

@@ -28,7 +28,7 @@ public class EscalaService {
     @Autowired
     private EventoRepository eventoRepository;
 
-    public Escala cadastrar(EscalaRequest escalaRequest) {
+    public EscalaResponse cadastrar(EscalaRequest escalaRequest) {
         Optional<Evento> eventoOpt = eventoRepository.findById(escalaRequest.idEvento());
 
         if (eventoOpt.isEmpty()) {
@@ -39,7 +39,7 @@ public class EscalaService {
         BeanUtils.copyProperties(escalaRequest, escala);
         escala.setEvento(eventoOpt.get());
 
-        return escalaRepository.save(escala);
+        return new EscalaResponse(escalaRepository.save(escala));
     }
 
     public List<EscalaResponse> listar() {

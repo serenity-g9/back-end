@@ -22,10 +22,10 @@ public class EventoService {
     @Autowired
     private EventoRepository eventoRepository;
 
-    public Evento cadastrar(EventoRequest eventoRequest) {
+    public EventoResponse cadastrar(EventoRequest eventoRequest) {
         var evento = new Evento();
         BeanUtils.copyProperties(eventoRequest,evento);
-        return eventoRepository.save(evento);
+        return new EventoResponse(eventoRepository.save(evento));
     }
 
     public List<EventoResponse> listar() {

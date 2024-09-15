@@ -2,7 +2,7 @@ package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.dtos.parceiro.ParceiroRequest;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroResponse;
-import com.serenity.api.serenity.models.Parceiro;
+import com.serenity.api.serenity.dtos.parceiro.ParceiroUpdateRequest;
 import com.serenity.api.serenity.services.ParceiroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class ParceiroController {
     }
 
     @PostMapping
-    public ResponseEntity<Parceiro> cadastrar(@RequestBody ParceiroRequest parceiroRequest) {
+    public ResponseEntity<ParceiroResponse> cadastrar(@RequestBody ParceiroRequest parceiroRequest) {
         return ResponseEntity.status(201).body(parceiroService.cadastrar(parceiroRequest));
     }
 
@@ -33,8 +33,8 @@ public class ParceiroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable int id, @RequestBody Parceiro parceiroAtualizado) {
-        return  ResponseEntity.status(200).body(parceiroService.atualizar(id, parceiroAtualizado));
+    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable int id, @RequestBody ParceiroUpdateRequest parceiroUpdateRequest) {
+        return  ResponseEntity.status(200).body(parceiroService.atualizar(id, parceiroUpdateRequest));
     }
 
     @DeleteMapping("/{id}")

@@ -3,7 +3,6 @@ package com.serenity.api.serenity.services;
 import com.serenity.api.serenity.dtos.registro.RegistroRequest;
 import com.serenity.api.serenity.dtos.registro.RegistroResponse;
 import com.serenity.api.serenity.models.Agendamento;
-import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.repositories.AgendamentoRepository;
 import com.serenity.api.serenity.repositories.RegistroRepository;
@@ -29,7 +28,7 @@ public class RegistroService {
     @Autowired
     private AgendamentoRepository agendamentoRepository;
 
-    public Registro cadastrar(RegistroRequest registroRequest) {
+    public RegistroResponse cadastrar(RegistroRequest registroRequest) {
         Optional<Agendamento> agendamentoOpt = agendamentoRepository.findById(registroRequest.idAgendamento());
 
         if (agendamentoOpt.isEmpty()) {
@@ -45,7 +44,7 @@ public class RegistroService {
         registro.setDataHorario(LocalDateTime.now());
         registro.setAgendamento(agendamentoOpt.get());
 
-        return registroRepository.save(registro);
+        return new RegistroResponse(registroRepository.save(registro));
     }
 
     public List<RegistroResponse> listar() {
