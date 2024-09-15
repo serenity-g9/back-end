@@ -17,8 +17,9 @@ public class Comissao implements Faturavel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String item;
     private Double valor;
-    private int quantidade;
+    private Integer quantidade;
     private LocalDateTime emissao;
     private LocalDate vencimento;
     private Boolean efetuado;
