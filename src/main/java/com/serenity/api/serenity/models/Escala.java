@@ -15,7 +15,7 @@ public class Escala {
     private Integer funcaoEscala;
     private Integer qtdColaborador;
     private Integer qtdHora;
-    private Integer valor;
+    private Double valor;
     private Boolean comissionado;
     private Boolean asoObrigatorio;
 

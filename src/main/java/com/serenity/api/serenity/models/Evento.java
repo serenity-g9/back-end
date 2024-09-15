@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -17,4 +19,6 @@ public class Evento {
 
     private String nome;
     private Double orcamento;
+    private LocalDate inicio;
+    private LocalDate fim;
 }

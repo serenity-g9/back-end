@@ -8,7 +8,7 @@ public record EscalaResponse(
         String funcaoEscala,
         Integer qtdColaborador,
         Integer qtdHora,
-        Integer valor,
+        Double valor,
         Boolean comissionado,
         Boolean asoObrigatorio
 ) {

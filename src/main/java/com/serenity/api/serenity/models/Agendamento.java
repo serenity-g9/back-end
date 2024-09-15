@@ -21,5 +21,4 @@ public class Agendamento {
     private Escala escala;
 
     private LocalDateTime horarioEntrada;
-    private Double faturamento;
 }
