@@ -1,8 +1,8 @@
 package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.dtos.parceiro.ParceiroRequest;
+import com.serenity.api.serenity.dtos.parceiro.ParceiroResponse;
 import com.serenity.api.serenity.models.Parceiro;
-import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.services.ParceiroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,9 @@ public class ParceiroController {
     private ParceiroService parceiroService;
 
     @GetMapping
-    public ResponseEntity<List<Parceiro>> buscar() {
-        List<Parceiro> parceiros = parceiroService.listar();
-        return parceiros.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(parceiros);
+    public ResponseEntity<List<ParceiroResponse>> buscar() {
+        List<ParceiroResponse> parceiroResponses = parceiroService.listar();
+        return parceiroResponses.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(parceiroResponses);
     }
 
     @PostMapping
@@ -28,17 +28,17 @@ public class ParceiroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Parceiro> buscarPorId(@PathVariable int id){
+    public ResponseEntity<ParceiroResponse> buscarPorId(@PathVariable int id){
         return ResponseEntity.status(200).body(parceiroService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Parceiro> atualizar(@PathVariable int id, @RequestBody Parceiro parceiroAtualizado) {
+    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable int id, @RequestBody Parceiro parceiroAtualizado) {
         return  ResponseEntity.status(200).body(parceiroService.atualizar(id, parceiroAtualizado));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Parceiro> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable int id) {
         parceiroService.deletar(id);
         return ResponseEntity.status(204).build();
     }

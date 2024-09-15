@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.escala.EscalaRequest;
+import com.serenity.api.serenity.dtos.escala.EscalaResponse;
 import com.serenity.api.serenity.models.Escala;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EscalaRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -39,18 +41,20 @@ public class EscalaService {
         return escalaRepository.save(escala);
     }
 
-    public List<Escala> listar() {
-        return escalaRepository.findAll();
+    public List<EscalaResponse> listar() {
+        return escalaRepository.findAll().stream()
+                .map(escala -> new EscalaResponse(escala))
+                .collect(Collectors.toList());
     }
 
-    public Escala buscarPorId(Integer id) {
+    public EscalaResponse buscarPorId(Integer id) {
         Optional<Escala> escalaOpt = escalaRepository.findById(id);
 
         if (escalaOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return escalaOpt.get();
+        return new EscalaResponse(escalaOpt.get());
     }
 
     public void deletar(Integer id) {
@@ -61,11 +65,11 @@ public class EscalaService {
         escalaRepository.deleteById(id);
     }
 
-    public Escala atualizar(Integer id, Escala escala) {
+    public EscalaResponse atualizar(Integer id, Escala escala) {
         if (escalaRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return escalaRepository.save(escala);
+        return new EscalaResponse(escalaRepository.save(escala));
     }
 }

@@ -11,4 +11,12 @@ public enum TipoRegistro {
         this.id = id;
         this.valor = valor;
     }
+
+    public static String getValor(int id) {
+        for (TipoRegistro value : TipoRegistro.values()) {
+            if (value.id == id) return value.valor;
+        }
+
+        return null;
+    }
 }

@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EventoRepository;
 import jakarta.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,18 +25,20 @@ public class EventoService {
         return eventoRepository.save(evento);
     }
 
-    public List<Evento> listar() {
-        return eventoRepository.findAll();
+    public List<EventoResponse> listar() {
+        return eventoRepository.findAll().stream()
+                .map(evento -> new EventoResponse(evento))
+                .collect(Collectors.toList());
     }
 
-    public Evento buscarPorId(Integer id) {
+    public EventoResponse buscarPorId(Integer id) {
         Optional<Evento> evento = eventoRepository.findById(id);
 
         if (evento.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return evento.get();
+        return new EventoResponse(evento.get());
     }
 
     public void deletar(Integer id) {
@@ -45,11 +49,11 @@ public class EventoService {
         eventoRepository.deleteById(id);
     }
 
-    public Evento atualizar(Integer id, Evento evento) {
+    public EventoResponse atualizar(Integer id, Evento evento) {
         if (eventoRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return eventoRepository.save(evento);
+        return new EventoResponse(eventoRepository.save(evento));
     }
 }

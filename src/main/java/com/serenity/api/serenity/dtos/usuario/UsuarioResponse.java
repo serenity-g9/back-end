@@ -1,4 +1,4 @@
 package com.serenity.api.serenity.dtos.usuario;
 
-public record UsuarioRequest() {
+public record UsuarioResponse() {
 }

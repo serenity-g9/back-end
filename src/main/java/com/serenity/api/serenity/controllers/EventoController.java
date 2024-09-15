@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.services.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,9 @@ public class EventoController {
     private EventoService eventoService;
 
     @GetMapping
-    public ResponseEntity<List<Evento>> buscar() {
-        List<Evento> eventos = eventoService.listar();
-        return eventos.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(eventos);
+    public ResponseEntity<List<EventoResponse>> buscar() {
+        List<EventoResponse> eventosResponse = eventoService.listar();
+        return eventosResponse.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(eventosResponse);
     }
 
     @PostMapping
@@ -26,17 +27,17 @@ public class EventoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Evento> buscarPorId(@PathVariable Integer id){
+    public ResponseEntity<EventoResponse> buscarPorId(@PathVariable Integer id){
         return ResponseEntity.status(200).body(eventoService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Evento> atualizar(@PathVariable int id, @RequestBody Evento eventoAtualizado) {
+    public ResponseEntity<EventoResponse> atualizar(@PathVariable int id, @RequestBody Evento eventoAtualizado) {
         return  ResponseEntity.status(200).body(eventoService.atualizar(id, eventoAtualizado));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Evento> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable int id) {
         eventoService.deletar(id);
         return ResponseEntity.status(204).build();
     }

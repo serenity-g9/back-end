@@ -36,19 +36,8 @@ public class ColaboradorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Colaborador> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable int id) {
         colaboradorService.deletar(id);
         return ResponseEntity.status(204).build();
     }
-
-//    @PatchMapping("/{id}/comissao")
-//    public ResponseEntity<Colaborador> cadastrarComissao(@RequestBody Comissao comissao, @PathVariable int id) {
-//        return ResponseEntity.status(201).body(colaboradorService.cadastrarComissao(comissao, id));
-//    }
-//
-//    @GetMapping("/{id}/faturamento")
-//    public ResponseEntity<List<Faturamento>> buscarFaturavel(@PathVariable int id) {
-//        List<Faturamento> faturamentos = colaboradorService.buscarFaturaveis(id);
-//        return faturamentos.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(faturamentos);
-//    }
 }

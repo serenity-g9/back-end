@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.parceiro.ParceiroRequest;
+import com.serenity.api.serenity.dtos.parceiro.ParceiroResponse;
 import com.serenity.api.serenity.models.Parceiro;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.ParceiroRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -39,18 +41,20 @@ public class ParceiroService {
         return parceiroRepository.save(parceiro);
     }
 
-    public List<Parceiro> listar() {
-        return parceiroRepository.findAll();
+    public List<ParceiroResponse> listar() {
+        return parceiroRepository.findAll().stream()
+                .map(parceiro -> new ParceiroResponse(parceiro))
+                .collect(Collectors.toList());
     }
 
-    public Parceiro buscarPorId(Integer id) {
+    public ParceiroResponse buscarPorId(Integer id) {
         Optional<Parceiro> parceiro = parceiroRepository.findById(id);
 
         if (parceiro.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return parceiro.get();
+        return new ParceiroResponse(parceiro.get());
     }
 
     public void deletar(Integer id) {
@@ -61,11 +65,11 @@ public class ParceiroService {
         parceiroRepository.deleteById(id);
     }
 
-    public Parceiro atualizar(Integer id, Parceiro parceiro) {
+    public ParceiroResponse atualizar(Integer id, Parceiro parceiro) {
         if (parceiroRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return parceiroRepository.save(parceiro);
+        return new ParceiroResponse(parceiroRepository.save(parceiro));
     }
 }

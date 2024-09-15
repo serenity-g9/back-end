@@ -8,8 +8,8 @@ public record LoginResponse(
 ) {
     public LoginResponse(Usuario usuario) {
         this(
-          usuario.getEmail(),
-          usuario.getNome()
+                usuario.getEmail(),
+                usuario.getNome()
         );
     }
 }

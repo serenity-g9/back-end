@@ -30,7 +30,7 @@ public enum FuncaoAlocacao {
         return valor;
     }
 
-    public static String getValorById(int id) {
+    public static String getValor(int id) {
         for (FuncaoAlocacao funcao : FuncaoAlocacao.values()) {
             if (funcao.getId() == id) return funcao.getValor();
         }

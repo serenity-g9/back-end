@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.dtos.registro.RegistroRequest;
+import com.serenity.api.serenity.dtos.registro.RegistroResponse;
 import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.services.RegistroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,9 @@ public class RegistroController {
     private RegistroService registroService;
 
     @GetMapping
-    public ResponseEntity<List<Registro>> buscar() {
-        List<Registro> registros = registroService.listar();
-        return registros.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(registros);
+    public ResponseEntity<List<RegistroResponse>> buscar() {
+        List<RegistroResponse> registrosResponses = registroService.listar();
+        return registrosResponses.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(registrosResponses);
     }
 
     @PostMapping
@@ -27,7 +28,7 @@ public class RegistroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Registro> buscarPorId(@PathVariable int id){
+    public ResponseEntity<RegistroResponse> buscarPorId(@PathVariable int id){
         return ResponseEntity.status(200).body(registroService.buscarPorId(id));
     }
 
@@ -37,7 +38,7 @@ public class RegistroController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Registro> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable int id) {
         registroService.deletar(id);
         return ResponseEntity.status(204).build();
     }

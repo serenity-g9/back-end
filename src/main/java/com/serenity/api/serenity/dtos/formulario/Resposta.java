@@ -1,7 +1,6 @@
 package com.serenity.api.serenity.dtos.formulario;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.serenity.api.serenity.interfaces.Ordenavel;
 import lombok.Getter;
 import lombok.Setter;
 

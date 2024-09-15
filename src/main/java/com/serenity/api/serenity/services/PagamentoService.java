@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.pagamento.PagamentoRequest;
+import com.serenity.api.serenity.dtos.pagamento.PagamentoResponse;
 import com.serenity.api.serenity.models.Agendamento;
 import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.repositories.AgendamentoRepository;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,8 +28,10 @@ public class PagamentoService {
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
-    public List<Pagamento> listar() {
-        return pagamentoRepository.findAll();
+    public List<PagamentoResponse> listar() {
+        return pagamentoRepository.findAll().stream()
+                .map(pagamento -> new PagamentoResponse(pagamento))
+                .collect(Collectors.toList());
     }
 
     public Pagamento cadastrar(PagamentoRequest pagamentoRequest) {
@@ -49,23 +53,23 @@ public class PagamentoService {
         return pagamentoRepository.save(pagamento);
     }
 
-    public Pagamento buscarPorId(int id) {
+    public PagamentoResponse buscarPorId(int id) {
         Optional<Pagamento> pagamentoOpt = pagamentoRepository.findById(id);
 
         if (pagamentoOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return pagamentoOpt.get();
+        return new PagamentoResponse(pagamentoOpt.get());
     }
 
-    public Pagamento atualizar(int id, Pagamento pagamento) {
+    public PagamentoResponse atualizar(int id, Pagamento pagamento) {
         if (!pagamentoRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
         pagamento.setId(id);
-        return pagamentoRepository.save(pagamento);
+        return new PagamentoResponse(pagamentoRepository.save(pagamento));
     }
 
     public void deletar (int id) {

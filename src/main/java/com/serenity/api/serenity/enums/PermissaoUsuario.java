@@ -10,4 +10,12 @@ public enum PermissaoUsuario {
         this.id = id;
         this.valor = valor;
     }
+
+    public static String getValor(int id) {
+        for (PermissaoUsuario value : PermissaoUsuario.values()) {
+            if (value.id == id) return value.valor;
+        }
+
+        return null;
+    }
 }

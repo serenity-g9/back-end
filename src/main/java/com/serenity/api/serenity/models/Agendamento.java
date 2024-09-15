@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -21,10 +20,6 @@ public class Agendamento {
     @ManyToOne
     private Escala escala;
 
-    @OneToMany
-    private List<Registro> registros;
-
-    private LocalDateTime dataHorario;
-    private Integer funcaoAlocada;
+    private LocalDateTime horarioEntrada;
     private Double faturamento;
 }

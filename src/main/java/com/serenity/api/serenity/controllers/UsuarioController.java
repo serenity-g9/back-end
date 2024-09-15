@@ -39,13 +39,13 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Usuario> deletar(@PathVariable int id) {
+    public ResponseEntity<Void> deletar(@PathVariable int id) {
         usuarioService.deletar(id);
         return ResponseEntity.status(204).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestParam String email, @RequestParam String senha) {
-        return ResponseEntity.status(200).body(usuarioService.login(email, senha));
+        return ResponseEntity.status(204).body(usuarioService.login(email, senha));
     }
 }
