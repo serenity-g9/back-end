@@ -2,6 +2,7 @@ package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.escala.EscalaRequest;
 import com.serenity.api.serenity.dtos.escala.EscalaResponse;
+import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
 import com.serenity.api.serenity.models.Escala;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EscalaRepository;
@@ -65,11 +66,13 @@ public class EscalaService {
         escalaRepository.deleteById(id);
     }
 
-    public EscalaResponse atualizar(Integer id, Escala escala) {
+    public EscalaResponse atualizar(Integer id, EscalaUpdateRequest escalaUpdateRequest) {
         if (escalaRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
-
-        return new EscalaResponse(escalaRepository.save(escala));
+        Escala escala = new Escala();
+        BeanUtils.copyProperties(escalaUpdateRequest, escala);
+        escala.setId(id);
+        return escalaRepository.save(escala);
     }
 }

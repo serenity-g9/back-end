@@ -2,6 +2,8 @@ package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.parceiro.ParceiroRequest;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroResponse;
+import com.serenity.api.serenity.dtos.parceiro.ParceiroUpdateRequest;
+import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.models.Parceiro;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.ParceiroRepository;
@@ -65,10 +67,13 @@ public class ParceiroService {
         parceiroRepository.deleteById(id);
     }
 
-    public ParceiroResponse atualizar(Integer id, Parceiro parceiro) {
+    public ParceiroResponse atualizar(Integer id, ParceiroUpdateRequest parceiroUpdateRequest) {
         if (parceiroRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
+        var parceiro = new Parceiro();
+        BeanUtils.copyProperties(parceiroUpdateRequest, parceiro);
+        parceiro.setId(id);
 
         return new ParceiroResponse(parceiroRepository.save(parceiro));
     }
