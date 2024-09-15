@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.dtos.usuario.LoginResponse;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -27,14 +28,14 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> buscarPorId(Integer id) {
+    public Usuario buscarPorId(Integer id) {
         Optional<Usuario> usuario = usuarioRepository.findById(id);
 
         if (usuario.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return usuario;
+        return usuario.get();
     }
 
     public void deletar(Integer id) {
@@ -53,13 +54,13 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Optional<Usuario> login(String email, String senha) {
+    public LoginResponse login(String email, String senha) {
         Optional<Usuario> usuario = usuarioRepository.findByEmailAndSenha(email, senha);
 
         if (usuario.isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401));
         }
 
-        return usuario;
+        return new LoginResponse(usuario.get());
     }
 }

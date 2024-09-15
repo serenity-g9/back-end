@@ -27,7 +27,7 @@ public class ColaboradorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Colaborador> buscarPorId(@PathVariable int id){
-        return ResponseEntity.status(200).body(colaboradorService.buscarPorId(id).get());
+        return ResponseEntity.status(200).body(colaboradorService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")

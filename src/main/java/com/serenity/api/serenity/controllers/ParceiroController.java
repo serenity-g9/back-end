@@ -29,7 +29,7 @@ public class ParceiroController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Parceiro> buscarPorId(@PathVariable int id){
-        return ResponseEntity.status(200).body(parceiroService.buscarPorId(id).get());
+        return ResponseEntity.status(200).body(parceiroService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")

@@ -43,14 +43,14 @@ public class ParceiroService {
         return parceiroRepository.findAll();
     }
 
-    public Optional<Parceiro> buscarPorId(Integer id) {
+    public Parceiro buscarPorId(Integer id) {
         Optional<Parceiro> parceiro = parceiroRepository.findById(id);
 
         if (parceiro.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return parceiro;
+        return parceiro.get();
     }
 
     public void deletar(Integer id) {

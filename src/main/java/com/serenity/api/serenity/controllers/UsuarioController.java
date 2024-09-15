@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.controllers;
 
 
+import com.serenity.api.serenity.dtos.usuario.LoginResponse;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable int id){
-        return ResponseEntity.status(200).body(usuarioService.buscarPorId(id).get());
+        return ResponseEntity.status(200).body(usuarioService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
@@ -44,12 +45,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Usuario> login(@RequestParam String email, @RequestParam String senha) {
-        return ResponseEntity.status(200).body(usuarioService.login(email, senha).get());
-    }
-
-    @PostMapping("/a")
-    public void a(@RequestParam String id) {
-        System.out.println(id);
+    public ResponseEntity<LoginResponse> login(@RequestParam String email, @RequestParam String senha) {
+        return ResponseEntity.status(200).body(usuarioService.login(email, senha));
     }
 }

@@ -27,14 +27,14 @@ public class EventoService {
         return eventoRepository.findAll();
     }
 
-    public Optional<Evento> buscarPorId(Integer id) {
+    public Evento buscarPorId(Integer id) {
         Optional<Evento> evento = eventoRepository.findById(id);
 
         if (evento.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return evento;
+        return evento.get();
     }
 
     public void deletar(Integer id) {

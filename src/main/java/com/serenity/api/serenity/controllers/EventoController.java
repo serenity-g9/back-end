@@ -27,7 +27,7 @@ public class EventoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Evento> buscarPorId(@PathVariable Integer id){
-        return ResponseEntity.status(200).body(eventoService.buscarPorId(id).get());
+        return ResponseEntity.status(200).body(eventoService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")

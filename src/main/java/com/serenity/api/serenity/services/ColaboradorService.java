@@ -27,14 +27,14 @@ public class ColaboradorService {
         return colaboradorRepository.findAll();
     }
 
-    public Optional<Colaborador> buscarPorId(Integer id) {
+    public Colaborador buscarPorId(Integer id) {
         Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
 
         if (colaborador.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return colaborador;
+        return colaborador.get();
     }
 
     public void deletar(Integer id) {
@@ -52,27 +52,4 @@ public class ColaboradorService {
 
         return colaboradorRepository.save(colaborador);
     }
-
-//    public Colaborador cadastrarComissao(Comissao comissao, int id) {
-//        Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
-//
-//        if (colaborador.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-//        }
-//
-//        comissao.setIdColaborador(id);
-//        colaborador.get().addFaturamento(comissao);
-//
-//        return colaboradorRepository.save(colaborador.get());
-//    }
-//
-//    public List<Faturamento> buscarFaturaveis(int id) {
-//        Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
-//
-//        if (colaborador.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-//        }
-//
-//        return colaborador.get().getFaturamentos();
-//    }
 }
