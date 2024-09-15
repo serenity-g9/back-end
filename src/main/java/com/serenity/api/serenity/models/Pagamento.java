@@ -11,14 +11,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Comissao implements Faturavel {
-
+public class Pagamento implements Faturavel {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private Double valor;
-    private int quantidade;
     private LocalDateTime emissao;
     private LocalDate vencimento;
     private Boolean efetuado;
@@ -28,6 +26,6 @@ public class Comissao implements Faturavel {
 
     @Override
     public Double getFaturamento() {
-        return efetuado ? quantidade * valor : 0.0;
+        return efetuado ? valor : 0.0;
     }
 }

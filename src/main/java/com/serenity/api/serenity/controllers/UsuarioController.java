@@ -47,4 +47,9 @@ public class UsuarioController {
     public ResponseEntity<Usuario> login(@RequestParam String email, @RequestParam String senha) {
         return ResponseEntity.status(200).body(usuarioService.login(email, senha).get());
     }
+
+    @PostMapping("/a")
+    public void a(@RequestParam String id) {
+        System.out.println(id);
+    }
 }

@@ -21,7 +21,7 @@ public class RegistroService {
 
     public Registro cadastrar(Registro registro) {
         registro.setId(null);
-        registro.setDataHora(LocalDateTime.now());
+        registro.setDataHorario(LocalDateTime.now());
         return registroRepository.save(registro);
     }
 

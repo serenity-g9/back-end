@@ -1,8 +1,6 @@
 package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.models.Colaborador;
-import com.serenity.api.serenity.models.Comissao;
-import com.serenity.api.serenity.models.Faturamento;
 import com.serenity.api.serenity.services.ColaboradorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,14 +41,14 @@ public class ColaboradorController {
         return ResponseEntity.status(204).build();
     }
 
-    @PatchMapping("/{id}/comissao")
-    public ResponseEntity<Colaborador> cadastrarComissao(@RequestBody Comissao comissao, @PathVariable int id) {
-        return ResponseEntity.status(201).body(colaboradorService.cadastrarComissao(comissao, id));
-    }
-
-    @GetMapping("/{id}/faturamento")
-    public ResponseEntity<List<Faturamento>> buscarFaturavel(@PathVariable int id) {
-        List<Faturamento> faturamentos = colaboradorService.buscarFaturaveis(id);
-        return faturamentos.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(faturamentos);
-    }
+//    @PatchMapping("/{id}/comissao")
+//    public ResponseEntity<Colaborador> cadastrarComissao(@RequestBody Comissao comissao, @PathVariable int id) {
+//        return ResponseEntity.status(201).body(colaboradorService.cadastrarComissao(comissao, id));
+//    }
+//
+//    @GetMapping("/{id}/faturamento")
+//    public ResponseEntity<List<Faturamento>> buscarFaturavel(@PathVariable int id) {
+//        List<Faturamento> faturamentos = colaboradorService.buscarFaturaveis(id);
+//        return faturamentos.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(faturamentos);
+//    }
 }

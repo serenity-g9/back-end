@@ -1,4 +1,4 @@
-package com.serenity.api.serenity.models.formulario;
+package com.serenity.api.serenity.dtos.formulario;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

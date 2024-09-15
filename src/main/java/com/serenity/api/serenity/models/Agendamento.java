@@ -3,23 +3,28 @@ package com.serenity.api.serenity.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@ToString
-public class Registro {
-
+public class Agendamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    private Agendamento agendamento;
+    private Colaborador colaborador;
 
-    private Integer tipoRegistro;
+    @ManyToOne
+    private Escala escala;
+
+    @OneToMany
+    private List<Registro> registros;
+
     private LocalDateTime dataHorario;
+    private Integer funcaoAlocada;
+    private Double faturamento;
 }

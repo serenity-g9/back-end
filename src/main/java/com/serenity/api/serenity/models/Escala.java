@@ -4,20 +4,22 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("ESCALA")
-public class Escala extends Faturamento {
+public class Escala {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private int idColaborador;
-    private int idEvento;
-    private LocalDateTime dataHorario;
-    private int funcaoAlocada;
-    private Double faturamento;
+    private Integer funcaoEscala;
+    private Integer qtdColaborador;
+    private Integer qtdHora;
+    private Integer valor;
+    private Boolean comissionado;
+    private Boolean asoObrigatorio;
+
+    @ManyToOne
+    private Evento evento;
 }
+
