@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.registro.RegistroRequest;
+import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.repositories.RegistroRepository;
 import jakarta.transaction.Transactional;
@@ -52,11 +53,11 @@ public class RegistroService {
         registroRepository.deleteById(id);
     }
 
-    public Registro atualizar(Integer id, Registro registro) {
-        if (registroRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-
-        return registroRepository.save(registro);
-    }
+//    public Registro atualizar(Integer id, Registro registro) {
+//        if (registroRepository.findById(id).isEmpty()) {
+//            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
+//        }
+//        registro.setId(id);
+//        return registroRepository.save(registro);
+//    }
 }

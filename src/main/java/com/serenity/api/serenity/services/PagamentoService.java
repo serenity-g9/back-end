@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.pagamento.PagamentoRequest;
+import com.serenity.api.serenity.dtos.pagamento.PagamentoUpdateRequest;
 import com.serenity.api.serenity.models.Agendamento;
 import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.repositories.AgendamentoRepository;
@@ -59,11 +60,12 @@ public class PagamentoService {
         return pagamentoOpt.get();
     }
 
-    public Pagamento atualizar(int id, Pagamento pagamento) {
+    public Pagamento atualizar(int id, PagamentoUpdateRequest pagamentoUpdateRequest) {
         if (!pagamentoRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
-
+        var pagamento = new Pagamento();
+        BeanUtils.copyProperties(pagamentoUpdateRequest, pagamento);
         pagamento.setId(id);
         return pagamentoRepository.save(pagamento);
     }
