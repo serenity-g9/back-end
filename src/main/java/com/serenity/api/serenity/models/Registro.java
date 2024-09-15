@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.models;
 
+import com.serenity.api.serenity.enums.TipoRegistro;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class Registro {
     @ManyToOne
     private Agendamento agendamento;
 
-    private Integer tipoRegistro;
+    @Enumerated(EnumType.STRING)
+    private TipoRegistro tipoRegistro;
     private LocalDateTime dataHorario;
 }

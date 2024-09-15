@@ -33,12 +33,12 @@ public class ComissaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ComissaoResponse> atualizar(@PathVariable int id, @RequestBody ComissaoUpdateRequest comissaoUpdateRequest) {
+    public ResponseEntity<ComissaoResponse> atualizar(@PathVariable Integer id, @RequestBody ComissaoUpdateRequest comissaoUpdateRequest) {
         return ResponseEntity.status(200).body(comissaoService.atualizar(id, comissaoUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
         comissaoService.deletar(id);
         return ResponseEntity.status(204).build();
     }

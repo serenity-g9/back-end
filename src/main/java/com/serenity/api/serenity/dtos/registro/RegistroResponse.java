@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 public record RegistroResponse(
         Integer id,
         LocalDateTime dataHorario,
-        String tipoRegistro
+        TipoRegistro tipoRegistro
 ) {
     public RegistroResponse(Registro registro) {
         this(
                 registro.getId(),
                 registro.getDataHorario(),
-                TipoRegistro.getValor(registro.getTipoRegistro())
+                registro.getTipoRegistro()
         );
     }
 }

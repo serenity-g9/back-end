@@ -28,17 +28,17 @@ public class ParceiroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParceiroResponse> buscarPorId(@PathVariable int id){
+    public ResponseEntity<ParceiroResponse> buscarPorId(@PathVariable Integer id){
         return ResponseEntity.status(200).body(parceiroService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable int id, @RequestBody ParceiroUpdateRequest parceiroUpdateRequest) {
+    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable Integer id, @RequestBody ParceiroUpdateRequest parceiroUpdateRequest) {
         return  ResponseEntity.status(200).body(parceiroService.atualizar(id, parceiroUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
         parceiroService.deletar(id);
         return ResponseEntity.status(204).build();
     }

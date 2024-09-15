@@ -27,17 +27,12 @@ public class RegistroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RegistroResponse> buscarPorId(@PathVariable int id){
+    public ResponseEntity<RegistroResponse> buscarPorId(@PathVariable Integer id){
         return ResponseEntity.status(200).body(registroService.buscarPorId(id));
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Registro> atualizar(@PathVariable int id, @RequestBody Registro registroAtualizado) {
-//        return ResponseEntity.status(200).body(registroService.atualizar(id, registroAtualizado));
-//    }
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
         registroService.deletar(id);
         return ResponseEntity.status(204).build();
     }

@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.models;
 
+import com.serenity.api.serenity.enums.PermissaoUsuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +16,6 @@ public class Parceiro {
     @OneToOne
     private Usuario usuario;
 
-    private Integer permissao;
+    @Enumerated(EnumType.STRING)
+    private PermissaoUsuario permissao;
 }

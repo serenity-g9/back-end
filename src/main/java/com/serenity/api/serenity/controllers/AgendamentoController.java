@@ -33,12 +33,12 @@ public class AgendamentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AgendamentoResponse> atualizar(@PathVariable int id, @RequestBody AgendamentoUpdateRequest agendamentoUpdateRequest) {
+    public ResponseEntity<AgendamentoResponse> atualizar(@PathVariable Integer id, @RequestBody AgendamentoUpdateRequest agendamentoUpdateRequest) {
         return ResponseEntity.status(200).body(agendamentoService.atualizar(id, agendamentoUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
         agendamentoService.deletar(id);
         return ResponseEntity.status(204).build();
     }

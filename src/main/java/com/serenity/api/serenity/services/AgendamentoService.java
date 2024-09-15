@@ -32,9 +32,12 @@ public class AgendamentoService {
     @Autowired
     private AgendamentoRepository agendamentoRepository;
 
+    @Autowired
+    private RegistroService registroService;
+
     public List<AgendamentoResponse> listar() {
         return agendamentoRepository.findAll().stream()
-                .map(agendamento -> new AgendamentoResponse(agendamento))
+                .map(agendamento -> new AgendamentoResponse(agendamento, registroService.listarPorAgendamento(agendamento)))
                 .collect(Collectors.toList());
     }
 
@@ -50,17 +53,17 @@ public class AgendamentoService {
         BeanUtils.copyProperties(agendamentoRequest, agendamento);
         agendamento.setEscala(escalaOpt.get());
 
-        return new AgendamentoResponse(agendamentoRepository.save(agendamento));
+        return new AgendamentoResponse(agendamentoRepository.save(agendamento), registroService.listarPorAgendamento(agendamento));
     }
 
     public AgendamentoResponse buscarPorId(int id) {
-        Optional<Agendamento> agendamento = agendamentoRepository.findById(id);
+        Optional<Agendamento> agendamentoOpt = agendamentoRepository.findById(id);
 
-        if (agendamento.isEmpty()) {
+        if (agendamentoOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
 
-        return new AgendamentoResponse(agendamento.get());
+        return new AgendamentoResponse(agendamentoOpt.get(), registroService.listarPorAgendamento(agendamentoOpt.get()));
     }
 
     public AgendamentoResponse atualizar(int id, AgendamentoUpdateRequest agendamentoUpdateRequest) {
@@ -72,7 +75,7 @@ public class AgendamentoService {
         BeanUtils.copyProperties(agendamentoUpdateRequest, agendamento);
         agendamento.setId(id);
 
-        return new AgendamentoResponse(agendamentoRepository.save(agendamento));
+        return new AgendamentoResponse(agendamentoRepository.save(agendamento), registroService.listarPorAgendamento(agendamento));
     }
 
     public void deletar (int id) {

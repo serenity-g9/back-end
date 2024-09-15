@@ -34,12 +34,12 @@ public class PagamentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PagamentoResponse> atualizar(@PathVariable int id, @RequestBody PagamentoUpdateRequest pagamentoUpdateRequest) {
+    public ResponseEntity<PagamentoResponse> atualizar(@PathVariable Integer id, @RequestBody PagamentoUpdateRequest pagamentoUpdateRequest) {
         return ResponseEntity.status(200).body(pagamentoService.atualizar(id, pagamentoUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
         pagamentoService.deletar(id);
         return ResponseEntity.status(204).build();
     }

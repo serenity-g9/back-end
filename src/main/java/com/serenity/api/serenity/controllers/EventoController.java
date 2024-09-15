@@ -32,12 +32,12 @@ public class EventoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventoResponse> atualizar(@PathVariable int id, @RequestBody EventoRequest eventoRequest) {
+    public ResponseEntity<EventoResponse> atualizar(@PathVariable Integer id, @RequestBody EventoRequest eventoRequest) {
         return  ResponseEntity.status(200).body(eventoService.atualizar(id, eventoRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
         eventoService.deletar(id);
         return ResponseEntity.status(204).build();
     }

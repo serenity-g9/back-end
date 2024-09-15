@@ -53,6 +53,12 @@ public class RegistroService {
                 .collect(Collectors.toList());
     }
 
+    public List<RegistroResponse> listarPorAgendamento(Agendamento agendamento) {
+        return registroRepository.findAllByAgendamento(agendamento).stream()
+                .map(registro -> new RegistroResponse(registro))
+                .collect(Collectors.toList());
+    }
+
     public RegistroResponse buscarPorId(Integer id) {
         Optional<Registro> registroOpt = registroRepository.findById(id);
 

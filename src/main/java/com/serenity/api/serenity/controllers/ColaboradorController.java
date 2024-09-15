@@ -28,17 +28,17 @@ public class ColaboradorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ColaboradorResponse> buscarPorId(@PathVariable int id){
+    public ResponseEntity<ColaboradorResponse> buscarPorId(@PathVariable Integer id){
         return ResponseEntity.status(200).body(colaboradorService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ColaboradorResponse> atualizar(@PathVariable int id, @RequestBody ColaboradorUpdateRequest colaboradorUpdateRequest) {
+    public ResponseEntity<ColaboradorResponse> atualizar(@PathVariable Integer id, @RequestBody ColaboradorUpdateRequest colaboradorUpdateRequest) {
         return  ResponseEntity.status(200).body(colaboradorService.atualizar(id, colaboradorUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
         colaboradorService.deletar(id);
         return ResponseEntity.status(204).build();
     }

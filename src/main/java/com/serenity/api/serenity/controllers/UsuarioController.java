@@ -32,23 +32,23 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable int id){
+    public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id){
         return ResponseEntity.status(200).body(usuarioService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable int id, @RequestBody UsuarioUpdateRequest usuarioUpdateRequest) {
+    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Integer id, @RequestBody UsuarioUpdateRequest usuarioUpdateRequest) {
         return ResponseEntity.status(200).body(usuarioService.atualizar(id, usuarioUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable int id) {
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         usuarioService.deletar(id);
         return ResponseEntity.status(204).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestParam String email, @RequestParam String senha) {
-        return ResponseEntity.status(204).body(usuarioService.login(email, senha));
+        return ResponseEntity.status(200).body(usuarioService.login(email, senha));
     }
 }

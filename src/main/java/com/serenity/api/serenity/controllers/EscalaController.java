@@ -33,12 +33,12 @@ public class EscalaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EscalaResponse> atualizar(@PathVariable int id, @RequestBody EscalaUpdateRequest escalaUpdateRequest) {
+    public ResponseEntity<EscalaResponse> atualizar(@PathVariable Integer id, @RequestBody EscalaUpdateRequest escalaUpdateRequest) {
         return ResponseEntity.status(200).body(escalaService.atualizar(id, escalaUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable int id) {
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
         escalaService.deletar(id);
         return ResponseEntity.status(204).build();
     }

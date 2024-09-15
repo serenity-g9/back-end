@@ -1,6 +1,6 @@
 package com.serenity.api.serenity.dtos.escala;
 
-import com.serenity.api.serenity.enums.TipoRegistro;
+import com.serenity.api.serenity.enums.FuncaoAlocacao;
 import com.serenity.api.serenity.models.Escala;
 
 public record EscalaResponse(
@@ -15,7 +15,7 @@ public record EscalaResponse(
     public EscalaResponse(Escala escala) {
         this(
                 escala.getId(),
-                TipoRegistro.getValor(escala.getFuncaoEscala()),
+                FuncaoAlocacao.getValor(escala.getFuncaoEscala()),
                 escala.getQtdColaborador(),
                 escala.getQtdHora(),
                 escala.getValor(),
