@@ -15,15 +15,14 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.serenity.api.serenity.models.formulario.Questao;
-import com.serenity.api.serenity.models.formulario.Resposta;
-import com.serenity.api.serenity.models.formulario.RespostaUsuario;
+import com.serenity.api.serenity.dtos.formulario.Questao;
+import com.serenity.api.serenity.dtos.formulario.Resposta;
+import com.serenity.api.serenity.dtos.formulario.RespostaUsuario;
 import com.serenity.api.serenity.utils.SortUtil;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;

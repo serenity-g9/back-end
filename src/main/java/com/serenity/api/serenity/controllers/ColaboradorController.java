@@ -1,64 +1,45 @@
 package com.serenity.api.serenity.controllers;
 
-import com.serenity.api.serenity.models.Colaborador;
-import com.serenity.api.serenity.repositories.ColaboradorRepository;
+import com.serenity.api.serenity.dtos.colaborador.ColaboradorRequest;
+import com.serenity.api.serenity.dtos.colaborador.ColaboradorResponse;
+import com.serenity.api.serenity.dtos.colaborador.ColaboradorUpdateRequest;
+import com.serenity.api.serenity.services.ColaboradorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/colaboradores")
 public class ColaboradorController {
     @Autowired
-    private ColaboradorRepository colaboradorRepository;
+    private ColaboradorService colaboradorService;
 
     @GetMapping
-    public ResponseEntity<List<Colaborador>> buscar() {
-        List<Colaborador> colaboradores = colaboradorRepository.findAll();
-
-        if (colaboradores.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-        return ResponseEntity.status(200).body(colaboradores);
+    public ResponseEntity<List<ColaboradorResponse>> buscar() {
+        List<ColaboradorResponse> colaboradores = colaboradorService.listar();
+        return colaboradores.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(colaboradores);
     }
 
     @PostMapping
-    public ResponseEntity<Colaborador> cadastrar(@RequestBody Colaborador colaborador) {
-        colaborador.setId(null);
-        return ResponseEntity.status(201).body(colaboradorRepository.save(colaborador));
+    public ResponseEntity<ColaboradorResponse> cadastrar(@RequestBody ColaboradorRequest colaboradorRequest) {
+        return ResponseEntity.status(201).body(colaboradorService.cadastrar(colaboradorRequest));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Colaborador> buscarPorId(@PathVariable int id){
-        Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
-
-        if (colaborador.isEmpty()) {
-            return ResponseEntity.status(404).build();
-        }
-
-        return ResponseEntity.status(200).body(colaborador.get());
+    public ResponseEntity<ColaboradorResponse> buscarPorId(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(colaboradorService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Colaborador> atualizar(@PathVariable int id, @RequestBody Colaborador colaboradorAtualizado) {
-        if (!colaboradorRepository.existsById(id)){
-            return ResponseEntity.status(404).build();
-        }
-
-        colaboradorAtualizado.setId(id);
-        Colaborador colaboradorRetorno = colaboradorRepository.save(colaboradorAtualizado);
-        return  ResponseEntity.status(200).body(colaboradorRetorno);
+    public ResponseEntity<ColaboradorResponse> atualizar(@PathVariable Integer id, @RequestBody ColaboradorUpdateRequest colaboradorUpdateRequest) {
+        return  ResponseEntity.status(200).body(colaboradorService.atualizar(id, colaboradorUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Colaborador> deletar (@PathVariable int id) {
-        if (colaboradorRepository.existsById(id)){
-            colaboradorRepository.deleteById(id);
-            return ResponseEntity.status(204).build();
-        }
-        return ResponseEntity.status(404).build();
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
+        colaboradorService.deletar(id);
+        return ResponseEntity.status(204).build();
     }
 }

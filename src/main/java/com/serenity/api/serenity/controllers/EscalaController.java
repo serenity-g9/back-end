@@ -1,85 +1,45 @@
 package com.serenity.api.serenity.controllers;
 
-import com.serenity.api.serenity.models.Colaborador;
-import com.serenity.api.serenity.models.Escala;
-import com.serenity.api.serenity.repositories.ColaboradorRepository;
-import com.serenity.api.serenity.repositories.EscalaRepository;
-import com.serenity.api.serenity.repositories.EventoRepository;
+import com.serenity.api.serenity.dtos.escala.EscalaRequest;
+import com.serenity.api.serenity.dtos.escala.EscalaResponse;
+import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
+import com.serenity.api.serenity.services.EscalaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/escalas")
 public class EscalaController {
     @Autowired
-    private EventoRepository eventoRepository;
-
-    @Autowired
-    private ColaboradorRepository colaboradorRepository;
-
-    @Autowired
-    private EscalaRepository escalaRepository;
+    private EscalaService escalaService;
 
     @GetMapping
-    public ResponseEntity<List<Escala>> buscar() {
-        List<Escala> escalas = escalaRepository.findAll();
-
-        if (escalas.isEmpty()) {
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(200).body(escalas);
+    public ResponseEntity<List<EscalaResponse>> buscar() {
+        List<EscalaResponse> escalaResponses = escalaService.listar();
+        return escalaResponses.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(escalaResponses);
     }
 
     @PostMapping
-    public ResponseEntity<Escala> cadastrar(@RequestBody Escala escala) {
-        escala.setId(null);
-
-        if (!colaboradorRepository.existsById(escala.getIdColaborador()) || !eventoRepository.existsById(escala.getIdEvento())) {
-            return ResponseEntity.status(404).build();
-        }
-
-        escala.setDataHorario(LocalDateTime.now());
-
-        return ResponseEntity.status(201).body(escalaRepository.save(escala));
+    public ResponseEntity<EscalaResponse> cadastrar(@RequestBody EscalaRequest escalaRequest) {
+        return ResponseEntity.status(201).body(escalaService.cadastrar(escalaRequest));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Escala> buscarPorId(@PathVariable int id) {
-        Optional<Escala> escala = escalaRepository.findById(id);
-
-        if (escala.isEmpty()) {
-            return ResponseEntity.status(404).build();
-        }
-
-        return ResponseEntity.status(200).body(escala.get());
+    public ResponseEntity<EscalaResponse> buscarPorId(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(escalaService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Escala> atualizar(@PathVariable int id, @RequestBody Escala escalaAtualizado) {
-        if (!escalaRepository.existsById(id)) {
-            return ResponseEntity.status(404).build();
-        }
-
-        escalaAtualizado.setId(id);
-        Escala escalaRetorno = escalaRepository.save(escalaAtualizado);
-        return  ResponseEntity.status(200).body(escalaRetorno);
+    public ResponseEntity<EscalaResponse> atualizar(@PathVariable Integer id, @RequestBody EscalaUpdateRequest escalaUpdateRequest) {
+        return ResponseEntity.status(200).body(escalaService.atualizar(id, escalaUpdateRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Escala> deletar (@PathVariable int id) {
-        if (escalaRepository.existsById(id)){
-            escalaRepository.deleteById(id);
-            return ResponseEntity.status(204).build();
-        }
-
-        return ResponseEntity.status(404).build();
+    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
+        escalaService.deletar(id);
+        return ResponseEntity.status(204).build();
     }
-
-
 }
