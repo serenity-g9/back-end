@@ -7,6 +7,7 @@ import com.serenity.api.serenity.models.Registro;
 import com.serenity.api.serenity.repositories.AgendamentoRepository;
 import com.serenity.api.serenity.repositories.RegistroRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -20,13 +21,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegistroService {
 
-    @Autowired
-    private RegistroRepository registroRepository;
 
-    @Autowired
-    private AgendamentoRepository agendamentoRepository;
+    private final RegistroRepository registroRepository;
+    private final AgendamentoRepository agendamentoRepository;
 
     public RegistroResponse cadastrar(RegistroRequest registroRequest) {
         Optional<Agendamento> agendamentoOpt = agendamentoRepository.findById(registroRequest.idAgendamento());

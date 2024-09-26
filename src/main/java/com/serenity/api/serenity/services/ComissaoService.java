@@ -8,6 +8,7 @@ import com.serenity.api.serenity.models.Comissao;
 import com.serenity.api.serenity.repositories.AgendamentoRepository;
 import com.serenity.api.serenity.repositories.ComissaoRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -22,12 +23,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ComissaoService {
-    @Autowired
-    private AgendamentoRepository agendamentoRepository;
 
-    @Autowired
-    private ComissaoRepository comissaoRepository;
+    private final AgendamentoRepository agendamentoRepository;
+    private final ComissaoRepository comissaoRepository;
 
     public List<ComissaoResponse> listar() {
         return comissaoRepository.findAll().stream()

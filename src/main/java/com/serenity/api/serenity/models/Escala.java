@@ -1,12 +1,15 @@
 package com.serenity.api.serenity.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Escala {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

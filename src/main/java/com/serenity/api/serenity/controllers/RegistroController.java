@@ -3,6 +3,7 @@ package com.serenity.api.serenity.controllers;
 import com.serenity.api.serenity.dtos.registro.RegistroRequest;
 import com.serenity.api.serenity.dtos.registro.RegistroResponse;
 import com.serenity.api.serenity.services.RegistroService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/registros")
+@RequiredArgsConstructor
 public class RegistroController {
-    @Autowired
-    private RegistroService registroService;
+    private final RegistroService registroService;
 
     @GetMapping
     public ResponseEntity<List<RegistroResponse>> buscar() {

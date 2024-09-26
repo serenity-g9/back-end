@@ -8,6 +8,7 @@ import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.ParceiroRepository;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -20,13 +21,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ParceiroService {
 
-    @Autowired
-    private ParceiroRepository parceiroRepository;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final ParceiroRepository parceiroRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public ParceiroResponse cadastrar(ParceiroRequest parceiroRequest) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findById(parceiroRequest.idUsuario());

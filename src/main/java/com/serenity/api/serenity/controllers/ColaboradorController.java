@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.colaborador.ColaboradorRequest;
 import com.serenity.api.serenity.dtos.colaborador.ColaboradorResponse;
 import com.serenity.api.serenity.dtos.colaborador.ColaboradorUpdateRequest;
 import com.serenity.api.serenity.services.ColaboradorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/colaboradores")
+@RequiredArgsConstructor
 public class ColaboradorController {
-    @Autowired
-    private ColaboradorService colaboradorService;
+
+    private final ColaboradorService colaboradorService;
 
     @GetMapping
     public ResponseEntity<List<ColaboradorResponse>> buscar() {

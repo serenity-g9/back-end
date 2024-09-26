@@ -3,6 +3,7 @@ package com.serenity.api.serenity.controllers;
 import com.serenity.api.serenity.dtos.evento.EventoRequest;
 import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.services.EventoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/eventos")
+@RequiredArgsConstructor
 public class EventoController {
-    @Autowired
-    private EventoService eventoService;
+    private final EventoService eventoService;
 
     @GetMapping
     public ResponseEntity<List<EventoResponse>> buscar() {

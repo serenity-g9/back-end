@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.escala.EscalaRequest;
 import com.serenity.api.serenity.dtos.escala.EscalaResponse;
 import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
 import com.serenity.api.serenity.services.EscalaService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/escalas")
+@RequiredArgsConstructor
 public class EscalaController {
-    @Autowired
-    private EscalaService escalaService;
+    private final EscalaService escalaService;
 
     @GetMapping
     public ResponseEntity<List<EscalaResponse>> buscar() {

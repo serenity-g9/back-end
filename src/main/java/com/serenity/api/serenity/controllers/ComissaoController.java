@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.comissao.ComissaoRequest;
 import com.serenity.api.serenity.dtos.comissao.ComissaoResponse;
 import com.serenity.api.serenity.dtos.comissao.ComissaoUpdateRequest;
 import com.serenity.api.serenity.services.ComissaoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/comissoes")
+@RequiredArgsConstructor
 public class ComissaoController {
-    @Autowired
-    private ComissaoService comissaoService;
+    private final ComissaoService comissaoService;
 
     @GetMapping
     public ResponseEntity<List<ComissaoResponse>> buscar() {

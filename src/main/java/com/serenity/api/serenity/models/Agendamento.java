@@ -1,14 +1,17 @@
 package com.serenity.api.serenity.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Agendamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

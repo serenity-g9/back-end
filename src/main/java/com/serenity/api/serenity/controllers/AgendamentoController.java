@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.agendamento.AgendamentoRequest;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoResponse;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoUpdateRequest;
 import com.serenity.api.serenity.services.AgendamentoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/agendamentos")
+@RequiredArgsConstructor
 public class AgendamentoController {
-    @Autowired
-    private AgendamentoService agendamentoService;
+
+    private final AgendamentoService agendamentoService;
 
     @GetMapping
     public ResponseEntity<List<AgendamentoResponse>> buscar() {

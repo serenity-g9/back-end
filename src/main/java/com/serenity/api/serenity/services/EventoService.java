@@ -5,6 +5,7 @@ import com.serenity.api.serenity.dtos.evento.EventoRequest;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EventoRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -17,10 +18,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class EventoService {
 
-    @Autowired
-    private EventoRepository eventoRepository;
+    private final EventoRepository eventoRepository;
 
     public EventoResponse cadastrar(EventoRequest eventoRequest) {
         var evento = new Evento();

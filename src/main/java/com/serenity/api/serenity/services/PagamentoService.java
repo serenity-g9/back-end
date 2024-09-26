@@ -8,6 +8,7 @@ import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.repositories.AgendamentoRepository;
 import com.serenity.api.serenity.repositories.PagamentoRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -22,12 +23,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PagamentoService {
-    @Autowired
-    private AgendamentoRepository agendamentoRepository;
 
-    @Autowired
-    private PagamentoRepository pagamentoRepository;
+    private final AgendamentoRepository agendamentoRepository;
+    private final PagamentoRepository pagamentoRepository;
 
     public List<PagamentoResponse> listar() {
         return pagamentoRepository.findAll().stream()

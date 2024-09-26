@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.parceiro.ParceiroRequest;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroResponse;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroUpdateRequest;
 import com.serenity.api.serenity.services.ParceiroService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/parceiros")
+@RequiredArgsConstructor
 public class ParceiroController {
-    @Autowired
-    private ParceiroService parceiroService;
+    private final ParceiroService parceiroService;
 
     @GetMapping
     public ResponseEntity<List<ParceiroResponse>> buscar() {

@@ -10,6 +10,7 @@ import com.serenity.api.serenity.repositories.ColaboradorRepository;
 import com.serenity.api.serenity.repositories.ParceiroRepository;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -23,16 +24,13 @@ import java.util.Set;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private ParceiroRepository parceiroRepository;
-
-    @Autowired
-    private ColaboradorRepository colaboradorRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final ParceiroRepository parceiroRepository;
+    private final ColaboradorRepository colaboradorRepository;
 
     public UsuarioResponse cadastrar(UsuarioRequest usuarioRequest) {
         var usuario = new Usuario();

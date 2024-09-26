@@ -7,6 +7,7 @@ import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioUpdateRequest;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.services.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
+@RequiredArgsConstructor
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> buscar() {

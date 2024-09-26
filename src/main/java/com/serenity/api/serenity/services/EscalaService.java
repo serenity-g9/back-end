@@ -8,6 +8,7 @@ import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EscalaRepository;
 import com.serenity.api.serenity.repositories.EventoRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -20,13 +21,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class EscalaService {
 
-    @Autowired
-    private EscalaRepository escalaRepository;
 
-    @Autowired
-    private EventoRepository eventoRepository;
+    private final EscalaRepository escalaRepository;
+    private final EventoRepository eventoRepository;
 
     public EscalaResponse cadastrar(EscalaRequest escalaRequest) {
         Optional<Evento> eventoOpt = eventoRepository.findById(escalaRequest.idEvento());

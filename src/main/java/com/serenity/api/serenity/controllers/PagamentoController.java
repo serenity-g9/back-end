@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.pagamento.PagamentoRequest;
 import com.serenity.api.serenity.dtos.pagamento.PagamentoResponse;
 import com.serenity.api.serenity.dtos.pagamento.PagamentoUpdateRequest;
 import com.serenity.api.serenity.services.PagamentoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pagamentos")
+@RequiredArgsConstructor
 public class PagamentoController {
-    @Autowired
-    private PagamentoService pagamentoService;
+    private final PagamentoService pagamentoService;
 
 
     @GetMapping

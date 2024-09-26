@@ -10,6 +10,7 @@ import com.serenity.api.serenity.repositories.AgendamentoRepository;
 import com.serenity.api.serenity.repositories.ColaboradorRepository;
 import com.serenity.api.serenity.repositories.EscalaRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -22,18 +23,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AgendamentoService {
-    @Autowired
-    private EscalaRepository escalaRepository;
 
-    @Autowired
-    private ColaboradorRepository colaboradorRepository;
-
-    @Autowired
-    private AgendamentoRepository agendamentoRepository;
-
-    @Autowired
-    private RegistroService registroService;
+    private final EscalaRepository escalaRepository;
+    private final ColaboradorRepository colaboradorRepository;
+    private final AgendamentoRepository agendamentoRepository;
+    private final RegistroService registroService;
 
     public List<AgendamentoResponse> listar() {
         return agendamentoRepository.findAll().stream()
