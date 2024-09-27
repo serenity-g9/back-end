@@ -28,50 +28,39 @@ public class ColaboradorService {
     private final UsuarioRepository usuarioRepository;
 
     public ColaboradorResponse cadastrar(ColaboradorRequest colaboradorRequest) {
-        Optional<Usuario> usuario = usuarioRepository.findById(colaboradorRequest.idUsuario());
+        buscarPorId(colaboradorRequest.idUsuario());
 
-        if (usuario.isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-
-        var colaborador = new Colaborador();
+        Colaborador colaborador = new Colaborador();
         BeanUtils.copyProperties(colaboradorRequest, colaborador);
-        colaborador.setUsuario(usuario.get());
+        colaborador.setUsuario(usuarioRepository.findById(colaboradorRequest.idUsuario()).get());
 
         return new ColaboradorResponse(colaboradorRepository.save(colaborador));
     }
 
     public List<ColaboradorResponse> listar() {
         return colaboradorRepository.findAll().stream()
-                .map(colaborador -> new ColaboradorResponse(colaborador))
-                .collect(Collectors.toList());
+                .map(ColaboradorResponse::new).toList();
     }
 
     public ColaboradorResponse buscarPorId(Integer id) {
         Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
-
         if (colaborador.isEmpty()) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
-
         return new ColaboradorResponse(colaborador.get());
     }
 
     public void deletar(Integer id) {
-        if (colaboradorRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-
+        buscarPorId(id);
         colaboradorRepository.deleteById(id);
     }
 
     public ColaboradorResponse atualizar(Integer id, ColaboradorUpdateRequest colaboradorUpdateRequest) {
-        if (colaboradorRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
+        buscarPorId(id);
         var colaborador = new Colaborador();
         BeanUtils.copyProperties(colaboradorUpdateRequest, colaborador);
         colaborador.setId(id);
         return new ColaboradorResponse(colaboradorRepository.save(colaborador));
     }
+
 }
