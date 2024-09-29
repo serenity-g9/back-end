@@ -5,6 +5,7 @@ import com.serenity.api.serenity.dtos.parceiro.ParceiroResponse;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroUpdateRequest;
 import com.serenity.api.serenity.mappers.ParceiroMapper;
 import com.serenity.api.serenity.services.ParceiroService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class ParceiroController {
     }
 
     @PostMapping
-    public ResponseEntity<ParceiroResponse> cadastrar(@RequestBody ParceiroRequest parceiroRequest) {
+    public ResponseEntity<ParceiroResponse> cadastrar(@RequestBody @Valid ParceiroRequest parceiroRequest) {
         return created(null).body(new ParceiroResponse(parceiroService.cadastrar(mapper.toParceiro(parceiroRequest))));
     }
 
@@ -43,7 +44,7 @@ public class ParceiroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable Integer id, @RequestBody ParceiroUpdateRequest parceiroUpdateRequest) {
+    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid ParceiroUpdateRequest parceiroUpdateRequest) {
         return ok(new ParceiroResponse(parceiroService.atualizar(id, mapper.toParceiro(parceiroUpdateRequest, parceiroService.buscarPorId(id)))));
     }
 

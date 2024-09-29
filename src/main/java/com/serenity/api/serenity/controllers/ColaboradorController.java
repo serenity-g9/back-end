@@ -5,6 +5,7 @@ import com.serenity.api.serenity.dtos.colaborador.ColaboradorResponse;
 import com.serenity.api.serenity.dtos.colaborador.ColaboradorUpdateRequest;
 import com.serenity.api.serenity.mappers.ColaboradorMapper;
 import com.serenity.api.serenity.services.ColaboradorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class ColaboradorController {
     }
 
     @PostMapping
-    public ResponseEntity<ColaboradorResponse> cadastrar(@RequestBody ColaboradorRequest colaboradorRequest) {
+    public ResponseEntity<ColaboradorResponse> cadastrar(@RequestBody @Valid ColaboradorRequest colaboradorRequest) {
         return created(null).body(new ColaboradorResponse(colaboradorService.cadastrar(mapper.toColaborador(colaboradorRequest))));
     }
 
@@ -43,7 +44,7 @@ public class ColaboradorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ColaboradorResponse> atualizar(@PathVariable Integer id, @RequestBody ColaboradorUpdateRequest colaboradorUpdateRequest) {
+    public ResponseEntity<ColaboradorResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid ColaboradorUpdateRequest colaboradorUpdateRequest) {
         return ok(new ColaboradorResponse(colaboradorService.atualizar(id, mapper.toColaborador(colaboradorUpdateRequest, colaboradorService.buscarPorId(id)))));
     }
 

@@ -5,6 +5,7 @@ import com.serenity.api.serenity.dtos.agendamento.AgendamentoResponse;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoUpdateRequest;
 import com.serenity.api.serenity.mappers.AgendamentoMapper;
 import com.serenity.api.serenity.services.AgendamentoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<AgendamentoResponse> cadastrar(@RequestBody AgendamentoRequest agendamentoRequest) {
+    public ResponseEntity<AgendamentoResponse> cadastrar(@RequestBody @Valid AgendamentoRequest agendamentoRequest) {
         return created(null).body(new AgendamentoResponse(agendamentoService.cadastrar(mapper.toAgendamento(agendamentoRequest))));
     }
 
@@ -42,7 +43,7 @@ public class AgendamentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AgendamentoResponse> atualizar(@PathVariable Integer id, @RequestBody AgendamentoUpdateRequest agendamentoUpdateRequest) {
+    public ResponseEntity<AgendamentoResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid AgendamentoUpdateRequest agendamentoUpdateRequest) {
         return ok(new AgendamentoResponse(agendamentoService.atualizar(id, mapper.toAgendamento(agendamentoUpdateRequest, agendamentoService.buscarPorId(id)))));
     }
 

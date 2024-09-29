@@ -4,18 +4,17 @@ import com.serenity.api.serenity.configuration.security.jwt.GerenciadorTokenJwt;
 import com.serenity.api.serenity.dtos.autenticacao.AccessTokenResponse;
 import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
 import com.serenity.api.serenity.dtos.usuario.SenhaPatchRequest;
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class UsuarioService {
     }
 
     public Usuario buscarPorId(Integer id) {
-        return usuarioRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+        return usuarioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("usuario"));
     }
 
     public void deletar(Integer id) {
@@ -65,7 +64,7 @@ public class UsuarioService {
         final Authentication authentication = this.authenticationManager.authenticate(credentials);
 
         Usuario usuarioAutenticado = usuarioRepository.findByEmail(loginRequest.email())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+                .orElseThrow(() -> new NaoEncontradoException("usuario"));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

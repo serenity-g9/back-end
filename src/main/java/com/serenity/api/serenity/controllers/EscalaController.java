@@ -5,6 +5,7 @@ import com.serenity.api.serenity.dtos.escala.EscalaResponse;
 import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
 import com.serenity.api.serenity.mappers.EscalaMapper;
 import com.serenity.api.serenity.services.EscalaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class EscalaController {
     }
 
     @PostMapping
-    public ResponseEntity<EscalaResponse> cadastrar(@RequestBody EscalaRequest escalaRequest) {
+    public ResponseEntity<EscalaResponse> cadastrar(@RequestBody @Valid EscalaRequest escalaRequest) {
         return created(null).body(new EscalaResponse(escalaService.cadastrar(mapper.toEscala(escalaRequest))));
     }
 
@@ -42,7 +43,7 @@ public class EscalaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EscalaResponse> atualizar(@PathVariable Integer id, @RequestBody EscalaUpdateRequest escalaUpdateRequest) {
+    public ResponseEntity<EscalaResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid EscalaUpdateRequest escalaUpdateRequest) {
         return ok(new EscalaResponse(escalaService.atualizar(id, mapper.toEscala(escalaUpdateRequest, escalaService.buscarPorId(id)))));
     }
 

@@ -5,6 +5,7 @@ import com.serenity.api.serenity.dtos.comissao.ComissaoResponse;
 import com.serenity.api.serenity.dtos.comissao.ComissaoUpdateRequest;
 import com.serenity.api.serenity.mappers.ComissaoMapper;
 import com.serenity.api.serenity.services.ComissaoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class ComissaoController {
     }
 
     @PostMapping
-    public ResponseEntity<ComissaoResponse> cadastrar(@RequestBody ComissaoRequest comissaoRequest) {
+    public ResponseEntity<ComissaoResponse> cadastrar(@RequestBody @Valid ComissaoRequest comissaoRequest) {
         return created(null).body(new ComissaoResponse(comissaoService.cadastrar(mapper.toComissao(comissaoRequest))));
     }
 
@@ -41,7 +42,7 @@ public class ComissaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ComissaoResponse> atualizar(@PathVariable Integer id, @RequestBody ComissaoUpdateRequest comissaoUpdateRequest) {
+    public ResponseEntity<ComissaoResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid ComissaoUpdateRequest comissaoUpdateRequest) {
         return ok(new ComissaoResponse(comissaoService.atualizar(id, mapper.toComissao(comissaoUpdateRequest, comissaoService.buscarPorId(id)))));
     }
 

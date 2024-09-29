@@ -1,15 +1,12 @@
 package com.serenity.api.serenity.services;
 
-import com.serenity.api.serenity.models.Agendamento;
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.repositories.PagamentoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,7 +27,7 @@ public class PagamentoService {
     }
 
     public Pagamento buscarPorId(int id) {
-        return pagamentoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+        return pagamentoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("pagamento"));
     }
 
     public Pagamento atualizar(int id, Pagamento pagamento) {

@@ -1,13 +1,12 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Parceiro;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.ParceiroRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class ParceiroService {
     }
 
     public Parceiro buscarPorId(Integer id) {
-        return parceiroRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+        return parceiroRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("parceiro"));
     }
 
     public void deletar(Integer id) {

@@ -1,12 +1,11 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Comissao;
 import com.serenity.api.serenity.repositories.ComissaoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class ComissaoService {
     }
 
     public Comissao buscarPorId(int id) {
-        return comissaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+        return comissaoRepository.findById(id).orElseThrow(() ->  new NaoEncontradoException("comissao"));
     }
 
     public Comissao atualizar(int id, Comissao comissao) {

@@ -5,6 +5,7 @@ import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.dtos.evento.EventoUpdateRequest;
 import com.serenity.api.serenity.mappers.EventoMapper;
 import com.serenity.api.serenity.services.EventoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class EventoController {
     }
 
     @PostMapping
-    public ResponseEntity<EventoResponse> cadastrar(@RequestBody EventoRequest eventoRequest) {
+    public ResponseEntity<EventoResponse> cadastrar(@RequestBody @Valid EventoRequest eventoRequest) {
         return created(null).body(new EventoResponse(eventoService.cadastrar(mapper.toEvento(eventoRequest))));
     }
 
@@ -42,7 +43,7 @@ public class EventoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventoResponse> atualizar(@PathVariable Integer id, @RequestBody EventoUpdateRequest eventoUpdateRequest) {
+    public ResponseEntity<EventoResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid EventoUpdateRequest eventoUpdateRequest) {
         return ok(new EventoResponse(eventoService.atualizar(id, mapper.toEvento(eventoUpdateRequest, eventoService.buscarPorId(id)))));
     }
 

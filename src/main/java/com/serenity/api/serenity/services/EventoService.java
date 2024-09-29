@@ -1,12 +1,11 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EventoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class EventoService {
     }
 
     public Evento buscarPorId(Integer id) {
-        return eventoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+        return eventoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("evento"));
     }
 
     public void deletar(Integer id) {

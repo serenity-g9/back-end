@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.registro.RegistroRequest;
 import com.serenity.api.serenity.dtos.registro.RegistroResponse;
 import com.serenity.api.serenity.mappers.RegistroMapper;
 import com.serenity.api.serenity.services.RegistroService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class RegistroController {
     }
 
     @PostMapping
-    public ResponseEntity<RegistroResponse> cadastrar(@RequestBody RegistroRequest registroRequest) {
+    public ResponseEntity<RegistroResponse> cadastrar(@RequestBody @Valid RegistroRequest registroRequest) {
         return created(null).body(new RegistroResponse(registroService.cadastrar(mapper.toRegistro(registroRequest))));
     }
 

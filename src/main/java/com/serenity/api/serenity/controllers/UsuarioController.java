@@ -8,6 +8,7 @@ import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioUpdateRequest;
 import com.serenity.api.serenity.mappers.UsuarioMapper;
 import com.serenity.api.serenity.services.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody UsuarioRequest usuarioRequest) {
+    public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody @Valid UsuarioRequest usuarioRequest) {
         return created(null).body(new UsuarioResponse(usuarioService.cadastrar(mapper.toUsuario(usuarioRequest))));
     }
 
@@ -45,7 +46,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Integer id, @RequestBody UsuarioUpdateRequest usuarioUpdateRequest) {
+    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid UsuarioUpdateRequest usuarioUpdateRequest) {
         return ok(new UsuarioResponse(usuarioService.atualizar(id, mapper.toUsuario(usuarioUpdateRequest, usuarioService.buscarPorId(id)))));
     }
 
@@ -56,12 +57,12 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<AccessTokenResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         return ok(usuarioService.autenticar(loginRequest));
     }
 
     @PatchMapping("/{id}/trocar-senha")
-    public ResponseEntity<Void> trocarSenha(@PathVariable Integer id, @RequestBody SenhaPatchRequest senhaPatchRequest) {
+    public ResponseEntity<Void> trocarSenha(@PathVariable Integer id, @RequestBody @Valid SenhaPatchRequest senhaPatchRequest) {
         usuarioService.trocarSenha(id, senhaPatchRequest);
         return noContent().build();
     }

@@ -1,13 +1,11 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Escala;
-import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EscalaRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -29,7 +27,7 @@ public class EscalaService {
     }
 
     public Escala buscarPorId(Integer id) {
-        return escalaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404)));
+        return escalaRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("escala"));
     }
 
     public void deletar(Integer id) {
