@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.dtos.colaborador;
 
 import com.serenity.api.serenity.enums.FuncaoInteresse;
+import com.serenity.api.serenity.models.embeddable.Contato;
 import lombok.Builder;
 
 import java.util.Set;
@@ -13,7 +14,8 @@ public record ColaboradorRequest(
         String apresentacao,
         String experiencia,
         String linkSocial,
-        Boolean sociaisAbertas
+        Boolean sociaisAbertas,
+        Contato contato
 ) {
 
 }

@@ -2,39 +2,47 @@ package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.dtos.registro.RegistroRequest;
 import com.serenity.api.serenity.dtos.registro.RegistroResponse;
+import com.serenity.api.serenity.mappers.RegistroMapper;
 import com.serenity.api.serenity.services.RegistroService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("/registros")
 @RequiredArgsConstructor
 public class RegistroController {
+
     private final RegistroService registroService;
+    private final RegistroMapper mapper;
 
     @GetMapping
     public ResponseEntity<List<RegistroResponse>> buscar() {
-        List<RegistroResponse> registrosResponses = registroService.listar();
-        return registrosResponses.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(registrosResponses);
+        List<RegistroResponse> agendamentoResponses = registroService.listar().stream()
+                .map(RegistroResponse::new)
+                .collect(Collectors.toList());
+
+        return ok(agendamentoResponses);
     }
 
     @PostMapping
     public ResponseEntity<RegistroResponse> cadastrar(@RequestBody RegistroRequest registroRequest) {
-        return ResponseEntity.status(201).body(registroService.cadastrar(registroRequest));
+        return created(null).body(new RegistroResponse(registroService.cadastrar(mapper.toRegistro(registroRequest))));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RegistroResponse> buscarPorId(@PathVariable Integer id){
-        return ResponseEntity.status(200).body(registroService.buscarPorId(id));
+    public ResponseEntity<RegistroResponse> buscarPorId(@PathVariable Integer id) {
+        return ok(new RegistroResponse(registroService.buscarPorId(id)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         registroService.deletar(id);
-        return ResponseEntity.status(204).build();
+        return noContent().build();
     }
 }

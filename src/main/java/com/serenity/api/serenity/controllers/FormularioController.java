@@ -11,17 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.*;
+
 @RestController
 @RequestMapping("/forms")
 public class FormularioController {
 
     @GetMapping("/respostas/{id}")
     public ResponseEntity<List<RespostaUsuario>> getRespostas(@PathVariable String id) {
-        return ResponseEntity.status(200).body(FormularioService.getRespostas(id));
+        return ok(FormularioService.getRespostas(id));
     }
 
     @GetMapping("/questoes/{id}")
     public ResponseEntity<List<Questao>> getQuestoes(@PathVariable String id) {
-        return ResponseEntity.status(200).body(FormularioService.getQuestoes(id));
+        return ok(FormularioService.getQuestoes(id));
     }
 }

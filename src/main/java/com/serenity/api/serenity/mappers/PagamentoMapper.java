@@ -1,9 +1,9 @@
 package com.serenity.api.serenity.mappers;
 
-import com.serenity.api.serenity.dtos.comissao.ComissaoRequest;
-import com.serenity.api.serenity.dtos.comissao.ComissaoUpdateRequest;
+import com.serenity.api.serenity.dtos.pagamento.PagamentoRequest;
+import com.serenity.api.serenity.dtos.pagamento.PagamentoUpdateRequest;
 import com.serenity.api.serenity.models.Agendamento;
-import com.serenity.api.serenity.models.Comissao;
+import com.serenity.api.serenity.models.Pagamento;
 import com.serenity.api.serenity.services.AgendamentoService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,21 +13,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 
 @Mapper
-public abstract class ComissaoMapper {
+public abstract class PagamentoMapper {
 
     @Autowired
     private AgendamentoService agendamentoService;
 
     @Mapping(target = "agendamento", source = "idAgendamento")
     @Mapping(target = "emissao", expression = "java(java.time.LocalDateTime.now())")
-    @Mapping(target = "vencimento", expression = "java(calcularVencimento(comissaoRequest.prazoDias()))")
-    public abstract Comissao toComissao(ComissaoRequest comissaoRequest);
+    @Mapping(target = "vencimento", expression = "java(calcularVencimento(pagamentoRequest.prazoDias()))")
+    public abstract Pagamento toPagamento(PagamentoRequest pagamentoRequest);
 
     @Mapping(target = "agendamento", ignore = true)
-    public abstract Comissao toComissao(ComissaoUpdateRequest comissaoRequest, @MappingTarget Comissao comissao);
+    public abstract Pagamento toPagamento(PagamentoUpdateRequest pagamentoRequest, @MappingTarget Pagamento pagamento);
 
-    protected Agendamento mapIdAgendamentoToAgendamento(Integer idComissao) {
-        return agendamentoService.buscarPorId(idComissao);
+    protected Agendamento mapIdAgendamentoToAgendamento(Integer idPagamento) {
+        return agendamentoService.buscarPorId(idPagamento);
     }
 
     protected LocalDate calcularVencimento(Integer prazoDias) {

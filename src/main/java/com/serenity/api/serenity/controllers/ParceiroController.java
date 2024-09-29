@@ -3,44 +3,53 @@ package com.serenity.api.serenity.controllers;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroRequest;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroResponse;
 import com.serenity.api.serenity.dtos.parceiro.ParceiroUpdateRequest;
+import com.serenity.api.serenity.mappers.ParceiroMapper;
 import com.serenity.api.serenity.services.ParceiroService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("/parceiros")
 @RequiredArgsConstructor
 public class ParceiroController {
+
     private final ParceiroService parceiroService;
+    private final ParceiroMapper mapper;
 
     @GetMapping
     public ResponseEntity<List<ParceiroResponse>> buscar() {
-        List<ParceiroResponse> parceiroResponses = parceiroService.listar();
-        return parceiroResponses.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(parceiroResponses);
+        List<ParceiroResponse> agendamentoResponses = parceiroService.listar().stream()
+                .map(ParceiroResponse::new)
+                .collect(Collectors.toList());
+
+        return ok(agendamentoResponses);
     }
 
     @PostMapping
     public ResponseEntity<ParceiroResponse> cadastrar(@RequestBody ParceiroRequest parceiroRequest) {
-        return ResponseEntity.status(201).body(parceiroService.cadastrar(parceiroRequest));
+        return created(null).body(new ParceiroResponse(parceiroService.cadastrar(mapper.toParceiro(parceiroRequest))));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParceiroResponse> buscarPorId(@PathVariable Integer id){
-        return ResponseEntity.status(200).body(parceiroService.buscarPorId(id));
+    public ResponseEntity<ParceiroResponse> buscarPorId(@PathVariable Integer id) {
+        System.out.println(parceiroService.buscarPorId(id));
+        return ok(new ParceiroResponse(parceiroService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ParceiroResponse> atualizar(@PathVariable Integer id, @RequestBody ParceiroUpdateRequest parceiroUpdateRequest) {
-        return  ResponseEntity.status(200).body(parceiroService.atualizar(id, parceiroUpdateRequest));
+        return ok(new ParceiroResponse(parceiroService.atualizar(id, mapper.toParceiro(parceiroUpdateRequest, parceiroService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         parceiroService.deletar(id);
-        return ResponseEntity.status(204).build();
+        return noContent().build();
     }
 }

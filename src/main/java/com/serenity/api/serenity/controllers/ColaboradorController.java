@@ -3,13 +3,16 @@ package com.serenity.api.serenity.controllers;
 import com.serenity.api.serenity.dtos.colaborador.ColaboradorRequest;
 import com.serenity.api.serenity.dtos.colaborador.ColaboradorResponse;
 import com.serenity.api.serenity.dtos.colaborador.ColaboradorUpdateRequest;
+import com.serenity.api.serenity.mappers.ColaboradorMapper;
 import com.serenity.api.serenity.services.ColaboradorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("/colaboradores")
@@ -17,31 +20,36 @@ import java.util.List;
 public class ColaboradorController {
 
     private final ColaboradorService colaboradorService;
+    private final ColaboradorMapper mapper;
 
     @GetMapping
     public ResponseEntity<List<ColaboradorResponse>> buscar() {
-        List<ColaboradorResponse> colaboradores = colaboradorService.listar();
-        return colaboradores.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(colaboradores);
+        List<ColaboradorResponse> agendamentoResponses = colaboradorService.listar().stream()
+                .map(ColaboradorResponse::new)
+                .collect(Collectors.toList());
+
+        return ok(agendamentoResponses);
     }
 
     @PostMapping
     public ResponseEntity<ColaboradorResponse> cadastrar(@RequestBody ColaboradorRequest colaboradorRequest) {
-        return ResponseEntity.status(201).body(colaboradorService.cadastrar(colaboradorRequest));
+        return created(null).body(new ColaboradorResponse(colaboradorService.cadastrar(mapper.toColaborador(colaboradorRequest))));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ColaboradorResponse> buscarPorId(@PathVariable Integer id){
-        return ResponseEntity.status(200).body(colaboradorService.buscarPorId(id));
+    public ResponseEntity<ColaboradorResponse> buscarPorId(@PathVariable Integer id) {
+        System.out.println(colaboradorService.buscarPorId(id));
+        return ok(new ColaboradorResponse(colaboradorService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ColaboradorResponse> atualizar(@PathVariable Integer id, @RequestBody ColaboradorUpdateRequest colaboradorUpdateRequest) {
-        return  ResponseEntity.status(200).body(colaboradorService.atualizar(id, colaboradorUpdateRequest));
+        return ok(new ColaboradorResponse(colaboradorService.atualizar(id, mapper.toColaborador(colaboradorUpdateRequest, colaboradorService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         colaboradorService.deletar(id);
-        return ResponseEntity.status(204).build();
+        return noContent().build();
     }
 }

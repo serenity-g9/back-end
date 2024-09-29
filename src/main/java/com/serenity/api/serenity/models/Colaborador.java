@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.models;
 
 import com.serenity.api.serenity.enums.FuncaoInteresse;
+import com.serenity.api.serenity.models.embeddable.Contato;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,24 +30,9 @@ public class Colaborador {
     private String linkSocial;
     private Boolean sociaisAbertas;
 
+    @Embedded
+    private Contato contato;
+
     @OneToOne
     private Usuario usuario;
-
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Faturamento> faturamentos = new ArrayList<>();
-//
-//    public Double getFaturamento() {
-//        Double total = 0.0;
-//
-//        for (Faturamento faturamento : faturamentos) {
-//            total += faturamento.getFaturamento();
-//        }
-//
-//        return total;
-//    }
-//
-//    public void addFaturamento(Faturamento faturamento) {
-//        faturamentos.add(faturamento);
-//    }
 }

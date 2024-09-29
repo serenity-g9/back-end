@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.models;
 
 import com.serenity.api.serenity.enums.PermissaoUsuario;
+import com.serenity.api.serenity.models.embeddable.Contato;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,9 @@ public class Parceiro {
 
     @OneToOne
     private Usuario usuario;
+
+    @Embedded
+    private Contato contato;
 
     @Enumerated(EnumType.STRING)
     private PermissaoUsuario permissao;

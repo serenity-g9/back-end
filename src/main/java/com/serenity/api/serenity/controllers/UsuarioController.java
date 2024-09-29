@@ -1,18 +1,21 @@
 package com.serenity.api.serenity.controllers;
 
-
-import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
 import com.serenity.api.serenity.dtos.autenticacao.AccessTokenResponse;
+import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
+import com.serenity.api.serenity.dtos.usuario.SenhaPatchRequest;
 import com.serenity.api.serenity.dtos.usuario.UsuarioRequest;
 import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioUpdateRequest;
-import com.serenity.api.serenity.models.Usuario;
+import com.serenity.api.serenity.mappers.UsuarioMapper;
 import com.serenity.api.serenity.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -20,36 +23,46 @@ import java.util.List;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final UsuarioMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> buscar() {
-        List<Usuario> usuarios = usuarioService.listar();
-        return usuarios.isEmpty() ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(usuarios);
+    public ResponseEntity<List<UsuarioResponse>> buscar() {
+        List<UsuarioResponse> agendamentoResponses = usuarioService.listar().stream()
+                .map(UsuarioResponse::new)
+                .collect(Collectors.toList());
+
+        return ok(agendamentoResponses);
     }
 
     @PostMapping
     public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody UsuarioRequest usuarioRequest) {
-        return ResponseEntity.status(201).body(usuarioService.cadastrar(usuarioRequest));
+        return created(null).body(new UsuarioResponse(usuarioService.cadastrar(mapper.toUsuario(usuarioRequest))));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id){
-        return ResponseEntity.status(200).body(usuarioService.buscarPorId(id));
+    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable Integer id) {
+        return ok(new UsuarioResponse(usuarioService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Integer id, @RequestBody UsuarioUpdateRequest usuarioUpdateRequest) {
-        return ResponseEntity.status(200).body(usuarioService.atualizar(id, usuarioUpdateRequest));
+        return ok(new UsuarioResponse(usuarioService.atualizar(id, mapper.toUsuario(usuarioUpdateRequest, usuarioService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         usuarioService.deletar(id);
-        return ResponseEntity.status(204).build();
+        return noContent().build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.status(200).body(usuarioService.autenticar(loginRequest));
+        return ok(usuarioService.autenticar(loginRequest));
+    }
+
+    @PatchMapping("/{id}/trocar-senha")
+    public ResponseEntity<Void> trocarSenha(@PathVariable Integer id, @RequestBody SenhaPatchRequest senhaPatchRequest) {
+        usuarioService.trocarSenha(id, senhaPatchRequest);
+        return noContent().build();
     }
 }

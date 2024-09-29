@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +23,9 @@ public class Agendamento {
 
     @ManyToOne
     private Escala escala;
+
+    @OneToMany
+    private List<Registro> registros;
 
     private LocalDateTime horarioEntrada;
 }
