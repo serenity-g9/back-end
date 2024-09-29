@@ -22,7 +22,4 @@ public class Usuario {
     private Integer id;
     private String email;
     private String senha;
-    private String nome;
-    private String celular;
-    private LocalDate dataNascimento;
 }

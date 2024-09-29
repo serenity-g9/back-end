@@ -1,14 +1,14 @@
 package com.serenity.api.serenity.controllers;
 
 
-import com.serenity.api.serenity.dtos.usuario.LoginResponse;
+import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
+import com.serenity.api.serenity.dtos.autenticacao.AccessTokenResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioRequest;
 import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioUpdateRequest;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +49,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestParam String email, @RequestParam String senha) {
-        return ResponseEntity.status(200).body(usuarioService.login(email, senha));
+    public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.status(200).body(usuarioService.autenticar(loginRequest));
     }
 }
