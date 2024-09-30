@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -36,16 +37,16 @@ public class RegistroService {
         return registroRepository.findAllByAgendamento(agendamento);
     }
 
-    public Registro buscarPorId(Integer id) {
+    public Registro buscarPorId(UUID id) {
         return registroRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("registro"));
     }
 
-    public void deletar(Integer id) {
+    public void deletar(UUID id) {
         buscarPorId(id);
         registroRepository.deleteById(id);
     }
 
-    public Registro atualizar(Integer id, Registro registro) {
+    public Registro atualizar(UUID id, Registro registro) {
         buscarPorId(id);
         registro.setId(id);
 

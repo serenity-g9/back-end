@@ -8,10 +8,12 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 import java.util.Set;
+import java.util.UUID;
+
 @Builder
 public record ColaboradorRequest(
         @NotNull
-        Integer idUsuario,
+        UUID idUsuario,
         Set<FuncaoInteresse> funcoesInteresse,
         @NotBlank
         String cidadeResidencia,

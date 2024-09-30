@@ -4,8 +4,11 @@ import com.serenity.api.serenity.interfaces.Faturavel;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,10 +17,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Pagamento implements Faturavel {
+public class Pagamento implements Faturavel, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
     private Double valor;
     private LocalDateTime emissao;
@@ -31,4 +37,5 @@ public class Pagamento implements Faturavel {
     public Double getFaturamento() {
         return efetuado ? valor : 0.0;
     }
+
 }

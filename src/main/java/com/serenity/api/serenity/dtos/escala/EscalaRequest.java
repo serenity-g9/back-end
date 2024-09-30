@@ -2,6 +2,8 @@ package com.serenity.api.serenity.dtos.escala;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 public record EscalaRequest(
         @NotNull
         Integer funcaoEscala,
@@ -14,6 +16,6 @@ public record EscalaRequest(
         Boolean comissionado,
         Boolean asoObrigatorio,
         @NotNull
-        Integer idEvento
+        UUID idEvento
 ) {
 }

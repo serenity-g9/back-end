@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,16 +27,16 @@ public class EscalaService {
         return escalaRepository.findAll();
     }
 
-    public Escala buscarPorId(Integer id) {
+    public Escala buscarPorId(UUID id) {
         return escalaRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("escala"));
     }
 
-    public void deletar(Integer id) {
+    public void deletar(UUID id) {
         buscarPorId(id);
         escalaRepository.deleteById(id);
     }
 
-    public Escala atualizar(Integer id, Escala escala) {
+    public Escala atualizar(UUID id, Escala escala) {
         buscarPorId(id);
         escala.setId(id);
 

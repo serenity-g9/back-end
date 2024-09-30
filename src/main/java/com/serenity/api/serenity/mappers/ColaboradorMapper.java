@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 @Mapper
 public abstract class ColaboradorMapper {
 
@@ -22,7 +24,7 @@ public abstract class ColaboradorMapper {
     @Mapping(target = "usuario", ignore = true)
     public abstract Colaborador toColaborador(ColaboradorUpdateRequest colaboradorRequest, @MappingTarget Colaborador colaborador);
 
-    protected Usuario mapIdUsuarioToUsuario(Integer idUsuario) {
+    protected Usuario mapIdUsuarioToUsuario(UUID idUsuario) {
         return usuarioService.buscarPorId(idUsuario);
     }
 }

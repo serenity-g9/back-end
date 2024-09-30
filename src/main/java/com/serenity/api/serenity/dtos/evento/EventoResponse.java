@@ -1,11 +1,13 @@
 package com.serenity.api.serenity.dtos.evento;
 
+import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 import com.serenity.api.serenity.models.Evento;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record EventoResponse(
-        Integer id,
+        UUID id,
         String nome,
         Double orcamento,
         LocalDate inicio,

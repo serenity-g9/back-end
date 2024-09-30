@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -38,17 +39,17 @@ public class EventoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventoResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<EventoResponse> buscarPorId(@PathVariable UUID id) {
         return ok(new EventoResponse(eventoService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventoResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid EventoUpdateRequest eventoUpdateRequest) {
+    public ResponseEntity<EventoResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid EventoUpdateRequest eventoUpdateRequest) {
         return ok(new EventoResponse(eventoService.atualizar(id, mapper.toEvento(eventoUpdateRequest, eventoService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         eventoService.deletar(id);
         return noContent().build();
     }

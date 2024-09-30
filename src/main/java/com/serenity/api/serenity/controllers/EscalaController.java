@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -38,17 +39,17 @@ public class EscalaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EscalaResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<EscalaResponse> buscarPorId(@PathVariable UUID id) {
         return ok(new EscalaResponse(escalaService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EscalaResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid EscalaUpdateRequest escalaUpdateRequest) {
+    public ResponseEntity<EscalaResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid EscalaUpdateRequest escalaUpdateRequest) {
         return ok(new EscalaResponse(escalaService.atualizar(id, mapper.toEscala(escalaUpdateRequest, escalaService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         escalaService.deletar(id);
         return noContent().build();
     }

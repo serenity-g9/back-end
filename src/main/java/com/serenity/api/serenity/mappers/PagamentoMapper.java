@@ -11,6 +11,7 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Mapper
 public abstract class PagamentoMapper {
@@ -26,7 +27,7 @@ public abstract class PagamentoMapper {
     @Mapping(target = "agendamento", ignore = true)
     public abstract Pagamento toPagamento(PagamentoUpdateRequest pagamentoRequest, @MappingTarget Pagamento pagamento);
 
-    protected Agendamento mapIdAgendamentoToAgendamento(Integer idPagamento) {
+    protected Agendamento mapIdAgendamentoToAgendamento(UUID idPagamento) {
         return agendamentoService.buscarPorId(idPagamento);
     }
 

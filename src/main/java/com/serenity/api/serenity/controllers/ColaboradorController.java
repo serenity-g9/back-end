@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -38,18 +39,18 @@ public class ColaboradorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ColaboradorResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<ColaboradorResponse> buscarPorId(@PathVariable UUID id) {
         System.out.println(colaboradorService.buscarPorId(id));
         return ok(new ColaboradorResponse(colaboradorService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ColaboradorResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid ColaboradorUpdateRequest colaboradorUpdateRequest) {
+    public ResponseEntity<ColaboradorResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid ColaboradorUpdateRequest colaboradorUpdateRequest) {
         return ok(new ColaboradorResponse(colaboradorService.atualizar(id, mapper.toColaborador(colaboradorUpdateRequest, colaboradorService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         colaboradorService.deletar(id);
         return noContent().build();
     }

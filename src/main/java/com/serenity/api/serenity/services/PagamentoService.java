@@ -7,7 +7,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.rmi.server.UID;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,18 +28,18 @@ public class PagamentoService {
         return pagamentoRepository.save(pagamento);
     }
 
-    public Pagamento buscarPorId(int id) {
+    public Pagamento buscarPorId (UUID id) {
         return pagamentoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("pagamento"));
     }
 
-    public Pagamento atualizar(int id, Pagamento pagamento) {
+    public Pagamento atualizar(UUID id, Pagamento pagamento) {
         buscarPorId(id);
         pagamento.setId(id);
 
         return pagamentoRepository.save(pagamento);
     }
 
-    public void deletar(int id) {
+    public void deletar(UUID id) {
         buscarPorId(id);
         pagamentoRepository.deleteById(id);
     }

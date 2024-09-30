@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -38,18 +39,18 @@ public class ParceiroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ParceiroResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<ParceiroResponse> buscarPorId(@PathVariable UUID id) {
         System.out.println(parceiroService.buscarPorId(id));
         return ok(new ParceiroResponse(parceiroService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid ParceiroUpdateRequest parceiroUpdateRequest) {
+    public ResponseEntity<ParceiroResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid ParceiroUpdateRequest parceiroUpdateRequest) {
         return ok(new ParceiroResponse(parceiroService.atualizar(id, mapper.toParceiro(parceiroUpdateRequest, parceiroService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         parceiroService.deletar(id);
         return noContent().build();
     }

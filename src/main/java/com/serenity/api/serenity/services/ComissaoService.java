@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -28,18 +29,18 @@ public class ComissaoService {
         return comissaoRepository.save(comissao);
     }
 
-    public Comissao buscarPorId(int id) {
+    public Comissao buscarPorId(UUID id) {
         return comissaoRepository.findById(id).orElseThrow(() ->  new NaoEncontradoException("comissao"));
     }
 
-    public Comissao atualizar(int id, Comissao comissao) {
+    public Comissao atualizar(UUID id, Comissao comissao) {
         buscarPorId(id);
         comissao.setId(id);
 
         return comissaoRepository.save(comissao);
     }
 
-    public void deletar (int id) {
+    public void deletar (UUID id) {
         buscarPorId(id);
         comissaoRepository.deleteById(id);
     }

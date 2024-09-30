@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -41,17 +42,17 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario buscarPorId(Integer id) {
+    public Usuario buscarPorId(UUID id) {
         return usuarioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("usuario"));
     }
 
-    public void deletar(Integer id) {
+    public void deletar(UUID id) {
         buscarPorId(id);
 
         usuarioRepository.deleteById(id);
     }
 
-    public Usuario atualizar(Integer id, Usuario usuario) {
+    public Usuario atualizar(UUID id, Usuario usuario) {
         buscarPorId(id);
         usuario.setId(id);
 
@@ -73,7 +74,7 @@ public class UsuarioService {
         return new AccessTokenResponse(usuarioAutenticado, token);
     }
 
-    public void trocarSenha(Integer id, SenhaPatchRequest senhaPatchRequest) {
+    public void trocarSenha(UUID id, SenhaPatchRequest senhaPatchRequest) {
         Usuario usuario = buscarPorId(id);
         usuario.setId(id);
 

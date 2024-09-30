@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 @Mapper
 public abstract class RegistroMapper {
 
@@ -18,7 +20,7 @@ public abstract class RegistroMapper {
     @Mapping(target = "dataHorario", expression = "java(java.time.LocalDateTime.now())")
     public abstract Registro toRegistro(RegistroRequest registroRequest);
 
-    protected Agendamento mapIdAgendamentoToAgendamento(Integer idAgendamento) {
+    protected Agendamento mapIdAgendamentoToAgendamento(UUID idAgendamento) {
         return agendamentoService.buscarPorId(idAgendamento);
     }
 }

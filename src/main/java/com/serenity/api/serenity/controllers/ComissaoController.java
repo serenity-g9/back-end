@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -37,17 +38,17 @@ public class ComissaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ComissaoResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<ComissaoResponse> buscarPorId(@PathVariable UUID id) {
         return ok(new ComissaoResponse(comissaoService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ComissaoResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid ComissaoUpdateRequest comissaoUpdateRequest) {
+    public ResponseEntity<ComissaoResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid ComissaoUpdateRequest comissaoUpdateRequest) {
         return ok(new ComissaoResponse(comissaoService.atualizar(id, mapper.toComissao(comissaoUpdateRequest, comissaoService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar (@PathVariable UUID id) {
         comissaoService.deletar(id);
         return noContent().build();
     }

@@ -6,8 +6,9 @@ import com.serenity.api.serenity.models.Registro;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface RegistroRepository extends JpaRepository<Registro, Integer> {
+public interface RegistroRepository extends JpaRepository<Registro, UUID> {
     Boolean existsByTipoRegistro(TipoRegistro tipoRegistro);
     List<Registro> findAllByAgendamento(Agendamento agendamento);
 }

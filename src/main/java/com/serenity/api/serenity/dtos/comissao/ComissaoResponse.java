@@ -4,9 +4,10 @@ import com.serenity.api.serenity.models.Comissao;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record ComissaoResponse(
-        Integer id,
+        UUID id,
         String item,
         Double valor,
         Integer quantidade,

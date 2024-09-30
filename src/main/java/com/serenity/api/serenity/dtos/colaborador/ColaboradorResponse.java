@@ -5,9 +5,10 @@ import com.serenity.api.serenity.models.Colaborador;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 public record ColaboradorResponse(
-        Integer id,
+        UUID id,
         String nome,
         String email,
         String celular,

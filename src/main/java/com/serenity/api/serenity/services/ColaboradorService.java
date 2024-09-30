@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -25,16 +26,16 @@ public class ColaboradorService {
         return colaboradorRepository.findAll();
     }
 
-    public Colaborador buscarPorId(Integer id) {
+    public Colaborador buscarPorId(UUID id) {
         return colaboradorRepository.findById(id).orElseThrow(() ->  new NaoEncontradoException("colaborador"));
     }
 
-    public void deletar(Integer id) {
+    public void deletar(UUID id) {
         buscarPorId(id);
         colaboradorRepository.deleteById(id);
     }
 
-    public Colaborador atualizar(Integer id, Colaborador colaborador) {
+    public Colaborador atualizar(UUID id, Colaborador colaborador) {
         buscarPorId(id);
         colaborador.setId(id);
 

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -38,17 +39,17 @@ public class AgendamentoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AgendamentoResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<AgendamentoResponse> buscarPorId(@PathVariable UUID id) {
         return ok(new AgendamentoResponse(agendamentoService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AgendamentoResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid AgendamentoUpdateRequest agendamentoUpdateRequest) {
+    public ResponseEntity<AgendamentoResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid AgendamentoUpdateRequest agendamentoUpdateRequest) {
         return ok(new AgendamentoResponse(agendamentoService.atualizar(id, mapper.toAgendamento(agendamentoUpdateRequest, agendamentoService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar (@PathVariable UUID id) {
         agendamentoService.deletar(id);
         return noContent().build();
     }

@@ -5,10 +5,11 @@ import com.serenity.api.serenity.models.Agendamento;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public record AgendamentoResponse(
-        Integer id,
+        UUID id,
         LocalDateTime horarioEntrada,
         List<RegistroResponse> registros
 ) {

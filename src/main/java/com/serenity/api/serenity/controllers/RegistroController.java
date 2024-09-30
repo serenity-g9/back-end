@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -37,12 +38,12 @@ public class RegistroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RegistroResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<RegistroResponse> buscarPorId(@PathVariable UUID id) {
         return ok(new RegistroResponse(registroService.buscarPorId(id)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         registroService.deletar(id);
         return noContent().build();
     }

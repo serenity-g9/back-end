@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -29,16 +30,16 @@ public class ParceiroService {
         return parceiroRepository.findAll();
     }
 
-    public Parceiro buscarPorId(Integer id) {
+    public Parceiro buscarPorId(UUID id) {
         return parceiroRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("parceiro"));
     }
 
-    public void deletar(Integer id) {
+    public void deletar(UUID id) {
         buscarPorId(id);
         parceiroRepository.deleteById(id);
     }
 
-    public Parceiro atualizar(Integer id, Parceiro parceiro) {
+    public Parceiro atualizar(UUID id, Parceiro parceiro) {
         buscarPorId(id);
         parceiro.setId(id);
 

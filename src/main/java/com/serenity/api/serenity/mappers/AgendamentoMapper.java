@@ -12,6 +12,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 @Mapper
 public abstract class AgendamentoMapper {
 
@@ -30,11 +32,11 @@ public abstract class AgendamentoMapper {
     @Mapping(target = "registros", ignore = true)
     public abstract Agendamento toAgendamento(AgendamentoUpdateRequest agendamentoUpdateRequest, @MappingTarget Agendamento agendamento);
 
-    protected Colaborador mapIdColaboradorToColaborador(Integer idColaborador) {
+    protected Colaborador mapIdColaboradorToColaborador(UUID idColaborador) {
         return colaboradorService.buscarPorId(idColaborador);
     }
 
-    protected Escala mapIdEscalaToEscala(Integer idEscala) {
+    protected Escala mapIdEscalaToEscala(UUID idEscala) {
         return escalaService.buscarPorId(idEscala);
     }
 }

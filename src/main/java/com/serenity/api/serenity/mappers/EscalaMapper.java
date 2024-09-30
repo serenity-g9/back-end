@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 @Mapper
 public abstract class EscalaMapper {
 
@@ -22,7 +24,7 @@ public abstract class EscalaMapper {
     @Mapping(target = "evento", ignore = true)
     public abstract Escala toEscala(EscalaUpdateRequest escalaRequest, @MappingTarget Escala escala);
 
-    protected Evento mapIdEventoToEvento(Integer idEscala) {
+    protected Evento mapIdEventoToEvento(UUID idEscala) {
         return eventoService.buscarPorId(idEscala);
     }
 }

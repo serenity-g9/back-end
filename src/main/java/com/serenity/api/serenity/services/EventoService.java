@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -24,16 +25,16 @@ public class EventoService {
         return eventoRepository.findAll();
     }
 
-    public Evento buscarPorId(Integer id) {
+    public Evento buscarPorId(UUID id) {
         return eventoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("evento"));
     }
 
-    public void deletar(Integer id) {
+    public void deletar(UUID id) {
         buscarPorId(id);
         eventoRepository.deleteById(id);
     }
 
-    public Evento atualizar(Integer id, Evento evento) {
+    public Evento atualizar(UUID id, Evento evento) {
         buscarPorId(id);
         evento.setId(id);
 

@@ -3,9 +3,11 @@ package com.serenity.api.serenity.dtos.comissao;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 public record ComissaoRequest(
         @NotNull
-        Integer idAgendamento,
+        UUID idAgendamento,
         @NotBlank
         String item,
         @NotNull

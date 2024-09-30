@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -37,17 +38,17 @@ public class PagamentoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PagamentoResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<PagamentoResponse> buscarPorId(@PathVariable UUID id) {
         return ok(new PagamentoResponse(pagamentoService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PagamentoResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid PagamentoUpdateRequest pagamentoUpdateRequest) {
+    public ResponseEntity<PagamentoResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid PagamentoUpdateRequest pagamentoUpdateRequest) {
         return ok(new PagamentoResponse(pagamentoService.atualizar(id, mapper.toPagamento(pagamentoUpdateRequest, pagamentoService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar (@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar (@PathVariable UUID id) {
         pagamentoService.deletar(id);
         return noContent().build();
     }

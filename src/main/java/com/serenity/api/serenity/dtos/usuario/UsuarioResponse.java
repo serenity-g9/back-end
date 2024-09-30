@@ -2,8 +2,10 @@ package com.serenity.api.serenity.dtos.usuario;
 
 import com.serenity.api.serenity.models.Usuario;
 
+import java.util.UUID;
+
 public record UsuarioResponse(
-        Integer id,
+        UUID id,
         String email
 ) {
     public UsuarioResponse(Usuario usuario) {

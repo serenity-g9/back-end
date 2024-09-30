@@ -4,13 +4,14 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record AgendamentoRequest(
-    @NotNull
-    Integer idColaborador,
-    @NotNull
-    Integer idEscala,
-    @Future
+        @NotNull
+        UUID idColaborador,
+        @NotNull
+        UUID idEscala,
+        @Future
     LocalDateTime horarioEntrada
 ) {
 }

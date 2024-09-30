@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.server.UID;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -41,17 +43,17 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable UUID id) {
         return ok(new UsuarioResponse(usuarioService.buscarPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable Integer id, @RequestBody @Valid UsuarioUpdateRequest usuarioUpdateRequest) {
+    public ResponseEntity<UsuarioResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid UsuarioUpdateRequest usuarioUpdateRequest) {
         return ok(new UsuarioResponse(usuarioService.atualizar(id, mapper.toUsuario(usuarioUpdateRequest, usuarioService.buscarPorId(id)))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         usuarioService.deletar(id);
         return noContent().build();
     }
@@ -62,7 +64,7 @@ public class UsuarioController {
     }
 
     @PatchMapping("/{id}/trocar-senha")
-    public ResponseEntity<Void> trocarSenha(@PathVariable Integer id, @RequestBody @Valid SenhaPatchRequest senhaPatchRequest) {
+    public ResponseEntity<Void> trocarSenha(@PathVariable UUID id, @RequestBody @Valid SenhaPatchRequest senhaPatchRequest) {
         usuarioService.trocarSenha(id, senhaPatchRequest);
         return noContent().build();
     }

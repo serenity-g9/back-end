@@ -2,8 +2,10 @@ package com.serenity.api.serenity.dtos.autenticacao;
 
 import com.serenity.api.serenity.models.Usuario;
 
+import java.util.UUID;
+
 public record AccessTokenResponse(
-        Integer id,
+        UUID id,
         String email,
         String token
 ) {
