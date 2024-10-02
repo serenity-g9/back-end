@@ -5,6 +5,10 @@ import com.serenity.api.serenity.dtos.escala.EscalaResponse;
 import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
 import com.serenity.api.serenity.mappers.EscalaMapper;
 import com.serenity.api.serenity.services.EscalaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +21,20 @@ import java.util.stream.Collectors;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
-@RequestMapping("/escalas")
+@RequestMapping(value = "/escalas", produces = {"application/json"})
+@Tag(name = "CRUD-escalas", description = "Controle de escalas")
 @RequiredArgsConstructor
 public class EscalaController {
 
     private final EscalaService escalaService;
     private final EscalaMapper mapper;
 
+    @Operation(summary = "Lista os escalas cadastrados", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "escalas encontradas com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao buscar escalas"),
+            @ApiResponse(responseCode = "204", description = "Nenhuma escala cadastrado")
+    })
     @GetMapping
     public ResponseEntity<List<EscalaResponse>> buscar() {
         List<EscalaResponse> agendamentoResponses = escalaService.listar().stream()
@@ -33,21 +44,46 @@ public class EscalaController {
         return ok(agendamentoResponses);
     }
 
+    @Operation(summary = "Realiza criação de escalas", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",description = "Cadastro realizado com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao cadastrar"),
+            @ApiResponse(responseCode = "400", description = "Necessário verificar se body está correto")
+    })
     @PostMapping
     public ResponseEntity<EscalaResponse> cadastrar(@RequestBody @Valid EscalaRequest escalaRequest) {
         return created(null).body(new EscalaResponse(escalaService.cadastrar(mapper.toEscala(escalaRequest))));
     }
 
+    @Operation(summary = "Procura um escala especifico", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "escala encontrada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao buscar escala"),
+            @ApiResponse(responseCode = "404", description = "escala não existe")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<EscalaResponse> buscarPorId(@PathVariable UUID id) {
         return ok(new EscalaResponse(escalaService.buscarPorId(id)));
     }
 
+    @Operation(summary = "Atualiza um escalas", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
+            @ApiResponse(responseCode = "400", description = "Necessário verificar se body está correto"),
+            @ApiResponse(responseCode = "404", description = "escala não existe")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<EscalaResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid EscalaUpdateRequest escalaUpdateRequest) {
         return ok(new EscalaResponse(escalaService.atualizar(id, mapper.toEscala(escalaUpdateRequest, escalaService.buscarPorId(id)))));
     }
 
+    @Operation(summary = "Deleta um escalas", method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),
+            @ApiResponse(responseCode = "404", description = "escala não existe")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         escalaService.deletar(id);
