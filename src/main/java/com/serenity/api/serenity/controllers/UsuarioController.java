@@ -94,16 +94,16 @@ public class UsuarioController {
         return noContent().build();
     }
 
-//    @Operation(summary = "Faz o login de um usuario", method = "POST")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200",description = "Login efetuado com sucesso"),
-//            @ApiResponse(responseCode = "500", description = "Erro interno ao logar"),
-//            @ApiResponse(responseCode = "401", description = "Usuario não existe")
-//    })
-//    @PostMapping("/login")
-//    public ResponseEntity<AccessTokenResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
-//        return ok(usuarioService.autenticar(loginRequest));
-//    }
+    @Operation(summary = "Faz o login de um usuario", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Login efetuado com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao logar"),
+            @ApiResponse(responseCode = "401", description = "Usuario não existe")
+    })
+    @PostMapping("/login")
+    public ResponseEntity<AccessTokenResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
+        return ok(usuarioService.autenticar(loginRequest));
+    }
 
     @Operation(summary = "Atualiza a senha de um usuarios", method = "PATCH")
     @ApiResponses(value = {

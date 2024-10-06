@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.autenticacao.UsuarioDetalhesResponse;
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -24,7 +25,7 @@ public class AutenticacaoService implements UserDetailsService {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(username);
 
         if (usuarioOpt.isEmpty()) {
-            throw new UsernameNotFoundException(String.format("usuario: %s nao encontrado", username));
+            throw new NaoEncontradoException("Usuario");
         }
 
         return new UsuarioDetalhesResponse(usuarioOpt.get());
