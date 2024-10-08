@@ -29,7 +29,7 @@ public class ColaboradorController {
     private final ColaboradorService colaboradorService;
     private final ColaboradorMapper mapper;
 
-    @Operation(summary = "Lista os colaboradors cadastrados", method = "GET")
+    @Operation(summary = "Lista os colaboradores cadastrados", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "colaboradores encontrados com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao buscar colaboradores"),
@@ -44,7 +44,7 @@ public class ColaboradorController {
         return ok(agendamentoResponses);
     }
 
-    @Operation(summary = "Realiza criação de colaboradors", method = "POST")
+    @Operation(summary = "Realiza criação de colaboradores", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",description = "Cadastro realizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao cadastrar"),
@@ -67,7 +67,7 @@ public class ColaboradorController {
         return ok(new ColaboradorResponse(colaboradorService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Atualiza um colaboradors", method = "PUT")
+    @Operation(summary = "Atualiza um colaborador", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
@@ -79,7 +79,7 @@ public class ColaboradorController {
         return ok(new ColaboradorResponse(colaboradorService.atualizar(id, mapper.toColaborador(colaboradorUpdateRequest, colaboradorService.buscarPorId(id)))));
     }
 
-    @Operation(summary = "Deleta um colaboradors", method = "DELETE")
+    @Operation(summary = "Deleta um colaborador", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),

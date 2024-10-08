@@ -29,7 +29,7 @@ public class EscalaController {
     private final EscalaService escalaService;
     private final EscalaMapper mapper;
 
-    @Operation(summary = "Lista os escalas cadastrados", method = "GET")
+    @Operation(summary = "Lista as escalas cadastradas", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "escalas encontradas com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao buscar escalas"),
@@ -55,7 +55,7 @@ public class EscalaController {
         return created(null).body(new EscalaResponse(escalaService.cadastrar(mapper.toEscala(escalaRequest))));
     }
 
-    @Operation(summary = "Procura um escala especifico", method = "GET")
+    @Operation(summary = "Procura uma escala especifico", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "escala encontrada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao buscar escala"),
@@ -66,7 +66,7 @@ public class EscalaController {
         return ok(new EscalaResponse(escalaService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Atualiza um escalas", method = "PUT")
+    @Operation(summary = "Atualiza um escala", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
@@ -78,7 +78,7 @@ public class EscalaController {
         return ok(new EscalaResponse(escalaService.atualizar(id, mapper.toEscala(escalaUpdateRequest, escalaService.buscarPorId(id)))));
     }
 
-    @Operation(summary = "Deleta um escalas", method = "DELETE")
+    @Operation(summary = "Deleta um escala", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),

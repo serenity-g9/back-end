@@ -70,7 +70,7 @@ public class UsuarioController {
         return ok(new UsuarioResponse(usuarioService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Atualiza um usuarios", method = "PUT")
+    @Operation(summary = "Atualiza um usuario", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
@@ -82,7 +82,7 @@ public class UsuarioController {
         return ok(new UsuarioResponse(usuarioService.atualizar(id, mapper.toUsuario(usuarioUpdateRequest, usuarioService.buscarPorId(id)))));
     }
 
-    @Operation(summary = "Deleta um usuarios", method = "DELETE")
+    @Operation(summary = "Deleta um usuario", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),
@@ -105,7 +105,7 @@ public class UsuarioController {
         return ok(usuarioService.autenticar(loginRequest));
     }
 
-    @Operation(summary = "Atualiza a senha de um usuarios", method = "PATCH")
+    @Operation(summary = "Atualiza a senha de um usuario", method = "PATCH")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),

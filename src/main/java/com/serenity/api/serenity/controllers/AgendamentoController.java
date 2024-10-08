@@ -66,7 +66,7 @@ public class AgendamentoController {
         return ok(new AgendamentoResponse(agendamentoService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Atualiza um agendamentos", method = "PUT")
+    @Operation(summary = "Atualiza um agendamento", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
@@ -78,7 +78,7 @@ public class AgendamentoController {
         return ok(new AgendamentoResponse(agendamentoService.atualizar(id, mapper.toAgendamento(agendamentoUpdateRequest, agendamentoService.buscarPorId(id)))));
     }
 
-    @Operation(summary = "Deleta um agendamentos", method = "DELETE")
+    @Operation(summary = "Deleta um agendamento", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),

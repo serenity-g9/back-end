@@ -22,13 +22,13 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping(value = "/comissoes", produces = {"application/json"})
-@Tag(name = "CRUD-comissoes", description = "Controle de comissoes")
+@Tag(name = "CRUD-comissões", description = "Controle de comissoes")
 @RequiredArgsConstructor
 public class ComissaoController {
     private final ComissaoService comissaoService;
     private final ComissaoMapper mapper;
 
-    @Operation(summary = "Lista os comissaos cadastrados", method = "GET")
+    @Operation(summary = "Lista as comissaões cadastradas", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "comissoes encontradas com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao buscar comissoes"),
@@ -43,7 +43,7 @@ public class ComissaoController {
         return ok(agendamentoResponses);
     }
 
-    @Operation(summary = "Realiza criação de comissaos", method = "POST")
+    @Operation(summary = "Realiza criação de comissões", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",description = "Cadastro realizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao cadastrar"),
@@ -54,7 +54,7 @@ public class ComissaoController {
         return created(null).body(new ComissaoResponse(comissaoService.cadastrar(mapper.toComissao(comissaoRequest))));
     }
 
-    @Operation(summary = "Procura um comissao especifico", method = "GET")
+    @Operation(summary = "Procura uma comissão especifica", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "comissao encontrado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao buscar comissao"),
@@ -65,7 +65,7 @@ public class ComissaoController {
         return ok(new ComissaoResponse(comissaoService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Atualiza um comissaos", method = "PUT")
+    @Operation(summary = "Atualiza uma comissão", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
@@ -77,7 +77,7 @@ public class ComissaoController {
         return ok(new ComissaoResponse(comissaoService.atualizar(id, mapper.toComissao(comissaoUpdateRequest, comissaoService.buscarPorId(id)))));
     }
 
-    @Operation(summary = "Deleta um comissaos", method = "DELETE")
+    @Operation(summary = "Deleta uma comissão", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),

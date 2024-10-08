@@ -109,26 +109,38 @@ public class SecurityConfiguracao {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuracao = new CorsConfiguration();
-        configuracao.applyPermitDefaultValues();
-        configuracao.setAllowedMethods(
-                Arrays.asList(
-                        HttpMethod.GET.name(),
-                        HttpMethod.POST.name(),
-                        HttpMethod.PUT.name(),
-                        HttpMethod.PATCH.name(),
-                        HttpMethod.DELETE.name(),
-                        HttpMethod.OPTIONS.name(),
-                        HttpMethod.HEAD.name(),
-                        HttpMethod.TRACE.name()));
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
 
-        configuracao.setExposedHeaders(List.of(HttpHeaders.CONTENT_DISPOSITION));
-
-        UrlBasedCorsConfigurationSource origem = new UrlBasedCorsConfigurationSource();
-        origem.registerCorsConfiguration("/**", configuracao);
-
-        return origem;
-    }
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:3000");
+        config.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type", "Accept", "Jwt-Token", "Authorization", "Origin, Accept", "X-Requested-With", "Access-Control-Request-Method", "Access-Control-Request-Headers"));
+        config.setAllowedMethods(Arrays.asList("DELETE", "GET", "PUT", "POST", "OPTIONS"));
+        source.registerCorsConfiguration("/", config);
+    return source;
+}
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuracao = new CorsConfiguration();
+//        configuracao.applyPermitDefaultValues();
+//        configuracao.setAllowedMethods(
+//                Arrays.asList(
+//                        HttpMethod.GET.name(),
+//                        HttpMethod.POST.name(),
+//                        HttpMethod.PUT.name(),
+//                        HttpMethod.PATCH.name(),
+//                        HttpMethod.DELETE.name(),
+//                        HttpMethod.OPTIONS.name(),
+//                        HttpMethod.HEAD.name(),
+//                        HttpMethod.TRACE.name()));
+//
+//        configuracao.setExposedHeaders(List.of(HttpHeaders.CONTENT_DISPOSITION));
+//
+//        UrlBasedCorsConfigurationSource origem = new UrlBasedCorsConfigurationSource();
+//        origem.registerCorsConfiguration("/**", configuracao);
+//
+//        return origem;
+//    }
 }
 //import com.serenity.api.serenity.configuration.security.jwt.GerenciadorTokenJwt;
 //import com.serenity.api.serenity.services.AutenticacaoService;

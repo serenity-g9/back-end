@@ -65,7 +65,7 @@ public class PagamentoController {
         return ok(new PagamentoResponse(pagamentoService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Atualiza um pagamentos", method = "PUT")
+    @Operation(summary = "Atualiza um pagamento", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
@@ -77,7 +77,7 @@ public class PagamentoController {
         return ok(new PagamentoResponse(pagamentoService.atualizar(id, mapper.toPagamento(pagamentoUpdateRequest, pagamentoService.buscarPorId(id)))));
     }
 
-    @Operation(summary = "Deleta um pagamentos", method = "DELETE")
+    @Operation(summary = "Deleta um pagamento", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),

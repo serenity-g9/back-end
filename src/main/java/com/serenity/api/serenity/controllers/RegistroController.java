@@ -65,7 +65,7 @@ public class RegistroController {
         return ok(new RegistroResponse(registroService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Deleta um registros", method = "DELETE")
+    @Operation(summary = "Deleta um registro", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),

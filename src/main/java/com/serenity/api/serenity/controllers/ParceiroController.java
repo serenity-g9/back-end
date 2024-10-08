@@ -67,7 +67,7 @@ public class ParceiroController {
         return ok(new ParceiroResponse(parceiroService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Atualiza um pareceiros", method = "PUT")
+    @Operation(summary = "Atualiza um pareceiro", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
@@ -79,7 +79,7 @@ public class ParceiroController {
         return ok(new ParceiroResponse(parceiroService.atualizar(id, mapper.toParceiro(parceiroUpdateRequest, parceiroService.buscarPorId(id)))));
     }
 
-    @Operation(summary = "Deleta um pareceiros", method = "DELETE")
+    @Operation(summary = "Deleta um pareceiro", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),

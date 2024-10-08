@@ -66,7 +66,7 @@ public class EventoController {
         return ok(new EventoResponse(eventoService.buscarPorId(id)));
     }
 
-    @Operation(summary = "Atualiza um eventos", method = "PUT")
+    @Operation(summary = "Atualiza um evento", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
@@ -78,7 +78,7 @@ public class EventoController {
         return ok(new EventoResponse(eventoService.atualizar(id, mapper.toEvento(eventoUpdateRequest, eventoService.buscarPorId(id)))));
     }
 
-    @Operation(summary = "Deleta um eventos", method = "DELETE")
+    @Operation(summary = "Deleta um evento", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),
