@@ -5,17 +5,23 @@ import com.serenity.api.serenity.models.Agendamento;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public record AgendamentoResponse(
-        Integer id,
+        UUID id,
         LocalDateTime horarioEntrada,
         List<RegistroResponse> registros
 ) {
-    public AgendamentoResponse(Agendamento agendamento, List<RegistroResponse> registroResponses) {
+    public AgendamentoResponse(Agendamento agendamento) {
         this(
                 agendamento.getId(),
                 agendamento.getHorarioEntrada(),
-                registroResponses
+                agendamento.getRegistros() == null
+                        ? List.of() :
+                        agendamento.getRegistros().stream()
+                        .map(RegistroResponse::new)
+                        .collect(Collectors.toList())
         );
     }
 }

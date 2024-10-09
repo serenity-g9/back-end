@@ -4,9 +4,10 @@ import com.serenity.api.serenity.models.Pagamento;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record PagamentoResponse(
-        Integer id,
+        UUID id,
         Double valor,
         LocalDateTime emissao,
         LocalDate vencimento,

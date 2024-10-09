@@ -3,8 +3,10 @@ package com.serenity.api.serenity.dtos.escala;
 import com.serenity.api.serenity.enums.FuncaoAlocacao;
 import com.serenity.api.serenity.models.Escala;
 
+import java.util.UUID;
+
 public record EscalaResponse(
-        Integer id,
+        UUID id,
         String funcaoEscala,
         Integer qtdColaborador,
         Integer qtdHora,

@@ -1,19 +1,29 @@
 package com.serenity.api.serenity.models;
 
 import com.serenity.api.serenity.enums.FuncaoInteresse;
+import com.serenity.api.serenity.models.embeddable.Contato;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
-public class Colaborador {
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Colaborador implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
@@ -26,24 +36,9 @@ public class Colaborador {
     private String linkSocial;
     private Boolean sociaisAbertas;
 
+    @Embedded
+    private Contato contato;
+
     @OneToOne
     private Usuario usuario;
-
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Faturamento> faturamentos = new ArrayList<>();
-//
-//    public Double getFaturamento() {
-//        Double total = 0.0;
-//
-//        for (Faturamento faturamento : faturamentos) {
-//            total += faturamento.getFaturamento();
-//        }
-//
-//        return total;
-//    }
-//
-//    public void addFaturamento(Faturamento faturamento) {
-//        faturamentos.add(faturamento);
-//    }
 }

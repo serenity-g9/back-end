@@ -4,6 +4,8 @@ import com.serenity.api.serenity.models.Colaborador;
 import com.serenity.api.serenity.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ColaboradorRepository extends JpaRepository<Colaborador, Integer> {
+import java.util.UUID;
+
+public interface ColaboradorRepository extends JpaRepository<Colaborador, UUID> {
     Boolean existsByUsuario(Usuario usuario);
 }

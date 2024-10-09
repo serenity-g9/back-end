@@ -5,28 +5,29 @@ import com.serenity.api.serenity.models.Colaborador;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 public record ColaboradorResponse(
-    Integer id,
-    String nome,
-    String email,
-    String celular,
-    LocalDate dataNascimento,
-    Set<FuncaoInteresse> funcoesInteresse,
-    String cidadeResidencia,
-    String estado,
-    String linkSocial,
-    Boolean sociaisAbertas,
-    String apresentacao,
-    String experiencia
+        UUID id,
+        String nome,
+        String email,
+        String celular,
+        LocalDate dataNascimento,
+        Set<FuncaoInteresse> funcoesInteresse,
+        String cidadeResidencia,
+        String estado,
+        String linkSocial,
+        Boolean sociaisAbertas,
+        String apresentacao,
+        String experiencia
 ) {
     public ColaboradorResponse(Colaborador colaborador) {
         this(
                 colaborador.getId(),
-                colaborador.getUsuario().getNome(),
+                colaborador.getContato().getNome(),
                 colaborador.getUsuario().getEmail(),
-                colaborador.getUsuario().getCelular(),
-                colaborador.getUsuario().getDataNascimento(),
+                colaborador.getContato().getCelular(),
+                colaborador.getContato().getDataNascimento(),
                 colaborador.getFuncoesInteresse(),
                 colaborador.getCidadeResidencia(),
                 colaborador.getEstado(),
