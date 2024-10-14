@@ -100,6 +100,8 @@ public class UsuarioController {
             @ApiResponse(responseCode = "500", description = "Erro interno ao logar"),
             @ApiResponse(responseCode = "401", description = "Usuario não existe")
     })
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/login")
     public ResponseEntity<AccessTokenResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         return ok(usuarioService.autenticar(loginRequest));

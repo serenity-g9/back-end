@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.models;
 
+import com.serenity.api.serenity.models.embeddable.Endereco;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,4 +29,6 @@ public class Evento implements Serializable {
     private LocalDate inicio;
     private LocalDate fim;
 
+    @Embedded
+    private Endereco endereco;
 }

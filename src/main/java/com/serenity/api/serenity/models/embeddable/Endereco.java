@@ -9,9 +9,10 @@ import java.time.LocalDate;
 @Embeddable
 @Getter
 @Setter
-public class Contato {
-    private String nome;
-    private String celular;
-    private String cpf;
-    private LocalDate dataNascimento;
+public class Endereco {
+    private String logradouro;
+    private String cep;
+    private String numero;
+    private String uf;
+    private String cidade;
 }
