@@ -1,12 +1,13 @@
 package com.serenity.api.serenity.models;
 
-import com.serenity.api.serenity.models.embeddable.Endereco;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -16,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Evento implements Serializable {
+public class Imagem implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -25,13 +26,5 @@ public class Evento implements Serializable {
     private UUID id;
 
     private String nome;
-    private Double orcamento;
-    private LocalDate inicio;
-    private LocalDate fim;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Imagem imagem;
-
-    @Embedded
-    private Endereco endereco;
+    private String url;
 }

@@ -6,6 +6,7 @@ import com.serenity.api.serenity.repositories.EventoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class EventoService {
 
     private final EventoRepository eventoRepository;
+    private final ImagemService imagemService;
 
     public Evento cadastrar(Evento evento) {
         return eventoRepository.save(evento);
@@ -30,7 +32,8 @@ public class EventoService {
     }
 
     public void deletar(UUID id) {
-        buscarPorId(id);
+        Evento evento = buscarPorId(id);
+        imagemService.deletarAnexo(evento.getImagem().getNome());
         eventoRepository.deleteById(id);
     }
 

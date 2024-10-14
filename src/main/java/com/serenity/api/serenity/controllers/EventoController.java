@@ -4,6 +4,8 @@ import com.serenity.api.serenity.dtos.evento.EventoRequest;
 import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.dtos.evento.EventoUpdateRequest;
 import com.serenity.api.serenity.mappers.EventoMapper;
+import com.serenity.api.serenity.models.Evento;
+import com.serenity.api.serenity.services.ImagemService;
 import com.serenity.api.serenity.services.EventoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,6 +31,7 @@ public class EventoController {
 
     private final EventoService eventoService;
     private final EventoMapper mapper;
+    private final ImagemService imagemService;
 
     @Operation(summary = "Lista os eventos cadastrados", method = "GET")
     @ApiResponses(value = {
@@ -87,6 +91,17 @@ public class EventoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         eventoService.deletar(id);
+        return noContent().build();
+    }
+
+    @PatchMapping("/{id}/upload")
+    public ResponseEntity<Void> anexarImagem(@PathVariable UUID id, @RequestParam MultipartFile img) {
+        Evento evento = eventoService.buscarPorId(id);
+
+        evento.setImagem(imagemService.cadastrar(img));
+
+        eventoService.atualizar(id, evento);
+
         return noContent().build();
     }
 }

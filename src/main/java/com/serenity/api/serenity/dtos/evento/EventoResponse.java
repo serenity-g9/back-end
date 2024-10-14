@@ -2,6 +2,7 @@ package com.serenity.api.serenity.dtos.evento;
 
 import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
 import com.serenity.api.serenity.models.Evento;
+import com.serenity.api.serenity.models.Imagem;
 import com.serenity.api.serenity.models.embeddable.Endereco;
 
 import java.time.LocalDate;
@@ -17,7 +18,8 @@ public record EventoResponse(
         String numero,
         String cep,
         String cidade,
-        String uf
+        String uf,
+        Imagem imagem
 ) {
     public EventoResponse(Evento evento) {
         this(
@@ -30,7 +32,8 @@ public record EventoResponse(
                 evento.getEndereco().getNumero(),
                 evento.getEndereco().getCep(),
                 evento.getEndereco().getCidade(),
-                evento.getEndereco().getUf()
+                evento.getEndereco().getUf(),
+                evento.getImagem()
         );
     }
 }
