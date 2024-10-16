@@ -30,7 +30,7 @@ public class Escala  implements Serializable {
     private Boolean asoObrigatorio;
 
     @ManyToOne
-    private Evento evento;
+    private Demanda demanda;
 
 }
 

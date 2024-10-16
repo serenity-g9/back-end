@@ -30,7 +30,7 @@ public class Pagamento implements Faturavel, Serializable {
     private LocalDate vencimento;
     private Boolean efetuado;
 
-    @ManyToOne
+    @OneToOne
     private Agendamento agendamento;
 
     @Override

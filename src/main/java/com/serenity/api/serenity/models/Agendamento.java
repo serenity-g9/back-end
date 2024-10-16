@@ -25,9 +25,6 @@ public class Agendamento implements Serializable {
     private UUID id;
 
     @ManyToOne
-    private Colaborador colaborador;
-
-    @ManyToOne
     private Escala escala;
 
     @OneToMany

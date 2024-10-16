@@ -1,11 +1,9 @@
 package com.serenity.api.serenity.models;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serial;
-import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -15,16 +13,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Usuario implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class AnexoASO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private String email;
-    private String senha;
-    private Integer tipoUsuario;
+    private LocalDate dataEmitido;
+    private String urlAnexo;
 
+    @OneToOne
+    private Usuario usuario;
 }
