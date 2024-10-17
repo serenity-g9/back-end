@@ -36,7 +36,7 @@ public class Agendamento implements Serializable {
                 .map(registro -> registro.getId().toString())
                 .reduce((a, b) -> a + ";" + b).orElse("");
 
-        return String.format("%s,%s,%s,%s",
+        return String.format("%s;%s;%s;%s\n",
                 id,
                 escala.getId(),
                 registrosStr,

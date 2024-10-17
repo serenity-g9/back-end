@@ -3,11 +3,15 @@ package com.serenity.api.serenity.services;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EventoRepository;
+import com.serenity.api.serenity.utils.CSVUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,5 +46,11 @@ public class EventoService {
         evento.setId(id);
 
         return eventoRepository.save(evento);
+    }
+
+    public void exportar(LocalDate inicio, LocalDate fim, Integer limite) {
+        Pageable pageable = PageRequest.of(0, limite);
+        List<Evento> eventosToExport = eventoRepository.findByInicioAfterAndFimBefore(inicio, fim, pageable);
+        CSVUtil.exportar(eventosToExport);
     }
 }

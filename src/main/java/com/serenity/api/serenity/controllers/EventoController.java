@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -102,6 +103,12 @@ public class EventoController {
 
         eventoService.atualizar(id, evento);
 
+        return noContent().build();
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<Void> exportar(@RequestParam LocalDate inicio, @RequestParam LocalDate fim, @RequestParam Integer quantidade) {
+        eventoService.exportar(inicio, fim, quantidade);
         return noContent().build();
     }
 }

@@ -30,7 +30,7 @@ public class Imagem implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s",
+        return String.format("%s;%s;%s\n",
                 id,
                 nome,
                 url

@@ -33,7 +33,7 @@ public class Escala  implements Serializable {
     private Demanda demanda;
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s,%s",
+        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
                 id,
                 funcaoEscala,
                 qtdColaborador,

@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +15,6 @@ import java.util.UUID;
 @Transactional
 @RequiredArgsConstructor
 public class EscalaService {
-
 
     private final EscalaRepository escalaRepository;
     private final EventoService eventoService;

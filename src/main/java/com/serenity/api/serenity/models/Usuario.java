@@ -29,7 +29,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s",
+        return String.format("%s;%s;%s;%s\n",
                 id,
                 email,
                 senha,

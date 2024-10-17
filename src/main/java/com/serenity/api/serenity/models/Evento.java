@@ -36,7 +36,7 @@ public class Evento implements Serializable {
     private Endereco endereco;
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s",
+        return String.format("%s;%s;%s;%s;%s;%s\n",
                 id,
                 nome,
                 orcamento,

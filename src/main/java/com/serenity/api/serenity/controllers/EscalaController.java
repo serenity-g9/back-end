@@ -11,9 +11,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -89,4 +91,9 @@ public class EscalaController {
         escalaService.deletar(id);
         return noContent().build();
     }
+
+ ///   @GetMapping("/exportar")
+ //   public ResponseEntity<Void> exportarCSV(@RequestParam LocalDate inicio, @RequestParam LocalDate fim){
+       // return ok();
+  //  }
 }
