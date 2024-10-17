@@ -2,7 +2,6 @@ package com.serenity.api.serenity.mappers;
 
 import com.serenity.api.serenity.dtos.demanda.DemandaRequest;
 import com.serenity.api.serenity.dtos.demanda.DemandaUpdateRequest;
-import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
 import com.serenity.api.serenity.models.Demanda;
 import com.serenity.api.serenity.services.DemandaService;
 import org.mapstruct.Mapping;

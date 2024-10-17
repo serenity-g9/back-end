@@ -27,4 +27,14 @@ public class Usuario implements Serializable {
     private String senha;
     private Integer tipoUsuario;
 
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s,%s",
+                id,  // ID do Usuário
+                email,  // Email do Usuário
+                senha,  // Senha do Usuário
+                tipoUsuario  // Tipo de Usuário
+        );
+    }
+
 }

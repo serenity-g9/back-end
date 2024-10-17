@@ -12,7 +12,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,4 +30,17 @@ public class Agendamento implements Serializable {
     private List<Registro> registros;
 
     private LocalDateTime horarioEntrada;
+
+    public String toString() {
+        String registrosStr = registros.stream()
+                .map(registro -> registro.getId().toString())
+                .reduce((a, b) -> a + ";" + b).orElse("");
+
+        return String.format("%s,%s,%s,%s",
+                id,  // ID do Agendamento
+                escala.getId(),  // ID da Escala
+                registrosStr,  // IDs dos Registros
+                horarioEntrada  // Horário de Entrada
+        );
+    }
 }

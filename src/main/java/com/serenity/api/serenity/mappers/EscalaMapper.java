@@ -18,10 +18,10 @@ public abstract class EscalaMapper {
     @Autowired
     private EventoService eventoService;
 
-    @Mapping(target = "evento", source = "idEvento")
+    @Mapping(target = "demanda", source = "idEvento")
     public abstract Escala toEscala(EscalaRequest escalaRequest);
 
-    @Mapping(target = "evento", ignore = true)
+    @Mapping(target = "demanda", ignore = true)
     public abstract Escala toEscala(EscalaUpdateRequest escalaRequest, @MappingTarget Escala escala);
 
     protected Evento mapIdEventoToEvento(UUID idEscala) {

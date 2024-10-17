@@ -21,7 +21,7 @@ public abstract class AnexoASOMapper {
     public abstract AnexoASO toAnexoASO(AnexoASORequest AnexoRequest);
 
 
-    @Mapping(target = "agendamento", ignore = true)
+    @Mapping(target = "AnexoASO", ignore = true)
     public abstract AnexoASO UpdateToAnexoASO(AnexoASOUpdateRequest anexoASOUpdateRequest, @MappingTarget AnexoASO anexoASO);
 
     protected AnexoASO mapIdAnexoASOToAnexoASO(UUID idAnexoASO) {

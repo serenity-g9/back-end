@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.serenity.api.serenity.utils.ImportacaoUtil.exportarDados;
 import static org.springframework.http.ResponseEntity.*;
 
 @RestController
@@ -44,7 +45,9 @@ public class UsuarioController {
         List<UsuarioResponse> agendamentoResponses = usuarioService.listar().stream()
                 .map(UsuarioResponse::new)
                 .collect(Collectors.toList());
-
+        for (UsuarioResponse agendamentoResponse : agendamentoResponses) {
+            exportarDados(agendamentoResponse);
+        }
         return ok(agendamentoResponses);
     }
 

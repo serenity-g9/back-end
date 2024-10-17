@@ -40,7 +40,6 @@ public class AgendamentoController {
         List<AgendamentoResponse> agendamentoResponses = agendamentoService.listar().stream()
                 .map(AgendamentoResponse::new)
                 .collect(Collectors.toList());
-
         return ok(agendamentoResponses);
     }
 

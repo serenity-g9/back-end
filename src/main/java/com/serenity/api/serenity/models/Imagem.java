@@ -27,4 +27,14 @@ public class Imagem implements Serializable {
 
     private String nome;
     private String url;
+
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s",
+                id,  // ID da Imagem
+                nome,  // Nome da Imagem
+                url  // URL da Imagem
+        );
+    }
+
 }

@@ -28,4 +28,19 @@ public class Demanda {
     @ManyToOne
     private Evento evento;
 
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s,%s,%s,%s,%s",
+                id,  // ID
+                nome,  // Nome da Demanda
+                orcamento,  // Orçamento
+                inicio,  // Data de início
+                fim,  // Data de fim
+                custoTotal,  // Custo total
+                tipoContrato,  // Tipo de contrato
+                evento != null ? evento.getId() : ""  // ID do Evento, se existir
+        );
+    }
+
+
 }

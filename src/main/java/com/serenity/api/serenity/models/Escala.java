@@ -31,6 +31,20 @@ public class Escala  implements Serializable {
 
     @ManyToOne
     private Demanda demanda;
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s,%s,%s,%s,%s",
+                id,  // ID da Escala
+                funcaoEscala,  // Função da Escala
+                qtdColaborador,  // Quantidade de Colaboradores
+                qtdHora,  // Quantidade de Horas
+                valor,  // Valor
+                comissionado,  // Comissionado (true/false)
+                asoObrigatorio,  // ASO Obrigatório (true/false)
+                demanda != null ? demanda.getId() : ""  // ID da Demanda, se existir
+        );
+    }
+
 
 }
 

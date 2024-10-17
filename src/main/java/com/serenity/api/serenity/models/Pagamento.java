@@ -38,4 +38,17 @@ public class Pagamento implements Faturavel, Serializable {
         return efetuado ? valor : 0.0;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s,%s,%s,%s",
+                id,  // ID do Pagamento
+                valor,  // Valor do Pagamento
+                emissao,  // Data de Emissão
+                vencimento,  // Data de Vencimento
+                efetuado,  // Status (Efetuado - true/false)
+                agendamento != null ? agendamento.getId() : ""  // ID do Agendamento, se existir
+        );
+    }
+
+
 }

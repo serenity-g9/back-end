@@ -34,4 +34,17 @@ public class Evento implements Serializable {
 
     @Embedded
     private Endereco endereco;
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s,%s,%s,%s",
+                id,  // ID do Evento
+                nome,  // Nome do Evento
+                orcamento,  // Orçamento do Evento
+                inicio,  // Data de início
+                fim,  // Data de fim
+                imagem != null ? imagem.getUrl() : "",  // URL da Imagem, se existir
+                endereco != null ? endereco.toString() : ""  // String do Endereço, se existir
+        );
+    }
+
 }
