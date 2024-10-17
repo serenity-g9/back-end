@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record AnexoASORequest(
         @PastOrPresent
@@ -13,6 +14,6 @@ public record AnexoASORequest(
         @NotBlank
         String urlAnexo,
         @NotNull
-        Usuario usuario
+        UUID idUsuario
 ) {
 }

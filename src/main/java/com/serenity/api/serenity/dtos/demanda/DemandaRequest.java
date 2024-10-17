@@ -1,12 +1,11 @@
 package com.serenity.api.serenity.dtos.demanda;
 
-import com.serenity.api.serenity.models.Evento;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record DemandaRequest (
-
         @NotBlank
         String nome,
         @NotNull
@@ -19,6 +18,7 @@ public record DemandaRequest (
         Double custoTotal,
         @NotNull
         Integer tipoContrato,
-        Evento evento
-        ){
+        @NotNull
+        UUID idEvento
+        ) {
 }

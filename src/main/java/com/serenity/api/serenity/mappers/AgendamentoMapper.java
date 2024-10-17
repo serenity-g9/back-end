@@ -18,7 +18,7 @@ public abstract class AgendamentoMapper {
     @Autowired
     private EscalaService escalaService;
 
-       @Mapping(target = "escala", source = "idEscala")
+    @Mapping(target = "escala", source = "idEscala")
     public abstract Agendamento toAgendamento(AgendamentoRequest agendamentoRequest);
 
     @Mapping(target = "escala", ignore = true)
