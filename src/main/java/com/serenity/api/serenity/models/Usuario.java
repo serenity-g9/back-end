@@ -30,10 +30,10 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return String.format("%s,%s,%s,%s",
-                id,  // ID do Usuário
-                email,  // Email do Usuário
-                senha,  // Senha do Usuário
-                tipoUsuario  // Tipo de Usuário
+                id,
+                email,
+                senha,
+                tipoUsuario
         );
     }
 

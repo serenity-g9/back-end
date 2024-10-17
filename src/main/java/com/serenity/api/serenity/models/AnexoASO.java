@@ -28,10 +28,10 @@ public class AnexoASO {
     @Override
     public String toString() {
         return String.format("%s,%s,%s,%s",
-                id,  // ID do Anexo
-                dataEmitido,  // Data de emissão
-                urlAnexo,  // URL do Anexo
-                usuario.getId()  // ID do usuário relacionado
+                id,
+                dataEmitido,
+                urlAnexo,
+                usuario.getId()
         );
     }
 

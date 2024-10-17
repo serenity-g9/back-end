@@ -43,14 +43,14 @@ public class Comissao  implements Faturavel, Serializable {
     @Override
     public String toString() {
         return String.format("%s,%s,%s,%s,%s,%s,%s",
-                id,  // ID
-                item,  // Item
-                valor,  // Valor
-                quantidade,  // Quantidade
-                emissao,  // Data de emissão
-                vencimento,  // Data de vencimento
-                efetuado,  // Status (efetuado ou não)
-                agendamento != null ? agendamento.getId() : ""  // ID do Agendamento, se existir
+                id,
+                item,
+                valor,
+                quantidade,
+                emissao,
+                vencimento,
+                efetuado,
+                agendamento != null ? agendamento.getId() : ""
         );
     }
 

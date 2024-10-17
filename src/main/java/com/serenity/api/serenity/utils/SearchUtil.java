@@ -1,6 +1,6 @@
 package com.serenity.api.serenity.utils;
 
-public class BinaryUtils {
+public class SearchUtil {
         public static int binarySearch(int[] vetor,int indiceBuscado){
             int contador = 0;
             int inferior = 0,

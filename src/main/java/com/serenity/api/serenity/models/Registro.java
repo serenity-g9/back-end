@@ -34,10 +34,10 @@ public class Registro implements Serializable {
     @Override
     public String toString() {
         return String.format("%s,%s,%s,%s",
-                id,  // ID do Registro
-                agendamento != null ? agendamento.getId() : "",  // ID do Agendamento, se existir
-                tipoRegistro != null ? tipoRegistro.name() : "",  // Tipo de Registro, se existir
-                dataHorario  // Data e Hora do Registro
+                id,
+                agendamento != null ? agendamento.getId() : "",
+                tipoRegistro != null ? tipoRegistro.name() : "",
+                dataHorario
         );
     }
 

@@ -37,10 +37,10 @@ public class Agendamento implements Serializable {
                 .reduce((a, b) -> a + ";" + b).orElse("");
 
         return String.format("%s,%s,%s,%s",
-                id,  // ID do Agendamento
-                escala.getId(),  // ID da Escala
-                registrosStr,  // IDs dos Registros
-                horarioEntrada  // Horário de Entrada
+                id,
+                escala.getId(),
+                registrosStr,
+                horarioEntrada
         );
     }
 }

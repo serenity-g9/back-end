@@ -31,9 +31,9 @@ public class Imagem implements Serializable {
     @Override
     public String toString() {
         return String.format("%s,%s,%s",
-                id,  // ID da Imagem
-                nome,  // Nome da Imagem
-                url  // URL da Imagem
+                id,
+                nome,
+                url
         );
     }
 
