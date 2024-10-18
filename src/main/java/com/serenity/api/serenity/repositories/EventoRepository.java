@@ -9,5 +9,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EventoRepository extends JpaRepository<Evento, UUID> {
-    List<Evento> findByInicioAfterAndFimBefore(LocalDate inicio, LocalDate fim, Pageable pageable);
+    List<Evento> findByInicioBetween(LocalDate inicio, LocalDate fim, Pageable pageable);
 }

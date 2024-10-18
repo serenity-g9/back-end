@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.evento.EventoRequest;
 import com.serenity.api.serenity.dtos.evento.EventoUpdateRequest;
 import com.serenity.api.serenity.models.Evento;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper

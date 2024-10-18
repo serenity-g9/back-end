@@ -2,49 +2,75 @@ package com.serenity.api.serenity.utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.RecordComponent;
 import java.util.List;
-import java.util.UUID;
 
 public class CSVUtil {
 
     public static void exportar(List<?> objetos) {
         try (FileWriter writer = new FileWriter( System.currentTimeMillis() + ".csv")) {
-
-            for (Object objeto : objetos) {
-                writer.append(getCabecalho(objeto));
-                writer.append(objeto.toString());
-            }
-
-            System.out.println("Dados exportados com sucesso!");
+            writer.append(paraCsv(objetos));
         } catch (IOException e) {
-            System.out.println("Erro ao exportar dados: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
-    public static String getCabecalho(Object object) {
-        Class<?> classe = object.getClass();
-        Method[] metodos = classe.getDeclaredMethods();
+    public static String paraCsv(List<?> objetos) {
+
         StringBuilder sb = new StringBuilder();
+        Object primeiroObjeto = objetos.get(0);
 
-        StringBuilder cabecalho = new StringBuilder();
-        for (int i = 0; i < metodos.length; i++) {
-            Method method = metodos[i];
+        RecordComponent[] atributos = primeiroObjeto.getClass().getRecordComponents();
 
-            if (method.getName().startsWith("get") && method.getParameterCount() == 0) {
-                String atributo = method.getName().substring(3);
-                atributo = Character.toLowerCase(atributo.charAt(0)) + atributo.substring(1);
+        for (int i = 0; i < atributos.length; i++) {
+            sb.append(toSnakeCase(atributos[i].getName()));
+            if (i < atributos.length - 1) sb.append(";");
+        }
+        sb.append("\n");
 
-                for (char c : atributo.toCharArray()) {
-                    if (Character.isUpperCase(c)) sb.append('_').append(Character.toLowerCase(c));
-                    else sb.append(c);
+        for (Object objeto : objetos) {
+            for (int i = 0; i < atributos.length; i++) {
+                Object value;
+
+                try {
+                    Method getter = primeiroObjeto.getClass().getMethod(atributos[i].getName());
+                    value = getter.invoke(objeto);
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    throw new RuntimeException(e);
                 }
 
-                String delimitador = (i < metodos.length-1 ? "," : "\n");
-                cabecalho.append(atributo).append(delimitador);
+                if (value instanceof String) {
+                    sb.append(String.format("%s", value));
+                } else if (value instanceof Integer) {
+                    sb.append(String.format("%d", value));
+                } else if (value instanceof Double) {
+                    sb.append(String.format("%.2f", value));
+                } else {
+                    sb.append(String.format("%s", value));
+                }
+
+                if (i < atributos.length - 1) sb.append(";");
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    public static String toSnakeCase(String input) {
+        input = Character.toLowerCase(input.charAt(0)) + input.substring(1);
+
+        StringBuilder sb = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                sb.append('_').append(Character.toLowerCase(c));
+            } else {
+                sb.append(c);
             }
         }
 
-        return cabecalho.toString();
+        return sb.toString();
     }
 }

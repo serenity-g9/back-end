@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EventoRepository;
@@ -9,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,7 +50,12 @@ public class EventoService {
 
     public void exportar(LocalDate inicio, LocalDate fim, Integer limite) {
         Pageable pageable = PageRequest.of(0, limite);
-        List<Evento> eventosToExport = eventoRepository.findByInicioAfterAndFimBefore(inicio, fim, pageable);
-        CSVUtil.exportar(eventosToExport);
+        List<Evento> paraExportar = eventoRepository.findByInicioBetween(inicio, fim, pageable);
+
+        List<EventoResponse> eventoResponses = paraExportar.stream()
+                .map(EventoResponse::new)
+                .toList();
+
+        CSVUtil.exportar(eventoResponses);
     }
 }

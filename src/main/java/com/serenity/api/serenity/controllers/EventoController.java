@@ -106,7 +106,7 @@ public class EventoController {
         return noContent().build();
     }
 
-    @GetMapping("/export")
+    @PostMapping("/export")
     public ResponseEntity<Void> exportar(@RequestParam LocalDate inicio, @RequestParam LocalDate fim, @RequestParam Integer quantidade) {
         eventoService.exportar(inicio, fim, quantidade);
         return noContent().build();
