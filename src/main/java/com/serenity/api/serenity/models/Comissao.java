@@ -2,20 +2,28 @@ package com.serenity.api.serenity.models;
 
 import com.serenity.api.serenity.interfaces.Faturavel;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
-public class Comissao implements Faturavel {
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Comissao  implements Faturavel, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     private String item;
     private Double valor;
@@ -31,4 +39,20 @@ public class Comissao implements Faturavel {
     public Double getFaturamento() {
         return efetuado ? quantidade * valor : 0.0;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
+                id,
+                item,
+                valor,
+                quantidade,
+                emissao,
+                vencimento,
+                efetuado,
+                agendamento != null ? agendamento.getId() : ""
+        );
+    }
+
+
 }
