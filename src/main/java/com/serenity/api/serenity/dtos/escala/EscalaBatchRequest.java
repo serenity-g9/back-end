@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record EscalaRequest(
+public record EscalaBatchRequest(
         @NotNull
         Integer funcaoEscala,
         @NotNull
@@ -12,8 +12,6 @@ public record EscalaRequest(
         @NotNull
         Integer qtdHora,
         @NotNull
-        Double valor,
-        @NotNull
-        UUID idDemanda
+        Double valor
 ) {
 }

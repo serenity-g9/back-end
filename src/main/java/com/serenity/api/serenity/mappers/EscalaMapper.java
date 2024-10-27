@@ -20,7 +20,7 @@ public abstract class EscalaMapper {
     @Autowired
     private DemandaService demandaService;
 
-    @Mapping(target = "demanda", source = "idEvento")
+    @Mapping(target = "demanda", source = "idDemanda")
     public abstract Escala toEscala(EscalaRequest escalaRequest);
 
     @Mapping(target = "demanda", ignore = true)

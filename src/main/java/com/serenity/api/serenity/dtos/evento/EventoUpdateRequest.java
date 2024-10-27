@@ -3,6 +3,7 @@ package com.serenity.api.serenity.dtos.evento;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record EventoUpdateRequest(
         @NotBlank
@@ -10,10 +11,10 @@ public record EventoUpdateRequest(
         String nome,
         @NotNull
         Double orcamento,
-        @FutureOrPresent
-        LocalDate inicio,
-        @Future
-        LocalDate fim
+//        @FutureOrPresent
+        LocalDateTime inicio,
+//        @Future
+        LocalDateTime fim
 ){
 
 }

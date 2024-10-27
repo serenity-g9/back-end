@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -19,7 +20,6 @@ public class Demanda {
     private UUID id;
 
     private String nome;
-    private Double orcamento;
     private LocalDate inicio;
     private LocalDate fim;
     private Double custoTotal;
@@ -28,19 +28,10 @@ public class Demanda {
     @ManyToOne
     private Evento evento;
 
-    @Override
-    public String toString() {
-        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
-                id,
-                nome,
-                orcamento,
-                inicio,
-                fim,
-                custoTotal,
-                tipoContrato,
-                evento != null ? evento.getId() : ""
-        );
-    }
+    @ManyToOne
+    private Usuario responsavel;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Escala> escalas;
 
 }

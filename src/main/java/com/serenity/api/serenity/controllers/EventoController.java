@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.evento.EventoDemandasResponse;
 import com.serenity.api.serenity.dtos.evento.EventoRequest;
 import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.dtos.evento.EventoUpdateRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -67,8 +69,8 @@ public class EventoController {
             @ApiResponse(responseCode = "404", description = "evento não existe")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<EventoResponse> buscarPorId(@PathVariable UUID id) {
-        return ok(new EventoResponse(eventoService.buscarPorId(id)));
+    public ResponseEntity<EventoDemandasResponse> buscarPorId(@PathVariable UUID id) {
+        return ok(new EventoDemandasResponse(eventoService.buscarPorId(id)));
     }
 
     @Operation(summary = "Atualiza um evento", method = "PUT")
@@ -107,7 +109,7 @@ public class EventoController {
     }
 
     @PostMapping("/export")
-    public ResponseEntity<Void> exportar(@RequestParam LocalDate inicio, @RequestParam LocalDate fim, @RequestParam Integer quantidade) {
+    public ResponseEntity<Void> exportar(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fim, @RequestParam Integer quantidade) {
         eventoService.exportar(inicio, fim, quantidade);
         return noContent().build();
     }

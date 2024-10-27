@@ -4,6 +4,8 @@ import com.serenity.api.serenity.models.embeddable.Endereco;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record EventoRequest(
         @NotBlank
@@ -13,14 +15,17 @@ public record EventoRequest(
         @NotNull
         Double orcamento,
 
-        @FutureOrPresent
-        LocalDate inicio,
+//        @FutureOrPresent
+        LocalDateTime inicio,
 
-        @Future
-        LocalDate fim,
+//        @Future
+        LocalDateTime fim,
 
         @NotNull
-        Endereco endereco
+        Endereco endereco,
+
+        UUID idFormulario,
+        UUID idResponsavel
 ){
 
 }

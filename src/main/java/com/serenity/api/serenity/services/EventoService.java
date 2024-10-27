@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +38,7 @@ public class EventoService {
 
     public void deletar(UUID id) {
         Evento evento = buscarPorId(id);
-        imagemService.deletarAnexo(evento.getImagem().getNome());
+        if (evento.getImagem() != null) imagemService.deletarAnexo(evento.getImagem().getNome());
         eventoRepository.deleteById(id);
     }
 
@@ -48,7 +49,7 @@ public class EventoService {
         return eventoRepository.save(evento);
     }
 
-    public void exportar(LocalDate inicio, LocalDate fim, Integer limite) {
+    public void exportar(LocalDateTime inicio, LocalDateTime fim, Integer limite) {
         Pageable pageable = PageRequest.of(0, limite);
         List<Evento> paraExportar = eventoRepository.findByInicioBetween(inicio, fim, pageable);
 

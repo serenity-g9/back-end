@@ -17,8 +17,11 @@ public class DemandaService {
     private final DemandaRepository demandaRepository;
     private final EventoService eventoService;
 
-    public Demanda cadastrar(Demanda Demanda) {
-        return demandaRepository.save(Demanda);
+    public Demanda cadastrar(Demanda demanda) {
+
+        demanda.getEscalas().forEach(escala -> escala.setDemanda(demanda));
+
+        return demandaRepository.save(demanda);
     }
 
     public List<Demanda> listar() {

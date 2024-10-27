@@ -35,6 +35,8 @@ public class UsuarioService {
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
         usuario.setSenha(senhaCriptografada);
 
+        System.out.println(usuario);
+
         return usuarioRepository.save(usuario);
     }
 

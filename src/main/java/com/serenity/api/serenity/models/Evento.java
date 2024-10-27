@@ -7,6 +7,8 @@ import lombok.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -26,25 +28,21 @@ public class Evento implements Serializable {
 
     private String nome;
     private Double orcamento;
-    private LocalDate inicio;
-    private LocalDate fim;
+    private LocalDateTime inicio;
+    private LocalDateTime fim;
+
+    @ManyToOne
+    private Usuario responsavel;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Imagem imagem;
 
+    @ManyToOne
+    private Formulario formulario;
+
     @Embedded
     private Endereco endereco;
-    @Override
-    public String toString() {
-        return String.format("%s;%s;%s;%s;%s;%s\n",
-                id,
-                nome,
-                orcamento,
-                inicio,
-                fim,
-                imagem != null ? imagem.getUrl() : "",
-                endereco != null ? endereco.toString() : ""
-        );
-    }
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evento")
+    private List<Demanda> demandas;
 }

@@ -53,7 +53,7 @@ public class DemandaController {
     })
     @PostMapping
     public ResponseEntity<DemandaResponse> cadastrar(@RequestBody @Valid DemandaRequest demandaRequest) {
-        return ResponseEntity.created(null).body(new DemandaResponse(mapper.toDemanda(demandaRequest)));
+        return ResponseEntity.created(null).body(new DemandaResponse(demandaService.cadastrar(mapper.toDemanda(demandaRequest))));
     }
 
     @Operation(summary = "Procura uma demanda especifica", method = "GET")

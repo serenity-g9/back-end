@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.models;
 
 
+import com.serenity.api.serenity.models.embeddable.Contato;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,9 @@ public class Usuario implements Serializable {
     private String email;
     private String senha;
     private Integer tipoUsuario;
+
+    @Embedded
+    Contato contato;
 
     @Override
     public String toString() {

@@ -115,7 +115,7 @@ public class SecurityConfiguracao {
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://localhost:5173");
         config.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type", "Accept", "Jwt-Token", "Authorization", "Origin, Accept", "X-Requested-With", "Access-Control-Request-Method", "Access-Control-Request-Headers"));
-        config.setAllowedMethods(Arrays.asList("DELETE", "GET", "PUT", "POST", "OPTIONS"));
+        config.setAllowedMethods(Arrays.asList("DELETE", "GET", "PUT", "POST", "OPTIONS", "PATCH"));
         source.registerCorsConfiguration("/**", config);
 
         return source;
