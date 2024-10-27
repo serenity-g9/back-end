@@ -9,9 +9,11 @@ import java.util.List;
 
 public class CSVUtil {
 
-    public static void exportar(List<?> objetos) {
+    public static String exportar(List<?> objetos) {
         try (FileWriter writer = new FileWriter( System.currentTimeMillis() + ".csv")) {
-            writer.append(paraCsv(objetos));
+            String csv = paraCsv(objetos);
+            writer.append(csv);
+            return csv;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

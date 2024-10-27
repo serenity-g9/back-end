@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -109,8 +111,13 @@ public class EventoController {
     }
 
     @PostMapping("/export")
-    public ResponseEntity<Void> exportar(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fim, @RequestParam Integer quantidade) {
-        eventoService.exportar(inicio, fim, quantidade);
-        return noContent().build();
+    public ResponseEntity<String> exportar(@RequestParam LocalDateTime inicio, @RequestParam LocalDateTime fim, @RequestParam Integer quantidade) {
+        String csv = eventoService.exportar(inicio, fim, quantidade);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        headers.setContentDispositionFormData("attachment", "export.csv");
+
+        return ok().headers(headers).body(csv);
     }
 }

@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.dtos.evento.EventoExportResponse;
 import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Evento;
@@ -49,14 +50,14 @@ public class EventoService {
         return eventoRepository.save(evento);
     }
 
-    public void exportar(LocalDateTime inicio, LocalDateTime fim, Integer limite) {
+    public String exportar(LocalDateTime inicio, LocalDateTime fim, Integer limite) {
         Pageable pageable = PageRequest.of(0, limite);
         List<Evento> paraExportar = eventoRepository.findByInicioBetween(inicio, fim, pageable);
 
-        List<EventoResponse> eventoResponses = paraExportar.stream()
-                .map(EventoResponse::new)
+        List<EventoExportResponse> eventoResponses = paraExportar.stream()
+                .map(EventoExportResponse::new)
                 .toList();
 
-        CSVUtil.exportar(eventoResponses);
+        return CSVUtil.exportar(eventoResponses);
     }
 }
