@@ -1,25 +1,26 @@
 package com.serenity.api.serenity.utils;
 
-public class SearchUtil {
-        public static int binarySearch(int[] vetor,int indiceBuscado){
-            int contador = 0;
-            int inferior = 0,
-                    superior = vetor.length-1,
-                    meio;
+import com.serenity.api.serenity.models.Evento;
 
-            for (int i = 0; i < vetor.length; i++) {
-                contador++;
-                meio = (inferior+superior)/2;
-                if (indiceBuscado == vetor[meio]){
-                    System.out.println(contador);
-                    return meio;
-                }else if(indiceBuscado > vetor[meio]){
-                    inferior = meio+1;
-                }else{
-                    superior = meio-1;
-                }
+import java.util.Objects;
+
+public class SearchUtil {
+    public static int binarySearch(Evento[] vetor, String indiceBuscado) {
+        int inferior = 0;
+        int superior = vetor.length - 1;
+        int meio;
+
+        while (inferior <= superior) {  // Use while instead of for loop
+            meio = (inferior + superior) / 2;
+
+            if (Objects.equals(indiceBuscado, vetor[meio].getNome())) {
+                return meio;  // Found the target, return index
+            } else if (indiceBuscado.compareTo(vetor[meio].getNome()) > 0) {
+                inferior = meio + 1;  // Search in the right half
+            } else {
+                superior = meio - 1;  // Search in the left half
             }
-            System.out.println(contador);
-            return -1;
         }
+        return -1;  // Target not found
+    }
 }

@@ -57,6 +57,11 @@ public class UsuarioController {
         return created(null).body(new UsuarioResponse(usuarioService.cadastrar(mapper.toUsuario(usuarioRequest))));
     }
 
+    @PostMapping("/cadastro")
+    public ResponseEntity<UsuarioResponse> cadastroPublico(@RequestBody @Valid UsuarioRequest usuarioRequest) {
+        return created(null).body(new UsuarioResponse(usuarioService.cadastrar(mapper.toUsuario(usuarioRequest))));
+    }
+
     @Operation(summary = "Procura um usuario especifico", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Usuario encontrado com sucesso"),

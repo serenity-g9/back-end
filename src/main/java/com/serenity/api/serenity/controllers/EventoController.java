@@ -46,11 +46,22 @@ public class EventoController {
     })
     @GetMapping
     public ResponseEntity<List<EventoResponse>> buscar() {
-        List<EventoResponse> agendamentoResponses = eventoService.listar().stream()
+        List<EventoResponse> eventoResponses = eventoService.listar()
+                .stream()
                 .map(EventoResponse::new)
                 .collect(Collectors.toList());
 
-        return ok(agendamentoResponses);
+        return ok(eventoResponses);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<EventoResponse>> buscarPorNome(@RequestParam String nome) {
+        List<EventoResponse> eventoResponses = eventoService.buscarPorNome(nome)
+                .stream()
+                .map(EventoResponse::new)
+                .toList();
+
+        return ok(eventoResponses);
     }
 
     @Operation(summary = "Realiza criação de eventos", method = "POST")

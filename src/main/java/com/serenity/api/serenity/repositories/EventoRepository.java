@@ -11,4 +11,5 @@ import java.util.UUID;
 
 public interface EventoRepository extends JpaRepository<Evento, UUID> {
     List<Evento> findByInicioBetween(LocalDateTime inicio, LocalDateTime fim, Pageable pageable);
+    List<Evento> findAllByOrderByNomeAsc();
 }

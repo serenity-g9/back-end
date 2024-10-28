@@ -6,6 +6,7 @@ import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EventoRepository;
 import com.serenity.api.serenity.utils.CSVUtil;
+import com.serenity.api.serenity.utils.SearchUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +33,17 @@ public class EventoService {
 
     public List<Evento> listar() {
         return eventoRepository.findAll();
+    }
+
+    public List<Evento> buscarPorNome(String nome) {
+        if (nome.isBlank()) return eventoRepository.findAllByOrderByNomeAsc();
+
+        Evento[] eventos = eventoRepository.findAllByOrderByNomeAsc().toArray(Evento[]::new);
+
+        int indice = SearchUtil.binarySearch(eventos, nome);
+        if (indice < 0) throw new NaoEncontradoException("evento");
+
+        return List.of(eventos[indice]);
     }
 
     public Evento buscarPorId(UUID id) {

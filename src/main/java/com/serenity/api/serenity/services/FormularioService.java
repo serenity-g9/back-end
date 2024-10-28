@@ -94,7 +94,9 @@ public class FormularioService {
                 ));
             }
 
-            return SortUtil.selectionSort(respostaUsuarios.toArray(new RespostaUsuario[0]));
+            RespostaUsuario[] v = respostaUsuarios.toArray(new RespostaUsuario[0]);
+            SortUtil.quickSort(v, 0, v.length-1);
+            return Arrays.stream(v).toList();
         } catch (GeneralSecurityException | IOException e) {
             throw new RuntimeException(e);
         }
