@@ -1,89 +1,88 @@
 package com.serenity.api.serenity.services;
 
-import com.serenity.api.serenity.dtos.usuario.LoginResponse;
-import com.serenity.api.serenity.dtos.usuario.UsuarioRequest;
-import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
-import com.serenity.api.serenity.dtos.usuario.UsuarioUpdateRequest;
-import com.serenity.api.serenity.enums.TipoLogin;
+import com.serenity.api.serenity.configuration.security.jwt.GerenciadorTokenJwt;
+import com.serenity.api.serenity.dtos.autenticacao.AccessTokenResponse;
+import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
+import com.serenity.api.serenity.dtos.usuario.SenhaPatchRequest;
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Usuario;
-import com.serenity.api.serenity.repositories.ColaboradorRepository;
-import com.serenity.api.serenity.repositories.ParceiroRepository;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private ParceiroRepository parceiroRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final GerenciadorTokenJwt gerenciadorTokenJwt;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private ColaboradorRepository colaboradorRepository;
+    public Usuario cadastrar(Usuario usuario) {
 
-    public UsuarioResponse cadastrar(UsuarioRequest usuarioRequest) {
-        var usuario = new Usuario();
-        BeanUtils.copyProperties(usuarioRequest,usuario);
-        return new UsuarioResponse(usuarioRepository.save(usuario));
+        String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
+        usuario.setSenha(senhaCriptografada);
+
+        System.out.println(usuario);
+
+        return usuarioRepository.save(usuario);
     }
 
     public List<Usuario> listar() {
         return usuarioRepository.findAll();
     }
 
-    public Usuario buscarPorId(Integer id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-
-        if (usuario.isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-
-        return usuario.get();
+    public Usuario buscarPorId(UUID id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("usuario"));
     }
 
-    public void deletar(Integer id) {
-        if (usuarioRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
+    public void deletar(UUID id) {
+        buscarPorId(id);
 
         usuarioRepository.deleteById(id);
     }
 
-    public UsuarioResponse atualizar(Integer id, UsuarioUpdateRequest usuarioUpdateRequest) {
-        if (usuarioRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-        var usuario = new Usuario();
-        BeanUtils.copyProperties(usuarioUpdateRequest, usuario);
+    public Usuario atualizar(UUID id, Usuario usuario) {
+        buscarPorId(id);
         usuario.setId(id);
-        return new UsuarioResponse(usuarioRepository.save(usuario));
+
+        return usuarioRepository.save(usuario);
     }
 
-    public LoginResponse login(String email, String senha) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmailAndSenha(email, senha);
+    public AccessTokenResponse autenticar(LoginRequest loginRequest) {
 
-        if (usuarioOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(401));
-        }
+        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.senha());
+        final Authentication authentication = this.authenticationManager.authenticate(credentials);
 
-        Set<TipoLogin> tipoLoginSet = new HashSet<>();
+        Usuario usuarioAutenticado = usuarioRepository.findByEmail(loginRequest.email())
+                .orElseThrow(() -> new NaoEncontradoException("usuario"));
 
-        if (parceiroRepository.existsByUsuario(usuarioOpt.get())) tipoLoginSet.add(TipoLogin.PARCEIRO);
-        if (colaboradorRepository.existsByUsuario(usuarioOpt.get())) tipoLoginSet.add(TipoLogin.COLABORADOR);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return new LoginResponse(usuarioOpt.get(), tipoLoginSet);
+        final String token = gerenciadorTokenJwt.generateToken(authentication);
+
+        return new AccessTokenResponse(usuarioAutenticado, token);
+    }
+
+    public void trocarSenha(UUID id, SenhaPatchRequest senhaPatchRequest) {
+        Usuario usuario = buscarPorId(id);
+        usuario.setId(id);
+
+        String senhaCriptografada = passwordEncoder.encode(senhaPatchRequest.senha());
+        usuario.setSenha(senhaCriptografada);
+
+        usuarioRepository.save(usuario);
     }
 }

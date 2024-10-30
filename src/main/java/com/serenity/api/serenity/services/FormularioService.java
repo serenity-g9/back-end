@@ -18,18 +18,24 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.serenity.api.serenity.dtos.formulario.Questao;
 import com.serenity.api.serenity.dtos.formulario.Resposta;
 import com.serenity.api.serenity.dtos.formulario.RespostaUsuario;
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
+import com.serenity.api.serenity.models.Formulario;
+import com.serenity.api.serenity.repositories.FormularioRepository;
 import com.serenity.api.serenity.utils.SortUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+@Service
+@RequiredArgsConstructor
 public class FormularioService {
+
+    private final FormularioRepository formularioRepository;
 
     private static final String SECRET_PATH = "secret";
     private static final String CREDENCIAIS_JSON = SECRET_PATH + "/credenciais.json";
@@ -88,7 +94,9 @@ public class FormularioService {
                 ));
             }
 
-            return SortUtil.selectionSort(respostaUsuarios.toArray(new RespostaUsuario[0]));
+            RespostaUsuario[] v = respostaUsuarios.toArray(new RespostaUsuario[0]);
+            SortUtil.quickSort(v, 0, v.length-1);
+            return Arrays.stream(v).toList();
         } catch (GeneralSecurityException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -123,5 +131,29 @@ public class FormularioService {
         HttpRequestFactory requestFactory = httpTransport.createRequestFactory(getCredential());
 
         return requestFactory.buildGetRequest(new GenericUrl(url)).execute().parseAsString();
+    }
+
+    public Formulario cadastrar(Formulario formulario) {
+        return formularioRepository.save(formulario);
+    }
+
+    public List<Formulario> listar() {
+        return formularioRepository.findAll();
+    }
+
+    public Formulario buscarPorId(UUID id) {
+        return formularioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("formulário"));
+    }
+
+    public void deletar(UUID id) {
+        buscarPorId(id);
+        formularioRepository.deleteById(id);
+    }
+
+    public Formulario atualizar(UUID id, Formulario formulario) {
+        buscarPorId(id);
+        formulario.setId(id);
+
+        return formularioRepository.save(formulario);
     }
 }

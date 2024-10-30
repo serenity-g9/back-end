@@ -1,23 +1,23 @@
 package com.serenity.api.serenity.dtos.usuario;
 
+import com.serenity.api.serenity.enums.TipoUsuario;
 import com.serenity.api.serenity.models.Usuario;
+import com.serenity.api.serenity.models.embeddable.Contato;
 
-import java.time.LocalDate;
+import java.util.UUID;
 
 public record UsuarioResponse(
-        Integer id,
-        String nome,
+        UUID id,
         String email,
-        String celular,
-        LocalDate dataNascimento
+        String tipoUsuario,
+        Contato contato
 ) {
     public UsuarioResponse(Usuario usuario) {
         this(
                 usuario.getId(),
-                usuario.getNome(),
                 usuario.getEmail(),
-                usuario.getCelular(),
-                usuario.getDataNascimento()
+                TipoUsuario.getValor(usuario.getTipoUsuario()),
+                usuario.getContato()
         );
     }
 }

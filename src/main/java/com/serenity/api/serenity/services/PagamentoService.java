@@ -1,84 +1,46 @@
 package com.serenity.api.serenity.services;
 
-import com.serenity.api.serenity.dtos.pagamento.PagamentoRequest;
-import com.serenity.api.serenity.dtos.pagamento.PagamentoResponse;
-import com.serenity.api.serenity.dtos.pagamento.PagamentoUpdateRequest;
-import com.serenity.api.serenity.models.Agendamento;
+import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Pagamento;
-import com.serenity.api.serenity.repositories.AgendamentoRepository;
 import com.serenity.api.serenity.repositories.PagamentoRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.rmi.server.UID;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PagamentoService {
-    @Autowired
-    private AgendamentoRepository agendamentoRepository;
 
-    @Autowired
-    private PagamentoRepository pagamentoRepository;
+    private final PagamentoRepository pagamentoRepository;
 
-    public List<PagamentoResponse> listar() {
-        return pagamentoRepository.findAll().stream()
-                .map(pagamento -> new PagamentoResponse(pagamento))
-                .collect(Collectors.toList());
+    public List<Pagamento> listar() {
+        return pagamentoRepository.findAll();
     }
 
-    public PagamentoResponse cadastrar(PagamentoRequest pagamentoRequest) {
-
-        Optional<Agendamento> agendamentoOpt = agendamentoRepository.findById(pagamentoRequest.idAgendamento());
-
-        if (agendamentoOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-
-        var pagamento = new Pagamento();
-        BeanUtils.copyProperties(pagamentoRequest, pagamento);
-
-        pagamento.setAgendamento(agendamentoOpt.get());
-        pagamento.setEmissao(LocalDateTime.now());
-        pagamento.setVencimento(LocalDate.from(pagamento.getEmissao().plusDays(pagamentoRequest.prazoDias())));
+    public Pagamento cadastrar(Pagamento pagamento) {
         pagamento.setEfetuado(false);
 
-        return new PagamentoResponse(pagamentoRepository.save(pagamento));
+        return pagamentoRepository.save(pagamento);
     }
 
-    public PagamentoResponse buscarPorId(int id) {
-        Optional<Pagamento> pagamentoOpt = pagamentoRepository.findById(id);
-
-        if (pagamentoOpt.isEmpty()) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-
-        return new PagamentoResponse(pagamentoOpt.get());
+    public Pagamento buscarPorId (UUID id) {
+        return pagamentoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("pagamento"));
     }
 
-    public PagamentoResponse atualizar(int id, PagamentoUpdateRequest pagamentoUpdateRequest) {
-        if (!pagamentoRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-        var pagamento = new Pagamento();
-        BeanUtils.copyProperties(pagamentoUpdateRequest, pagamento);
+    public Pagamento atualizar(UUID id, Pagamento pagamento) {
+        buscarPorId(id);
         pagamento.setId(id);
-        return new PagamentoResponse(pagamentoRepository.save(pagamento));
+
+        return pagamentoRepository.save(pagamento);
     }
 
-    public void deletar (int id) {
-        if (!agendamentoRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(404));
-        }
-
+    public void deletar(UUID id) {
+        buscarPorId(id);
         pagamentoRepository.deleteById(id);
     }
 }
