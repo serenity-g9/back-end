@@ -35,7 +35,7 @@ public record EventoResponse(
                 evento.getFim(),
                 evento.getEndereco(),
                 evento.getImagem(),
-                evento.getResponsavel() == null ? null : new FormularioResponse(evento.getFormulario()),
+                evento.getFormulario() == null ? null : new FormularioResponse(evento.getFormulario()),
                 evento.getResponsavel() == null ? null : new UsuarioResponse(evento.getResponsavel()),
                 evento.getInicio().isAfter(LocalDateTime.now())
                     ? "Não iniciado"

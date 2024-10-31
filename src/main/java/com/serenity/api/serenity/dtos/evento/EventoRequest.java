@@ -2,6 +2,7 @@ package com.serenity.api.serenity.dtos.evento;
 
 import com.serenity.api.serenity.models.embeddable.Endereco;
 import jakarta.validation.constraints.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,10 +16,10 @@ public record EventoRequest(
         @NotNull
         Double orcamento,
 
-//        @FutureOrPresent
+        @FutureOrPresent
         LocalDateTime inicio,
 
-//        @Future
+        @Future
         LocalDateTime fim,
 
         @NotNull

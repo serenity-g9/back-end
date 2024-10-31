@@ -71,8 +71,27 @@ public class EventoController {
             @ApiResponse(responseCode = "400", description = "Necessário verificar se body está correto")
     })
     @PostMapping
-    public ResponseEntity<EventoResponse> cadastrar(@RequestBody @Valid EventoRequest eventoRequest) {
-        return created(null).body(new EventoResponse(eventoService.cadastrar(mapper.toEvento(eventoRequest))));
+    public ResponseEntity<EventoResponse> cadastrar(@RequestPart("data") EventoRequest eventoRequest, @RequestPart(value = "file", required = false) MultipartFile file) {
+        Evento evento = eventoService.cadastrar(mapper.toEvento(eventoRequest));
+        if (file != null) evento.setImagem(imagemService.cadastrar(file));
+        eventoService.atualizar(evento.getId(), evento);
+
+        return created(null).body(new EventoResponse(evento));
+    }
+
+    @PatchMapping("/{id}/upload")
+    public ResponseEntity<Void> atualizarImagem(@PathVariable UUID id, @RequestParam MultipartFile img) {
+        Evento evento = eventoService.buscarPorId(id);
+
+        if (evento.getImagem() == null) {
+            evento.setImagem(imagemService.cadastrar(img));
+            eventoService.atualizar(id, evento);
+        } else {
+            imagemService.atualizar(img, evento.getImagem().getId());
+        }
+
+
+        return noContent().build();
     }
 
     @Operation(summary = "Procura um evento especifico", method = "GET")
@@ -107,17 +126,6 @@ public class EventoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         eventoService.deletar(id);
-        return noContent().build();
-    }
-
-    @PatchMapping("/{id}/upload")
-    public ResponseEntity<Void> anexarImagem(@PathVariable UUID id, @RequestParam MultipartFile img) {
-        Evento evento = eventoService.buscarPorId(id);
-
-        evento.setImagem(imagemService.cadastrar(img));
-
-        eventoService.atualizar(id, evento);
-
         return noContent().build();
     }
 
