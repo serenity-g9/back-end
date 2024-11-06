@@ -7,8 +7,6 @@ import com.serenity.api.serenity.dtos.formulario.Questao;
 import com.serenity.api.serenity.dtos.formulario.RespostaUsuario;
 import com.serenity.api.serenity.mappers.FormularioMapper;
 import com.serenity.api.serenity.services.FormularioService;
-import com.serenity.api.serenity.services.FormularioService;
-import com.serenity.api.serenity.services.ImagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

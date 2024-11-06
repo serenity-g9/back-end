@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Evento implements Serializable {
+public class Evento extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -35,7 +34,7 @@ public class Evento implements Serializable {
     private Usuario responsavel;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Imagem imagem;
+    private Anexo imagem;
 
     @ManyToOne
     private Formulario formulario;

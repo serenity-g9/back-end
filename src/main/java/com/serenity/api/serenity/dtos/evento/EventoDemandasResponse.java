@@ -6,7 +6,7 @@ import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.enums.TipoContrato;
 import com.serenity.api.serenity.models.Demanda;
 import com.serenity.api.serenity.models.Evento;
-import com.serenity.api.serenity.models.Imagem;
+import com.serenity.api.serenity.models.Anexo;
 import com.serenity.api.serenity.models.embeddable.Endereco;
 
 import java.time.LocalDate;
@@ -21,7 +21,7 @@ public record EventoDemandasResponse(
         LocalDateTime inicio,
         LocalDateTime fim,
         Endereco endereco,
-        Imagem imagem,
+        Anexo anexo,
         FormularioResponse formulario,
         UsuarioResponse responsavel,
         String status,

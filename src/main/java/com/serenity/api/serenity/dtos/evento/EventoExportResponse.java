@@ -1,13 +1,8 @@
 package com.serenity.api.serenity.dtos.evento;
 
-import com.serenity.api.serenity.dtos.formulario.FormularioResponse;
-import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.models.Evento;
-import com.serenity.api.serenity.models.Imagem;
-import com.serenity.api.serenity.models.embeddable.Endereco;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public record EventoExportResponse(
         String nome,

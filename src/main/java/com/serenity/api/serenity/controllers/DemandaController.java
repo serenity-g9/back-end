@@ -5,7 +5,6 @@ import com.serenity.api.serenity.dtos.demanda.DemandaResponse;
 import com.serenity.api.serenity.dtos.demanda.DemandaUpdateRequest;
 import com.serenity.api.serenity.mappers.DemandaMapper;
 import com.serenity.api.serenity.services.DemandaService;
-import com.serenity.api.serenity.services.ImagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

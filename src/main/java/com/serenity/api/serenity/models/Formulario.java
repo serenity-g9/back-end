@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Formulario implements Serializable {
+public class Formulario extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
