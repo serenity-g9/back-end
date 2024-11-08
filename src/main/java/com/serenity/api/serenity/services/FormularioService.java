@@ -147,7 +147,7 @@ public class FormularioService {
 
     public void deletar(UUID id) {
         buscarPorId(id);
-        formularioRepository.deleteById(id);
+        formularioRepository.softDeleteById(id);
     }
 
     public Formulario atualizar(UUID id, Formulario formulario) {

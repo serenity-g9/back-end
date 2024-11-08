@@ -10,17 +10,17 @@ public class SearchUtil {
         int superior = vetor.length - 1;
         int meio;
 
-        while (inferior <= superior) {  // Use while instead of for loop
+        while (inferior <= superior) {
             meio = (inferior + superior) / 2;
 
             if (Objects.equals(indiceBuscado, vetor[meio].getNome())) {
-                return meio;  // Found the target, return index
+                return meio;
             } else if (indiceBuscado.compareTo(vetor[meio].getNome()) > 0) {
-                inferior = meio + 1;  // Search in the right half
+                inferior = meio + 1;
             } else {
-                superior = meio - 1;  // Search in the left half
+                superior = meio - 1;
             }
         }
-        return -1;  // Target not found
+        return -1;
     }
 }

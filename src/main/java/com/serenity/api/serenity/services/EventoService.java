@@ -5,6 +5,7 @@ import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EventoRepository;
 import com.serenity.api.serenity.utils.CSVUtil;
+import com.serenity.api.serenity.utils.Pilha;
 import com.serenity.api.serenity.utils.SearchUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,8 @@ public class EventoService {
     public Evento cadastrar(Evento evento) {
         return eventoRepository.save(evento);
     }
+
+    Pilha<UUID> eventosDeletados = new Pilha<>(255);
 
     public List<Evento> listar() {
         return eventoRepository.findAll();
@@ -53,6 +56,12 @@ public class EventoService {
         eventoRepository.deleteById(id);
     }
 
+    public void softDelete(UUID id) {
+        Evento evento = buscarPorId(id);
+        evento.softDelete();
+        eventosDeletados.push(id);
+    }
+
     public Evento atualizar(UUID id, Evento evento) {
         buscarPorId(id);
         evento.setId(id);
@@ -69,5 +78,12 @@ public class EventoService {
                 .toList();
 
         return CSVUtil.exportar(eventoResponses);
+    }
+
+    public Evento restaurarEvento() {
+        Evento eventoRestaurado = buscarPorId(eventosDeletados.pop());
+        eventoRestaurado.setDeletedAt(null);
+
+        return eventoRestaurado;
     }
 }
