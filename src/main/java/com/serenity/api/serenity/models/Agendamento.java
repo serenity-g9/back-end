@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Agendamento implements Serializable {
+public class Agendamento extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Pagamento implements Faturavel, Serializable {
+public class Pagamento extends BaseEntity implements Faturavel, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

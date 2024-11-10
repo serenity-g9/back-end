@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Escala  implements Serializable {
+public class Escala extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
