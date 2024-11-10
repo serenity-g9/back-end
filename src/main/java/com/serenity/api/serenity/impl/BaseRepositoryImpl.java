@@ -6,6 +6,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
