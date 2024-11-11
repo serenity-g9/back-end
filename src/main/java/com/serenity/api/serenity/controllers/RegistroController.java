@@ -23,6 +23,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/registros", produces = {"application/json"})
 @Tag(name = "CRUD-Registro", description = "Controle de registros")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class RegistroController {
 
     private final RegistroService registroService;

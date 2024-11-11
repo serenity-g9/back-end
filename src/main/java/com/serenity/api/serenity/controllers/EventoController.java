@@ -11,6 +11,7 @@ import com.serenity.api.serenity.services.EventoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/eventos", produces = {"application/json"})
 @Tag(name = "CRUD-eventos", description = "Controle de eventos")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class EventoController {
 
     private final EventoService eventoService;
