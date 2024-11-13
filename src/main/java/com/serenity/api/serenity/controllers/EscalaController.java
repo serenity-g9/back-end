@@ -91,9 +91,4 @@ public class EscalaController {
         escalaService.deletar(id);
         return noContent().build();
     }
-
- ///   @GetMapping("/exportar")
- //   public ResponseEntity<Void> exportarCSV(@RequestParam LocalDate inicio, @RequestParam LocalDate fim){
-       // return ok();
-  //  }
 }

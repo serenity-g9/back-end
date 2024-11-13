@@ -1,24 +1,21 @@
 package com.serenity.api.serenity.models;
 
-import com.serenity.api.serenity.listeners.AgendamentoListener;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EntityListeners(AgendamentoListener.class)
-public class Agendamento extends BaseEntity implements Serializable {
+public class Codigo extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -26,14 +23,11 @@ public class Agendamento extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private LocalDateTime horarioEntrada;
+    private String digito;
+    private LocalDateTime horarioUtilizado;
 
-    @ManyToOne
-    private Escala escala;
-
-    @ManyToOne
-    private Usuario usuario;
-
-    @OneToOne
-    private Codigo codEntrada;
+    @Lob
+    @Column(columnDefinition = "BLOB")
+    private byte[] imagemQRCode;
 }
+

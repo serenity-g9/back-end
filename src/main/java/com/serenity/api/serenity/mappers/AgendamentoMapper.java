@@ -22,7 +22,7 @@ public abstract class AgendamentoMapper {
     public abstract Agendamento toAgendamento(AgendamentoRequest agendamentoRequest);
 
     @Mapping(target = "escala", ignore = true)
-    @Mapping(target = "registros", ignore = true)
+    @Mapping(target = "codEntrada", ignore = true)
     public abstract Agendamento toAgendamento(AgendamentoUpdateRequest agendamentoUpdateRequest, @MappingTarget Agendamento agendamento);
 
     protected Escala mapIdEscalaToEscala(UUID idEscala) {

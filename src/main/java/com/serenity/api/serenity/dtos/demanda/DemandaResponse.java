@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,8 +20,8 @@ public record DemandaResponse(
         UUID id,
         String nome,
         Double custoTotal,
-        LocalDate inicio,
-        LocalDate fim,
+        LocalDateTime inicio,
+        LocalDateTime fim,
         String tipoContrato,
         EventoResponse evento,
         UsuarioResponse responsavel,

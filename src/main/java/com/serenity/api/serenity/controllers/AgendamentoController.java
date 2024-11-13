@@ -3,6 +3,7 @@ package com.serenity.api.serenity.controllers;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoRequest;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoResponse;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoUpdateRequest;
+import com.serenity.api.serenity.dtos.codigo.CodigoResponse;
 import com.serenity.api.serenity.mappers.AgendamentoMapper;
 import com.serenity.api.serenity.services.AgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -87,5 +89,20 @@ public class AgendamentoController {
     public ResponseEntity<Void> deletar (@PathVariable UUID id) {
         agendamentoService.deletar(id);
         return noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> agendar(@PathVariable UUID id, @RequestParam(name = "usuario") UUID idUsuario) {
+        agendamentoService.agendar(id, idUsuario);
+        return noContent().build();
+    }
+
+    @PatchMapping("/check-in")
+    public ResponseEntity<CodigoResponse> realizarCheckin(
+            @RequestParam
+            @Pattern(regexp = "^[0-9]{6}$", message = "Código inválido. Utilize caracteres numéricos de 6 digitos")
+            String sequencia
+    ) {
+        return ok(new CodigoResponse(agendamentoService.realizarCheckin(sequencia)));
     }
 }

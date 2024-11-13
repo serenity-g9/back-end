@@ -4,12 +4,11 @@ import com.serenity.api.serenity.dtos.escala.EscalaResponse;
 import com.serenity.api.serenity.dtos.formulario.FormularioResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.enums.TipoContrato;
+import com.serenity.api.serenity.models.Anexo;
 import com.serenity.api.serenity.models.Demanda;
 import com.serenity.api.serenity.models.Evento;
-import com.serenity.api.serenity.models.Anexo;
 import com.serenity.api.serenity.models.embeddable.Endereco;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -52,8 +51,8 @@ record DemandaResponse(
         UUID id,
         String nome,
         Double custoTotal,
-        LocalDate inicio,
-        LocalDate fim,
+        LocalDateTime inicio,
+        LocalDateTime fim,
         String tipoContrato,
         UsuarioResponse responsavel,
         List<EscalaResponse> escalas

@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.models;
 
+import com.serenity.api.serenity.listeners.EscalaListener;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EntityListeners(EscalaListener.class)
 public class Escala extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -24,27 +26,10 @@ public class Escala extends BaseEntity implements Serializable {
 
     private Integer funcaoEscala;
     private Integer qtdColaborador;
-    private Integer qtdHora;
+    private Integer horasJornada;
     private Double valor;
-    private Boolean comissionado;
-    private Boolean asoObrigatorio;
 
     @ManyToOne
     private Demanda demanda;
-    @Override
-    public String toString() {
-        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
-                id,
-                funcaoEscala,
-                qtdColaborador,
-                qtdHora,
-                valor,
-                comissionado,
-                asoObrigatorio,
-                demanda != null ? demanda.getId() : ""
-        );
-    }
-
-
 }
 

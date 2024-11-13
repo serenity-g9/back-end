@@ -4,6 +4,7 @@ import com.serenity.api.serenity.dtos.escala.EscalaBatchRequest;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,10 +13,10 @@ public record DemandaRequest (
         String nome,
 
         @Future
-        LocalDate inicio,
+        LocalDateTime inicio,
 
         @Future
-        LocalDate fim,
+        LocalDateTime fim,
 
         @NotNull
         Double custoTotal,

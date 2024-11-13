@@ -1,4 +1,4 @@
-package com.serenity.api.serenity.configuration.security;
+package com.serenity.api.serenity.configuration;
 
 import com.serenity.api.serenity.impl.BaseRepositoryImpl;
 import org.springframework.context.annotation.Configuration;

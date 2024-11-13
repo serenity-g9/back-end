@@ -9,20 +9,16 @@ public record EscalaResponse(
         UUID id,
         String funcaoEscala,
         Integer qtdColaborador,
-        Integer qtdHora,
-            Double valor,
-            Boolean comissionado,
-            Boolean asoObrigatorio
+        Integer horasJornada,
+        Double valor
 ) {
     public EscalaResponse(Escala escala) {
         this(
                 escala.getId(),
                 escala.getFuncaoEscala() != null ? FuncaoAlocacao.getValor(escala.getFuncaoEscala()) : null,
                 escala.getQtdColaborador(),
-                escala.getQtdHora(),
-                escala.getValor(),
-                escala.getComissionado(),
-                escala.getAsoObrigatorio()
+                escala.getHorasJornada(),
+                escala.getValor()
         );
     }
 }
