@@ -6,6 +6,7 @@ import com.serenity.api.serenity.dtos.demanda.DemandaUpdateRequest;
 import com.serenity.api.serenity.mappers.DemandaMapper;
 import com.serenity.api.serenity.services.DemandaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,6 +25,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping(value = "/demandas", produces = {"application/json"})
 @Tag(name = "CRUD-demandas", description = "Controle de demandas")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class DemandaController {
 
     private final DemandaService demandaService;

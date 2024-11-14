@@ -11,6 +11,7 @@ import com.serenity.api.serenity.services.AgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -28,6 +29,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/agendamentos", produces = {"application/json"})
 @Tag(name = "CRUD-agendamento", description = "Controle de agendamentos")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;

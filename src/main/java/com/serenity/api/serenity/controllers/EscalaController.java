@@ -8,6 +8,7 @@ import com.serenity.api.serenity.services.EscalaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/escalas", produces = {"application/json"})
 @Tag(name = "CRUD-escalas", description = "Controle de escalas")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class EscalaController {
 
     private final EscalaService escalaService;

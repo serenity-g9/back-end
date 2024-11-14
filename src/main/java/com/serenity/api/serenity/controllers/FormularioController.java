@@ -10,6 +10,7 @@ import com.serenity.api.serenity.services.FormularioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/forms", produces = {"application/json"})
 @RequiredArgsConstructor
 @Tag(name = "CRUD-formularios", description = "Controle de formulários")
+@SecurityRequirement(name = "Bearer")
 public class FormularioController {
 
     @Operation(summary = "Lista os respostas cadastrados", method = "GET")
