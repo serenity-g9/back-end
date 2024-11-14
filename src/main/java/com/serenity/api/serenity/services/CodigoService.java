@@ -40,8 +40,8 @@ public class CodigoService {
         return codigoRepository.findById(id).orElseThrow(() ->  new NaoEncontradoException("digito"));
     }
 
-    public Codigo confirmarCodigo(String sequencia) {
-        List<Codigo> codigoList = codigoRepository.buscarCodigoPorSequencia(sequencia);
+    public Codigo confirmarCodigo(String digito) {
+        List<Codigo> codigoList = codigoRepository.buscarCodigoPorSequencia(digito);
 
         if (codigoList.size() > 1) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(505));

@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.models;
 
+import com.serenity.api.serenity.enums.StatusAgendamento;
 import com.serenity.api.serenity.listeners.AgendamentoListener;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,8 @@ public class Agendamento extends BaseEntity implements Serializable {
     private UUID id;
 
     private LocalDateTime horarioEntrada;
+    private LocalDateTime horarioSaida;
+    private LocalDateTime horarioInvitacaoAceito;
 
     @ManyToOne
     private Escala escala;
@@ -36,4 +39,19 @@ public class Agendamento extends BaseEntity implements Serializable {
 
     @OneToOne
     private Codigo codEntrada;
+
+    @OneToOne
+    private Codigo codSaida;
+
+    public String getStatus() {
+        if (usuario == null) {
+            return StatusAgendamento.getValor(0);
+        } else if (horarioInvitacaoAceito == null) {
+            return StatusAgendamento.getValor(1);
+        } else if (codEntrada.getHorarioUtilizado() == null) {
+            return StatusAgendamento.getValor(2);
+        } else {
+            return StatusAgendamento.getValor(3);
+        }
+    }
 }

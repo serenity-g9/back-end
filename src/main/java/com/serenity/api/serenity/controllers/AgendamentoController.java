@@ -4,7 +4,9 @@ import com.serenity.api.serenity.dtos.agendamento.AgendamentoRequest;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoResponse;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoUpdateRequest;
 import com.serenity.api.serenity.dtos.codigo.CodigoResponse;
+import com.serenity.api.serenity.enums.StatusAgendamento;
 import com.serenity.api.serenity.mappers.AgendamentoMapper;
+import com.serenity.api.serenity.models.Agendamento;
 import com.serenity.api.serenity.services.AgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -91,9 +93,21 @@ public class AgendamentoController {
         return noContent().build();
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Void> agendar(@PathVariable UUID id, @RequestParam(name = "usuario") UUID idUsuario) {
-        agendamentoService.agendar(id, idUsuario);
+    @PatchMapping("/{id}/invite")
+    public ResponseEntity<Void> convidar(@PathVariable UUID id, @RequestParam(name = "usuario") UUID idUsuario) {
+        agendamentoService.convidar(id, idUsuario);
+        return noContent().build();
+    }
+
+    @PatchMapping("/{id}/accept")
+    public ResponseEntity<Void> aceitar(@PathVariable UUID id) {
+        agendamentoService.aceitar(id);
+        return noContent().build();
+    }
+
+    @PatchMapping("/{id}/reject")
+    public ResponseEntity<Void> recusar(@PathVariable UUID id) {
+        agendamentoService.recusar(id);
         return noContent().build();
     }
 
@@ -101,8 +115,17 @@ public class AgendamentoController {
     public ResponseEntity<CodigoResponse> realizarCheckin(
             @RequestParam
             @Pattern(regexp = "^[0-9]{6}$", message = "Código inválido. Utilize caracteres numéricos de 6 digitos")
-            String sequencia
+            String digito
     ) {
-        return ok(new CodigoResponse(agendamentoService.realizarCheckin(sequencia)));
+        return ok(new CodigoResponse(agendamentoService.realizarCheckin(digito)));
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<AgendamentoResponse>> buscarPorStatus(@RequestParam Integer status) {
+        List<Agendamento> agendamentos = agendamentoService.buscarPorStatus(status);
+        List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
+                .map(AgendamentoResponse::new)
+                .collect(Collectors.toList());
+        return ok(agendamentoResponses);
     }
 }

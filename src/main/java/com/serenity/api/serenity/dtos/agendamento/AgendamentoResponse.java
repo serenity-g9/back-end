@@ -13,6 +13,8 @@ public record AgendamentoResponse(
         LocalDateTime horarioEntrada,
         LocalDateTime createdAt,
         LocalDateTime lastModified,
+        LocalDateTime horarioInvitacaoAceito,
+        String status,
         UsuarioResponse usuario,
         CodigoResponse codigo
 ) {
@@ -22,6 +24,8 @@ public record AgendamentoResponse(
                 agendamento.getHorarioEntrada(),
                 agendamento.getCreatedAt(),
                 agendamento.getLastModified(),
+                agendamento.getHorarioInvitacaoAceito(),
+                agendamento.getStatus(),
                 Optional.ofNullable(agendamento.getUsuario())
                         .map(UsuarioResponse::new)
                         .orElse(null),

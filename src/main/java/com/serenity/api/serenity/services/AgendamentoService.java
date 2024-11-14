@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.enums.StatusAgendamento;
 import com.serenity.api.serenity.events.GerarCodigoEvent;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Agendamento;
@@ -9,7 +10,9 @@ import com.serenity.api.serenity.repositories.AgendamentoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,7 +55,7 @@ public class AgendamentoService {
         agendamentoRepository.deleteById(id);
     }
 
-    public void agendar(UUID id, UUID idUsuario) {
+    public void convidar(UUID id, UUID idUsuario) {
         Agendamento agendamento = buscarPorId(id);
         Usuario usuario = usuarioService.buscarPorId(idUsuario);
 
@@ -60,16 +63,55 @@ public class AgendamentoService {
         atualizar(agendamento.getId(), agendamento);
     }
 
-    public Codigo realizarCheckin(String sequencia) {
-        return codigoService.confirmarCodigo(sequencia);
+    public void aceitar(UUID id) {
+        Agendamento agendamento = buscarPorId(id);
+
+        if (agendamento.getUsuario() == null) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "O agendamento não possui um usuário cadastrado");
+        }
+
+        if (agendamento.getHorarioInvitacaoAceito() != null) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "O agendamento já foi aceito");
+        }
+
+        agendamento.setHorarioInvitacaoAceito(LocalDateTime.now());
+        atualizar(agendamento.getId(), agendamento);
+    }
+
+    public void recusar(UUID id) {
+        Agendamento agendamento = buscarPorId(id);
+
+        if (agendamento.getUsuario() == null) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "O agendamento não possui um usuário cadastrado");
+        }
+
+        if (agendamento.getHorarioInvitacaoAceito() != null) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "O agendamento já foi aceito");
+        }
+
+        agendamento.setUsuario(null);
+        atualizar(agendamento.getId(), agendamento);
+    }
+
+    public Codigo realizarCheckin(String digito) {
+        return codigoService.confirmarCodigo(digito);
     }
 
     @EventListener
     public void handleGerarCodigoEvent(GerarCodigoEvent event) {
         Agendamento agendamento = event.agendamento();
+
+        if (agendamento.getHorarioInvitacaoAceito() == null || agendamento.getUsuario() == null) {
+            return;
+        }
+
         Codigo codigo = codigoService.gerarCodigo();
         agendamento.setCodEntrada(codigo);
 
         codigoService.cadastrar(codigo);
+    }
+
+    public List<Agendamento> buscarPorStatus(Integer status) {
+        return agendamentoRepository.buscarPorStatus(status);
     }
 }

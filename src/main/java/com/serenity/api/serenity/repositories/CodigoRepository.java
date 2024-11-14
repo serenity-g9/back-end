@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CodigoRepository extends BaseRepository<Codigo, UUID> {
-    @Query("SELECT c FROM Codigo c WHERE c.digito = :sequencia AND c.horarioUtilizado IS NULL")
-    List<Codigo> buscarCodigoPorSequencia(String sequencia);
+    @Query("SELECT c FROM Codigo c WHERE c.digito = :digito AND c.horarioUtilizado IS NULL")
+    List<Codigo> buscarCodigoPorSequencia(String digito);
 }
