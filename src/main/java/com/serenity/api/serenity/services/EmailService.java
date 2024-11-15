@@ -3,17 +3,20 @@ package com.serenity.api.serenity.services;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.MailParseException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
+@Transactional
+@Service
 public class EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
-
     @Autowired
     private TaskExecutor taskExecutor;
 
