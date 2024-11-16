@@ -1,9 +1,12 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.agendamento.AgendamentoResponse;
+import com.serenity.api.serenity.dtos.agendamento.AgendarBatchRequest;
 import com.serenity.api.serenity.dtos.escala.EscalaRequest;
 import com.serenity.api.serenity.dtos.escala.EscalaResponse;
 import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
 import com.serenity.api.serenity.mappers.EscalaMapper;
+import com.serenity.api.serenity.models.Agendamento;
 import com.serenity.api.serenity.services.EscalaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -92,5 +96,14 @@ public class EscalaController {
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         escalaService.deletar(id);
         return noContent().build();
+    }
+
+    @PostMapping("/{id}/invite")
+    public ResponseEntity<List<AgendamentoResponse>> convidarPorEscala(@PathVariable UUID id, @RequestBody AgendarBatchRequest usuariosId) {
+        List<Agendamento> agendamentos = escalaService.convidarPorEscala(id, usuariosId);
+        List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
+                .map(AgendamentoResponse::new)
+                .collect(Collectors.toList());
+        return ok(agendamentoResponses);
     }
 }

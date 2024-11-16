@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.repositories;
 
 import com.serenity.api.serenity.models.Agendamento;
+import com.serenity.api.serenity.models.Escala;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,4 +19,6 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, UUID> 
            OR (:status = 3 AND ce.horarioUtilizado IS NOT NULL)
         """)
     List<Agendamento> buscarPorStatus(Integer status);
+
+    List<Agendamento> findAllByEscalaId(UUID id);
 }

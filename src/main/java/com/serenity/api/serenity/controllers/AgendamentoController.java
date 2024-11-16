@@ -3,6 +3,7 @@ package com.serenity.api.serenity.controllers;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoRequest;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoResponse;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoUpdateRequest;
+import com.serenity.api.serenity.dtos.agendamento.AgendarBatchRequest;
 import com.serenity.api.serenity.dtos.codigo.CodigoResponse;
 import com.serenity.api.serenity.enums.StatusAgendamento;
 import com.serenity.api.serenity.mappers.AgendamentoMapper;
@@ -96,21 +97,18 @@ public class AgendamentoController {
     }
 
     @PatchMapping("/{id}/invite")
-    public ResponseEntity<Void> convidar(@PathVariable UUID id, @RequestParam(name = "usuario") UUID idUsuario) {
-        agendamentoService.convidar(id, idUsuario);
-        return noContent().build();
+    public ResponseEntity<AgendamentoResponse> convidar(@PathVariable UUID id, @RequestParam(name = "usuario") UUID idUsuario) {
+        return ok(new AgendamentoResponse(agendamentoService.convidar(id, idUsuario)));
     }
 
     @PatchMapping("/{id}/accept")
-    public ResponseEntity<Void> aceitar(@PathVariable UUID id) {
-        agendamentoService.aceitar(id);
-        return noContent().build();
+    public ResponseEntity<AgendamentoResponse> aceitar(@PathVariable UUID id) {
+        return ok(new AgendamentoResponse(agendamentoService.aceitar(id)));
     }
 
     @PatchMapping("/{id}/reject")
-    public ResponseEntity<Void> recusar(@PathVariable UUID id) {
-        agendamentoService.recusar(id);
-        return noContent().build();
+    public ResponseEntity<AgendamentoResponse> recusar(@PathVariable UUID id) {
+        return ok(new AgendamentoResponse(agendamentoService.recusar(id)));
     }
 
     @PatchMapping("/check-in")
@@ -125,6 +123,15 @@ public class AgendamentoController {
     @GetMapping("/status")
     public ResponseEntity<List<AgendamentoResponse>> buscarPorStatus(@RequestParam Integer status) {
         List<Agendamento> agendamentos = agendamentoService.buscarPorStatus(status);
+        List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
+                .map(AgendamentoResponse::new)
+                .collect(Collectors.toList());
+        return ok(agendamentoResponses);
+    }
+
+    @GetMapping("/escala/{id}")
+    public ResponseEntity<List<AgendamentoResponse>> buscarPorEscala(@PathVariable UUID id) {
+        List<Agendamento> agendamentos = agendamentoService.buscarPorEscala(id);
         List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
                 .map(AgendamentoResponse::new)
                 .collect(Collectors.toList());

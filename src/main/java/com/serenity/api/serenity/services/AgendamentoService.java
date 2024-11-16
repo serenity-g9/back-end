@@ -1,10 +1,12 @@
 package com.serenity.api.serenity.services;
 
+import com.serenity.api.serenity.dtos.agendamento.AgendarBatchRequest;
 import com.serenity.api.serenity.enums.StatusAgendamento;
 import com.serenity.api.serenity.events.GerarCodigoEvent;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Agendamento;
 import com.serenity.api.serenity.models.Codigo;
+import com.serenity.api.serenity.models.Escala;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.AgendamentoRepository;
 import jakarta.transaction.Transactional;
@@ -55,15 +57,15 @@ public class AgendamentoService {
         agendamentoRepository.deleteById(id);
     }
 
-    public void convidar(UUID id, UUID idUsuario) {
+    public Agendamento convidar(UUID id, UUID idUsuario) {
         Agendamento agendamento = buscarPorId(id);
         Usuario usuario = usuarioService.buscarPorId(idUsuario);
 
         agendamento.setUsuario(usuario);
-        atualizar(agendamento.getId(), agendamento);
+        return atualizar(agendamento.getId(), agendamento);
     }
 
-    public void aceitar(UUID id) {
+    public Agendamento aceitar(UUID id) {
         Agendamento agendamento = buscarPorId(id);
 
         if (agendamento.getUsuario() == null) {
@@ -75,10 +77,10 @@ public class AgendamentoService {
         }
 
         agendamento.setHorarioInvitacaoAceito(LocalDateTime.now());
-        atualizar(agendamento.getId(), agendamento);
+        return atualizar(agendamento.getId(), agendamento);
     }
 
-    public void recusar(UUID id) {
+    public Agendamento recusar(UUID id) {
         Agendamento agendamento = buscarPorId(id);
 
         if (agendamento.getUsuario() == null) {
@@ -90,11 +92,28 @@ public class AgendamentoService {
         }
 
         agendamento.setUsuario(null);
-        atualizar(agendamento.getId(), agendamento);
+        return atualizar(agendamento.getId(), agendamento);
     }
 
     public Codigo realizarCheckin(String digito) {
         return codigoService.confirmarCodigo(digito);
+    }
+
+    public List<Agendamento> buscarPorStatus(Integer status) {
+        return agendamentoRepository.buscarPorStatus(status);
+    }
+
+    public List<Agendamento> buscarPorEscala(UUID id) {
+        return agendamentoRepository.findAllByEscalaId(id);
+    }
+
+    public List<Agendamento> atualizarTodos(List<Agendamento> agendamentos) {
+
+        for (Agendamento agendamento : agendamentos) {
+            if (agendamento.getId() == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+        }
+
+        return agendamentoRepository.saveAll(agendamentos);
     }
 
     @EventListener
@@ -109,9 +128,5 @@ public class AgendamentoService {
         agendamento.setCodEntrada(codigo);
 
         codigoService.cadastrar(codigo);
-    }
-
-    public List<Agendamento> buscarPorStatus(Integer status) {
-        return agendamentoRepository.buscarPorStatus(status);
     }
 }

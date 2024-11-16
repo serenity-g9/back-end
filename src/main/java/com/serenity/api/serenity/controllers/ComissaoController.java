@@ -29,7 +29,7 @@ import static org.springframework.http.ResponseEntity.*;
 public class ComissaoController {
     private final ComissaoService comissaoService;
     private final ComissaoMapper mapper;
-
+    
     @Operation(summary = "Lista as comissaões cadastradas", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "comissoes encontradas com sucesso"),

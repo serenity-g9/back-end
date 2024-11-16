@@ -26,7 +26,7 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping(value = "/usuarios", produces = {"application/json"})
-@Tag(name = "CRUD-usuarios", description = "Controle de usuarios")
+@Tag(name = "CRUD-usuariosId", description = "Controle de usuariosId")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "Bearer")
 public class UsuarioController {
@@ -34,10 +34,10 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private final UsuarioMapper mapper;
 
-    @Operation(summary = "Lista os usuarios cadastrados", method = "GET")
+    @Operation(summary = "Lista os usuariosId cadastrados", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Usuarios encontrados com sucesso"),
-            @ApiResponse(responseCode = "500", description = "Erro interno ao buscar usuarios"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao buscar usuariosId"),
             @ApiResponse(responseCode = "204", description = "Nenhum usuario cadastrado")
     })
     @GetMapping
@@ -48,7 +48,7 @@ public class UsuarioController {
         return ok(agendamentoResponses);
     }
 
-    @Operation(summary = "Realiza criação de usuarios", method = "POST")
+    @Operation(summary = "Realiza criação de usuariosId", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",description = "Cadastro realizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao cadastrar"),
