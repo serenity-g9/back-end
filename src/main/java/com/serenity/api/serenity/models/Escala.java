@@ -14,7 +14,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+//@Builder
 @EntityListeners(EscalaListener.class)
 public class Escala extends BaseEntity implements Serializable {
     @Serial
@@ -31,5 +31,9 @@ public class Escala extends BaseEntity implements Serializable {
 
     @ManyToOne
     private Demanda demanda;
+
+    public Escala(UUID uuid, int i, int i1, int i2, double v) {
+
+    }
 }
 

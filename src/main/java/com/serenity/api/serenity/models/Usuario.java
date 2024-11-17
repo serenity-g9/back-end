@@ -31,6 +31,13 @@ public class Usuario extends BaseEntity implements Serializable {
     @Embedded
     Contato contato;
 
+    public Usuario(UUID id, String email, String senha, Integer tipoUsuario) {
+        this.id = id;
+        this.email = email;
+        this.senha = senha;
+        this.tipoUsuario = tipoUsuario;
+    }
+
     @Override
     public String toString() {
         return String.format("%s;%s;%s;%s\n",

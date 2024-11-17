@@ -36,4 +36,6 @@ public class Demanda extends BaseEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Escala> escalas;
 
+
+
 }
