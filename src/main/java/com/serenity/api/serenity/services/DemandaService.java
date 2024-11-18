@@ -29,7 +29,7 @@ public class DemandaService {
     }
 
     public Demanda buscarPorId(UUID id) {
-        return demandaRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Demanda"));
+        return demandaRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("demanda"));
     }
 
     public void deletar(UUID id) {

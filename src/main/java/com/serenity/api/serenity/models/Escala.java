@@ -16,7 +16,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+//@Builder
 @EntityListeners(EscalaListener.class)
 public class Escala extends BaseEntity implements Serializable {
     @Serial
@@ -36,5 +36,9 @@ public class Escala extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "escala", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Agendamento> agendamentos = new ArrayList<>();
+
+    public Escala(UUID uuid, int i, int i1, int i2, double v) {
+
+    }
 }
 
