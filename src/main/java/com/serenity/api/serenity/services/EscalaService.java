@@ -20,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -31,6 +30,8 @@ public class EscalaService {
     private final EscalaRepository escalaRepository;
     private final AgendamentoService agendamentoService;
     private final UsuarioRepository usuarioRepository;
+    private final EmailService emailService;
+    private final DemandaService demandaService;
 
     public Escala cadastrar(Escala escala) {
         return escalaRepository.save(escala);
@@ -58,10 +59,10 @@ public class EscalaService {
 
 
     public List<Agendamento> convidarPorEscala(UUID id, AgendarBatchRequest request) {
-        int requestSize = request.usuariosId().size();
+        int requestSize = request.emails().size();
 
         Escala escala = buscarPorId(id);
-        List<Usuario> usuarios = usuarioRepository.findAllById(request.usuariosId());
+        List<Usuario> usuarios = usuarioRepository.findAllByEmailIn(request.emails());
 
         if (usuarios.size() != requestSize) {
             throw new NaoEncontradoException("usuario");
@@ -83,11 +84,22 @@ public class EscalaService {
             Agendamento iAgendamento = agendamentos.get(i);
 
             iAgendamento.setUsuario(iUsuario);
+            emailService.queueEmail(
+                    "zyalvlayz@gmail.com",
+                    usuarios.get(i).getEmail(),
+                    String.format("Convite - Evento %s", escala.getDemanda().getEvento().getNome()),
+                    String.format("Olá %s", usuarios.get(i).getContato().getNome()),
+                    iAgendamento
+            );
         }
 
+        emailService.process();
         return agendamentos;
     }
 
+    public List<Escala> buscarPorDemanda(UUID idDemanda) {
+        return escalaRepository.findAllByDemanda(demandaService.buscarPorId(idDemanda));
+    }
 
     @EventListener
     @Async

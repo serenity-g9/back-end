@@ -4,7 +4,6 @@ import com.serenity.api.serenity.dtos.anexo.AnexoResponse;
 import com.serenity.api.serenity.dtos.formulario.FormularioResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.models.Evento;
-import com.serenity.api.serenity.models.Anexo;
 import com.serenity.api.serenity.models.embeddable.Endereco;
 
 import java.time.LocalDateTime;

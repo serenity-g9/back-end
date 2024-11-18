@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -31,5 +33,8 @@ public class Escala extends BaseEntity implements Serializable {
 
     @ManyToOne
     private Demanda demanda;
+
+    @OneToMany(mappedBy = "escala", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Agendamento> agendamentos = new ArrayList<>();
 }
 

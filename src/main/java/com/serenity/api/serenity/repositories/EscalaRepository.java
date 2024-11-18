@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.repositories;
 
 import com.serenity.api.serenity.models.Agendamento;
+import com.serenity.api.serenity.models.Demanda;
 import com.serenity.api.serenity.models.Escala;
 import com.serenity.api.serenity.models.Evento;
 import org.springframework.data.domain.Page;
@@ -21,4 +22,6 @@ public interface EscalaRepository extends JpaRepository<Escala, UUID> {
           AND (e.id = :idEscala)
     """)
     Page<Agendamento> buscarAgendamentosDisponiveisPorEscala(UUID idEscala, Pageable pageable);
+
+    List<Escala> findAllByDemanda(Demanda demanda);
 }

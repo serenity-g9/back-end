@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public class Pilha<T> {
 
-    private T[] pilha;
+    private final T[] pilha;
 
     @Getter
     private int topo;

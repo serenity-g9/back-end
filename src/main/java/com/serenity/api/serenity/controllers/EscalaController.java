@@ -106,4 +106,13 @@ public class EscalaController {
                 .collect(Collectors.toList());
         return ok(agendamentoResponses);
     }
+
+    @GetMapping("/{id}/demanda")
+    public ResponseEntity<List<EscalaResponse>> buscarPorDemanda(@PathVariable UUID id) {
+        List<EscalaResponse> escalaResponses = escalaService.buscarPorDemanda(id).stream()
+                .map(EscalaResponse::new)
+                .collect(Collectors.toList());
+
+        return ok(escalaResponses);
+    }
 }

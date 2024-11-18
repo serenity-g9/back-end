@@ -32,6 +32,7 @@ public class Agendamento extends BaseEntity implements Serializable {
     private LocalDateTime horarioInvitacaoAceito;
 
     @ManyToOne
+    @JoinColumn(name = "escala_id", nullable = false)
     private Escala escala;
 
     @ManyToOne
