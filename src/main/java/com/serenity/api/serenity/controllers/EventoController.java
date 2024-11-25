@@ -126,7 +126,7 @@ public class EventoController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
-        eventoService.softDelete(id);
+        eventoService.deletar(id);
         return noContent().build();
     }
 

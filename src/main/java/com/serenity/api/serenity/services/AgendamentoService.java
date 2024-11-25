@@ -33,6 +33,10 @@ public class AgendamentoService {
         return agendamentoRepository.findAll();
     }
 
+    public List<Agendamento> listarPorUsuario(UUID idUsuario) {
+        return agendamentoRepository.findAllByUsuarioAndDeletedAtIsNull(usuarioService.buscarPorId(idUsuario));
+    }
+
     public Agendamento cadastrar(Agendamento agendamento) {
         return agendamentoRepository.save(agendamento);
     }
@@ -128,5 +132,10 @@ public class AgendamentoService {
         agendamento.setCodEntrada(codigo);
 
         codigoService.cadastrar(codigo);
+    }
+
+    public Agendamento buscarPorDigito(String digito) {
+        Codigo codigo = codigoService.buscarPorDigito(digito);
+        return agendamentoRepository.findAgendamentoByCodEntrada(codigo);
     }
 }

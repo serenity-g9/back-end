@@ -111,6 +111,7 @@ public class EscalaService {
             Agendamento agendamento = new Agendamento();
             agendamento.setEscala(escala);
             agendamento.setHorarioEntrada(escala.getDemanda().getInicio());
+            agendamento.setHorarioSaida(agendamento.getHorarioEntrada().plusHours(escala.getHorasJornada()));
 
             agendamentos.add(agendamento);
         }

@@ -119,10 +119,27 @@ public class AgendamentoController {
     ) {
         return ok(new CodigoResponse(agendamentoService.realizarCheckin(digito)));
     }
+    @GetMapping("/check-in")
+    public ResponseEntity<AgendamentoResponse> buscarAgendamento(
+            @RequestParam
+            @Pattern(regexp = "^[0-9]{6}$", message = "Código inválido. Utilize caracteres numéricos de 6 digitos")
+            String digito
+    ) {
+        return ok(new AgendamentoResponse(agendamentoService.buscarPorDigito(digito)));
+    }
 
     @GetMapping("/status")
     public ResponseEntity<List<AgendamentoResponse>> buscarPorStatus(@RequestParam Integer status) {
         List<Agendamento> agendamentos = agendamentoService.buscarPorStatus(status);
+        List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
+                .map(AgendamentoResponse::new)
+                .collect(Collectors.toList());
+        return ok(agendamentoResponses);
+    }
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<AgendamentoResponse>> listarPorUsuario(@PathVariable UUID id) {
+        List<Agendamento> agendamentos = agendamentoService.listarPorUsuario(id);
         List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
                 .map(AgendamentoResponse::new)
                 .collect(Collectors.toList());

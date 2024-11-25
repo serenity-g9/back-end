@@ -42,6 +42,6 @@ public class Evento extends BaseEntity implements Serializable {
     @Embedded
     private Endereco endereco;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evento", orphanRemoval = true)
     private List<Demanda> demandas;
 }

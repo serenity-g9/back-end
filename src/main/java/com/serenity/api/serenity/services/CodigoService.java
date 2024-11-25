@@ -40,7 +40,7 @@ public class CodigoService {
         return codigoRepository.findById(id).orElseThrow(() ->  new NaoEncontradoException("digito"));
     }
 
-    public Codigo confirmarCodigo(String digito) {
+    public Codigo buscarPorDigito(String digito) {
         List<Codigo> codigoList = codigoRepository.buscarCodigoPorSequencia(digito);
 
         if (codigoList.size() > 1) {
@@ -51,7 +51,11 @@ public class CodigoService {
             throw new NaoEncontradoException("digito");
         }
 
-        Codigo codigo = codigoList.get(0);
+        return codigoList.get(0);
+    }
+
+    public Codigo confirmarCodigo(String digito) {
+        Codigo codigo = buscarPorDigito(digito);
         codigo.setHorarioUtilizado(LocalDateTime.now());
         codigo.setImagemQRCode(null);
         return atualizar(codigo.getId(), codigo);
