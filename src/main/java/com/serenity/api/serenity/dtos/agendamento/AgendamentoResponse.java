@@ -3,9 +3,7 @@ package com.serenity.api.serenity.dtos.agendamento;
 import com.serenity.api.serenity.dtos.codigo.CodigoResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.enums.FuncaoAlocacao;
-import com.serenity.api.serenity.models.Agendamento;
-import com.serenity.api.serenity.models.Anexo;
-import com.serenity.api.serenity.models.Escala;
+import com.serenity.api.serenity.models.*;
 import com.serenity.api.serenity.models.embeddable.Endereco;
 
 import java.time.LocalDateTime;
@@ -26,7 +24,8 @@ public record AgendamentoResponse(
         String funcao,
         Double cache,
         Anexo imagem,
-        Endereco endereco
+        Endereco endereco,
+        EscalaResponse escala
 ) {
     public AgendamentoResponse(Agendamento agendamento) {
         this(
@@ -47,7 +46,48 @@ public record AgendamentoResponse(
                 FuncaoAlocacao.getValor(agendamento.getEscala().getFuncaoEscala()),
                 agendamento.getEscala().getValor(),
                 agendamento.getEscala().getDemanda().getEvento().getImagem(),
-                agendamento.getEscala().getDemanda().getEvento().getEndereco()
+                agendamento.getEscala().getDemanda().getEvento().getEndereco(),
+                new EscalaResponse(agendamento.getEscala())
+        );
+    }
+}
+
+record EscalaResponse(
+        UUID id,
+        String funcao,
+        DemandaResponse demanda
+) {
+    public EscalaResponse(Escala escala) {
+        this(
+                escala.getId(),
+                FuncaoAlocacao.getValor(escala.getFuncaoEscala()),
+                new DemandaResponse(escala.getDemanda())
+        );
+    }
+}
+
+record DemandaResponse(
+        UUID id,
+        String nome,
+        EventoResponse evento
+) {
+    public DemandaResponse(Demanda demanda) {
+        this(
+                demanda.getId(),
+                demanda.getNome(),
+                new EventoResponse(demanda.getEvento())
+        );
+    }
+}
+
+record EventoResponse(
+        UUID id,
+        String nome
+) {
+    public EventoResponse(Evento evento) {
+        this(
+                evento.getId(),
+                evento.getNome()
         );
     }
 }
