@@ -26,6 +26,7 @@ import java.util.UUID;
 public class AgendamentoService {
 
     private final AgendamentoRepository agendamentoRepository;
+    private final EmailService emailService;
     private final UsuarioService usuarioService;
     private final CodigoService codigoService;
 
@@ -69,6 +70,26 @@ public class AgendamentoService {
         return atualizar(agendamento.getId(), agendamento);
     }
 
+    public Agendamento convidarPorEmail(UUID id, String email) {
+        Usuario usuario = usuarioService.buscarPorEmail(email);
+        Agendamento agendamento = buscarPorId(id);
+
+        agendamento.setUsuario(usuario);
+        Agendamento agendamentoAtualizado = atualizar(agendamento.getId(), agendamento);
+
+        emailService.queueEmail(
+                "zyalvlayz@gmail.com",
+                usuario.getEmail(),
+                String.format("Convite - Evento %s", agendamentoAtualizado.getEscala().getDemanda().getEvento().getNome()),
+                String.format("Olá %s", agendamentoAtualizado.getUsuario().getContato().getNome()),
+                agendamentoAtualizado
+        );
+
+        emailService.process();
+
+        return agendamentoAtualizado;
+    }
+
     public Agendamento aceitar(UUID id) {
         Agendamento agendamento = buscarPorId(id);
 
@@ -99,8 +120,17 @@ public class AgendamentoService {
         return atualizar(agendamento.getId(), agendamento);
     }
 
-    public Codigo realizarCheckin(String digito) {
-        return codigoService.confirmarCodigo(digito);
+    public Agendamento realizarCheckin(String digito) {
+        Agendamento agendamento = buscarPorDigito(digito);
+
+        Codigo codigo = agendamento.getCodEntrada();
+
+        codigo.setHorarioUtilizado(LocalDateTime.now());
+        codigo.setImagemQRCode(null);
+
+        agendamento.setCodEntrada(codigo);
+
+        return agendamentoRepository.save(agendamento);
     }
 
     public List<Agendamento> buscarPorStatus(Integer status) {

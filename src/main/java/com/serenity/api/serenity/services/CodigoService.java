@@ -54,13 +54,6 @@ public class CodigoService {
         return codigoList.get(0);
     }
 
-    public Codigo confirmarCodigo(String digito) {
-        Codigo codigo = buscarPorDigito(digito);
-        codigo.setHorarioUtilizado(LocalDateTime.now());
-        codigo.setImagemQRCode(null);
-        return atualizar(codigo.getId(), codigo);
-    }
-
     public Codigo atualizar(UUID id, Codigo codigo) {
         buscarPorId(id);
         codigo.setId(id);

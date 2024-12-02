@@ -41,10 +41,11 @@ public record DemandaResponse(
             demanda.getEvento() != null ? new EventoResponse(demanda.getEvento()) : null,
             demanda.getResponsavel() != null ? new UsuarioResponse(demanda.getResponsavel()) : null,
             demanda.getEscalas().isEmpty() ? null :demanda.getEscalas().stream().map(EscalaResponse::new).toList(),
-            demanda.getEscalas() == null ? null : demanda.getEscalas().stream()
-                    .flatMap(escala -> escala.getAgendamentos().stream())
-                    .map(AgendamentoResponse::new)
-                    .toList()
+                demanda.getEscalas() == null ? null : demanda.getEscalas().stream()
+                        .filter(escala -> escala.getAgendamentos() != null)
+                        .flatMap(escala -> escala.getAgendamentos().stream())
+                        .map(AgendamentoResponse::new)
+                        .toList()
         );
     }
 }
@@ -54,7 +55,8 @@ record AgendamentoResponse(
         LocalDateTime horarioEntrada,
         LocalDateTime horarioSaida,
         String status,
-        String funcao
+        String funcao,
+        UsuarioResponse usuario
 ){
     public AgendamentoResponse(Agendamento agendamento) {
         this(
@@ -62,7 +64,8 @@ record AgendamentoResponse(
                 agendamento.getHorarioEntrada(),
                 agendamento.getHorarioSaida(),
                 agendamento.getStatus(),
-                FuncaoAlocacao.getValor(agendamento.getEscala().getFuncaoEscala())
+                FuncaoAlocacao.getValor(agendamento.getEscala().getFuncaoEscala()),
+                agendamento.getUsuario() == null ? null : new UsuarioResponse(agendamento.getUsuario())
         );
     }
 }

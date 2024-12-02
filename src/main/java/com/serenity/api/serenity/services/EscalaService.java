@@ -1,6 +1,7 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.agendamento.AgendarBatchRequest;
+import com.serenity.api.serenity.enums.StatusAgendamento;
 import com.serenity.api.serenity.events.EscalaEvent;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Agendamento;

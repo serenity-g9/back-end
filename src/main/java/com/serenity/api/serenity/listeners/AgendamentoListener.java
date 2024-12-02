@@ -1,19 +1,18 @@
 package com.serenity.api.serenity.listeners;
 
-import com.serenity.api.serenity.events.GerarCodigoEvent;
+import com.serenity.api.serenity.helpers.AgendamentoHelper;
 import com.serenity.api.serenity.models.Agendamento;
+import jakarta.persistence.PostUpdate;
 import jakarta.persistence.PreUpdate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 
 @RequiredArgsConstructor
 public class AgendamentoListener {
 
-    private final ApplicationEventPublisher eventPublisher;
+    private final AgendamentoHelper agendamentoHelper;
 
     @PreUpdate
     public void preUpdate(Agendamento agendamento) {
-        eventPublisher.publishEvent(new GerarCodigoEvent(agendamento));
+        agendamentoHelper.handlePreUpdate(agendamento);
     }
-
 }

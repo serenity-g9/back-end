@@ -6,10 +6,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Objects;
 
 public enum StatusAgendamento {
-    CONFIRMADO(0, "Disponível"),
+    NAO_ALOCADO(0, "Não Alocado"),
     PENDENTE(1, "Pendente"),
-    DISPONIVEL(2, "Confirmado"),
-    ENCERRADO(3, "Encerrado");
+    CONFIRMADO(2, "Confirmado"),
+    EM_ANDAMENTO(3, "Em Andamento"),
+    FINALIZADO(4, "Finalizado");
 
     private final Integer id;
     private final String valor;

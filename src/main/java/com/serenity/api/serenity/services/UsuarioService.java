@@ -48,6 +48,10 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("usuario"));
     }
 
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email).orElseThrow(() -> new NaoEncontradoException("usuario"));
+    }
+
     public void deletar(UUID id) {
         buscarPorId(id);
 
