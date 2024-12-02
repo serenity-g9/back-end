@@ -187,12 +187,12 @@ public class EmailUtil {
                                 															<td class="pad">
                                 																<div style="margin-left:-20px">
                                 																	<ul style="margin-top: 0; margin-bottom: 0; list-style-type: revert;">
-                                																		<li style="Margin: 0 0 0 0;">Evento:</li>
-                                																		<li style="Margin: 0 0 0 0;">Função:</li>
-                                																		<li style="Margin: 0 0 0 0;">Local:</li>
-                                																		<li style="Margin: 0 0 0 0;">Endereço:</li>
-                                																		<li style="Margin: 0 0 0 0;">Entrada:</li>
-                                																		<li style="Margin: 0 0 0 0;">Saída prevista:</li>
+                                																		<li style="Margin: 0 0 0 0;">Evento: %s</li>
+                                																		<li style="Margin: 0 0 0 0;">Função: %s</li>
+                                																		<li style="Margin: 0 0 0 0;">Local: %s</li>
+                                																		<li style="Margin: 0 0 0 0;">Endereço: %s</li>
+                                																		<li style="Margin: 0 0 0 0;">Entrada: %s</li>
+                                																		<li style="Margin: 0 0 0 0;">Saída prevista: %s</li>
                                 																	</ul>
                                 																</div>
                                 															</td>
