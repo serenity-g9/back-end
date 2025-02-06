@@ -15,6 +15,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.serenity.api.serenity.dtos.formulario.Questao;
 import com.serenity.api.serenity.dtos.formulario.Resposta;
 import com.serenity.api.serenity.dtos.formulario.RespostaUsuario;
@@ -25,8 +27,7 @@ import com.serenity.api.serenity.utils.SortUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -37,28 +38,14 @@ public class FormularioService {
 
     private final FormularioRepository formularioRepository;
 
-    private static final String SECRET_PATH = "secret";
-    private static final String CREDENCIAIS_JSON = SECRET_PATH + "/credenciais.json";
-    private static final List<String> ESCOPOS = List.of("https://www.googleapis.com/auth/drive");
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    public static Credential getCredential() throws IOException, GeneralSecurityException {
-        NetHttpTransport netHttpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        GoogleClientSecrets googleClientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new FileReader(CREDENCIAIS_JSON));
+    public static HttpRequestFactory getRequestFactory() throws IOException {
+        GoogleCredentials credentials = GoogleCredentials
+                .fromStream(new ByteArrayInputStream(System.getenv("GOOGLE_FORMS_API_CREDENTIALS").getBytes()))
+                .createScoped(List.of("https://www.googleapis.com/auth/forms.responses.readonly", "https://www.googleapis.com/auth/forms.body.readonly"));
 
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                netHttpTransport, JSON_FACTORY, googleClientSecrets, ESCOPOS)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(SECRET_PATH)))
-                .setAccessType("offline")
-                .build();
-
-        Credential credential = flow.loadCredential("user");
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8081).build();
-
-        if (credential != null && (credential.getRefreshToken() != null || credential.getExpiresInSeconds() > 60)) return credential;
-
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        return new NetHttpTransport().createRequestFactory(new HttpCredentialsAdapter(credentials));
     }
 
     public static List<RespostaUsuario> getRespostas(String idForm) {
@@ -127,9 +114,7 @@ public class FormularioService {
     }
 
     public static String getJsonResponse(String url) throws GeneralSecurityException, IOException {
-        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        HttpRequestFactory requestFactory = httpTransport.createRequestFactory(getCredential());
-
+        HttpRequestFactory requestFactory = getRequestFactory();
         return requestFactory.buildGetRequest(new GenericUrl(url)).execute().parseAsString();
     }
 

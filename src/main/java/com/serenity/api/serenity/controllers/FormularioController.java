@@ -47,7 +47,7 @@ public class FormularioController {
             @ApiResponse(responseCode = "500", description = "Erro interno ao buscar perguntas"),
             @ApiResponse(responseCode = "204", description = "Nenhuma pergunta cadastrado")
     })
-    @GetMapping("/questoes/{id}")
+        @GetMapping("/questoes/{id}")
     public ResponseEntity<List<Questao>> getQuestoes(@PathVariable String id) {
         return ok(FormularioService.getQuestoes(id));
     }
