@@ -20,11 +20,8 @@ public class Formulario extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
+    private String id;
     private String nome;
-    private String url;
 
     @OneToMany
     private List<Evento> eventos;

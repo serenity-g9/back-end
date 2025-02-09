@@ -29,7 +29,7 @@ public abstract class EventoMapper {
     public abstract Evento toEvento(EventoRequest eventoRequest);
     public abstract Evento toEvento(EventoUpdateRequest eventoRequest, @MappingTarget Evento evento);
 
-    protected Formulario madIdFormularioToFormulario(UUID idFormulario) {
+    protected Formulario madIdFormularioToFormulario(String idFormulario) {
         return idFormulario != null ? formularioService.buscarPorId(idFormulario) : null;
     }
     protected Usuario madIdUsuarioToUsuario(UUID idUsuario) {

@@ -7,10 +7,6 @@ import org.hibernate.validator.constraints.URL;
 public record FormularioRequest(
         @NotBlank
         @Size(min = 3)
-        String nome,
-
-        @NotBlank
-        @URL
-        String url
+        String nome
 ) {
 }

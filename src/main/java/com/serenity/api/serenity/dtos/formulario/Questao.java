@@ -9,16 +9,18 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties
 public class Questao implements Ordenavel {
-    private String idQuestao;
+    private String id;
     private String titulo;
+    private String tipo;
 
     @Override
     public Comparable<String> getValorOrdenacao() {
         return titulo;
     }
 
-    public Questao(String idQuestao, String titulo) {
-        this.idQuestao = idQuestao;
+    public Questao(String id, String titulo, String tipo) {
+        this.id = id;
         this.titulo = titulo;
+        this.tipo = tipo;
     }
 }

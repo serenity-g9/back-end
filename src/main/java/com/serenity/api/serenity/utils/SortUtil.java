@@ -8,6 +8,8 @@ import java.util.List;
 public class SortUtil {
 
     public static <T extends Ordenavel> void quickSort(T[] v, int indInicio, int indFim) {
+        if (v.length == 0) return;
+
         int i = indInicio;
         int j = indFim;
         Comparable pivo = v[(indInicio + indFim) / 2].getValorOrdenacao();
