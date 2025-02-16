@@ -14,6 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties
 public class RespostaUsuario implements Ordenavel<LocalDateTime> {
     private String id;
+    private String email;
     private LocalDateTime horarioEnviado;
     private List<Resposta> respostas;
 
@@ -22,8 +23,9 @@ public class RespostaUsuario implements Ordenavel<LocalDateTime> {
         return this.horarioEnviado;
     }
 
-    public RespostaUsuario(String id, LocalDateTime horarioEnviado, List<Resposta> respostas) {
+    public RespostaUsuario(String id, String email, LocalDateTime horarioEnviado, List<Resposta> respostas) {
         this.id = id;
+        this.email = email;
         this.horarioEnviado = horarioEnviado;
         this.respostas = respostas;
     }
