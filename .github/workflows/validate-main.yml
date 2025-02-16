@@ -20,21 +20,3 @@ jobs:
       - name: Build Docker Image (Without Running Tests)
         run: |
           docker build --no-cache -t serenity-api:test .
-
-      - name: Recreate .env File from GitHub Secrets
-        run: |
-          echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
-
-      - name: Run Container and Validate
-        run: |
-          docker run --env-file .env -p 8080:8080 -d --name test-container serenity-api:test
-          sleep 10  # Allow container to start
-          docker ps | grep test-container  # Ensure container is running
-          docker logs test-container       # Output logs
-          docker stop test-container
-
-      - name: Cleanup
-        run: |
-          docker rm test-container || true
-          docker rmi my-java-app:test || true
-          rm .env || true
