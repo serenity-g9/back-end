@@ -1,13 +1,17 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.agendamento.AgendamentoResponse;
+import com.serenity.api.serenity.dtos.agendamento.AgendarBatchRequest;
 import com.serenity.api.serenity.dtos.escala.EscalaRequest;
 import com.serenity.api.serenity.dtos.escala.EscalaResponse;
 import com.serenity.api.serenity.dtos.escala.EscalaUpdateRequest;
 import com.serenity.api.serenity.mappers.EscalaMapper;
+import com.serenity.api.serenity.models.Agendamento;
 import com.serenity.api.serenity.services.EscalaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,6 +31,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/escalas", produces = {"application/json"})
 @Tag(name = "CRUD-escalas", description = "Controle de escalas")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class EscalaController {
 
     private final EscalaService escalaService;
@@ -92,8 +98,21 @@ public class EscalaController {
         return noContent().build();
     }
 
- ///   @GetMapping("/exportar")
- //   public ResponseEntity<Void> exportarCSV(@RequestParam LocalDate inicio, @RequestParam LocalDate fim){
-       // return ok();
-  //  }
+    @PostMapping("/{id}/invite")
+    public ResponseEntity<List<AgendamentoResponse>> convidarPorEscala(@PathVariable UUID id, @RequestBody AgendarBatchRequest usuariosId) {
+        List<Agendamento> agendamentos = escalaService.convidarPorEscala(id, usuariosId);
+        List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
+                .map(AgendamentoResponse::new)
+                .collect(Collectors.toList());
+        return ok(agendamentoResponses);
+    }
+
+    @GetMapping("/{id}/demanda")
+    public ResponseEntity<List<EscalaResponse>> buscarPorDemanda(@PathVariable UUID id) {
+        List<EscalaResponse> escalaResponses = escalaService.buscarPorDemanda(id).stream()
+                .map(EscalaResponse::new)
+                .collect(Collectors.toList());
+
+        return ok(escalaResponses);
+    }
 }

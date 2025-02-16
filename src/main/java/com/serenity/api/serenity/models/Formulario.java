@@ -15,16 +15,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Formulario implements Serializable {
+public class Formulario extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
+    private String id;
     private String nome;
-    private String url;
 
     @OneToMany
     private List<Evento> eventos;

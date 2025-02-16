@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Usuario implements Serializable {
+public class Usuario extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -30,6 +30,13 @@ public class Usuario implements Serializable {
 
     @Embedded
     Contato contato;
+
+    public Usuario(UUID id, String email, String senha, Integer tipoUsuario) {
+        this.id = id;
+        this.email = email;
+        this.senha = senha;
+        this.tipoUsuario = tipoUsuario;
+    }
 
     @Override
     public String toString() {

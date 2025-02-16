@@ -8,6 +8,7 @@ import com.serenity.api.serenity.services.ComissaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,11 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/comissoes", produces = {"application/json"})
 @Tag(name = "CRUD-comissões", description = "Controle de comissoes")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class ComissaoController {
     private final ComissaoService comissaoService;
     private final ComissaoMapper mapper;
-
+    
     @Operation(summary = "Lista as comissaões cadastradas", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "comissoes encontradas com sucesso"),

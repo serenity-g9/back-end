@@ -8,6 +8,7 @@ import com.serenity.api.serenity.services.PagamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/pagamentos",produces = {"application/json"})
 @Tag(name = "CRUD-pagamentos", description = "Controle de pagamentos")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class PagamentoController {
     private final PagamentoService pagamentoService;
     private final PagamentoMapper mapper;

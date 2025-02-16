@@ -1,17 +1,12 @@
 package com.serenity.api.serenity.dtos.evento;
 
-import com.fasterxml.jackson.databind.ser.std.UUIDSerializer;
-import com.serenity.api.serenity.dtos.demanda.DemandaBatchResponse;
-import com.serenity.api.serenity.dtos.demanda.DemandaResponse;
+import com.serenity.api.serenity.dtos.anexo.AnexoResponse;
 import com.serenity.api.serenity.dtos.formulario.FormularioResponse;
 import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
 import com.serenity.api.serenity.models.Evento;
-import com.serenity.api.serenity.models.Imagem;
 import com.serenity.api.serenity.models.embeddable.Endereco;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 public record EventoResponse(
@@ -21,10 +16,12 @@ public record EventoResponse(
         LocalDateTime inicio,
         LocalDateTime fim,
         Endereco endereco,
-        Imagem imagem,
+        AnexoResponse imagem,
         FormularioResponse formulario,
         UsuarioResponse responsavel,
-        String status
+        String status,
+        LocalDateTime createdAt,
+        LocalDateTime lastModified
 ) {
     public EventoResponse(Evento evento) {
         this(
@@ -34,14 +31,16 @@ public record EventoResponse(
                 evento.getInicio(),
                 evento.getFim(),
                 evento.getEndereco(),
-                evento.getImagem(),
-                evento.getResponsavel() == null ? null : new FormularioResponse(evento.getFormulario()),
+                evento.getImagem() == null ? null : new AnexoResponse(evento.getImagem()),
+                evento.getFormulario() == null ? null : new FormularioResponse(evento.getFormulario()),
                 evento.getResponsavel() == null ? null : new UsuarioResponse(evento.getResponsavel()),
                 evento.getInicio().isAfter(LocalDateTime.now())
                     ? "Não iniciado"
                     : evento.getFim().isAfter(LocalDateTime.now())
                         ? "Em andamento"
-                        : "Finalizado"
+                        : "Finalizado",
+                evento.getCreatedAt(),
+                evento.getLastModified()
         );
     }
 }

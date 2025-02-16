@@ -11,6 +11,7 @@ import com.serenity.api.serenity.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +26,18 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping(value = "/usuarios", produces = {"application/json"})
-@Tag(name = "CRUD-usuarios", description = "Controle de usuarios")
+@Tag(name = "CRUD-emails", description = "Controle de emails")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
     private final UsuarioMapper mapper;
 
-    @Operation(summary = "Lista os usuarios cadastrados", method = "GET")
+    @Operation(summary = "Lista os emails cadastrados", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "Usuarios encontrados com sucesso"),
-            @ApiResponse(responseCode = "500", description = "Erro interno ao buscar usuarios"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao buscar emails"),
             @ApiResponse(responseCode = "204", description = "Nenhum usuario cadastrado")
     })
     @GetMapping
@@ -46,7 +48,7 @@ public class UsuarioController {
         return ok(agendamentoResponses);
     }
 
-    @Operation(summary = "Realiza criação de usuarios", method = "POST")
+    @Operation(summary = "Realiza criação de emails", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",description = "Cadastro realizado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao cadastrar"),

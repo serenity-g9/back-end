@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Registro implements Serializable {
+public class Registro extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

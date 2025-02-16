@@ -1,5 +1,6 @@
 package com.serenity.api.serenity.dtos.evento;
 
+import com.serenity.api.serenity.models.embeddable.Endereco;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -14,7 +15,10 @@ public record EventoUpdateRequest(
 //        @FutureOrPresent
         LocalDateTime inicio,
 //        @Future
-        LocalDateTime fim
+        LocalDateTime fim,
+
+        @NotNull
+        Endereco endereco
 ){
 
 }

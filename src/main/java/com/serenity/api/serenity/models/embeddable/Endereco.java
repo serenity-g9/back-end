@@ -15,4 +15,5 @@ public class Endereco {
     private String numero;
     private String uf;
     private String cidade;
+    private String local;
 }

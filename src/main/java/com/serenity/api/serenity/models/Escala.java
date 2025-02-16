@@ -1,10 +1,13 @@
 package com.serenity.api.serenity.models;
 
+import com.serenity.api.serenity.listeners.EscalaListener;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -14,7 +17,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Escala  implements Serializable {
+@EntityListeners(EscalaListener.class)
+public class Escala extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -24,27 +28,15 @@ public class Escala  implements Serializable {
 
     private Integer funcaoEscala;
     private Integer qtdColaborador;
-    private Integer qtdHora;
+    private Integer horasJornada;
     private Double valor;
-    private Boolean comissionado;
-    private Boolean asoObrigatorio;
 
     @ManyToOne
+    @JoinColumn(name = "demanda_id", nullable = false)
     private Demanda demanda;
-    @Override
-    public String toString() {
-        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
-                id,
-                funcaoEscala,
-                qtdColaborador,
-                qtdHora,
-                valor,
-                comissionado,
-                asoObrigatorio,
-                demanda != null ? demanda.getId() : ""
-        );
-    }
 
 
+    @OneToMany(mappedBy = "escala", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Agendamento> agendamentos = new ArrayList<>();
 }
 

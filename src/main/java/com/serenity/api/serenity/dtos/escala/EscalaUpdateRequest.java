@@ -8,10 +8,8 @@ public record EscalaUpdateRequest(
         @NotNull
         Integer qtdColaborador,
         @NotNull
-        Integer qtdHora,
+        Integer horasJornada,
         @NotNull
-        Double valor,
-        Boolean comissionado,
-        Boolean asoObrigatorio
+        Double valor
 ) {
 }

@@ -3,13 +3,20 @@ package com.serenity.api.serenity.controllers;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoRequest;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoResponse;
 import com.serenity.api.serenity.dtos.agendamento.AgendamentoUpdateRequest;
+import com.serenity.api.serenity.dtos.agendamento.AgendarBatchRequest;
+import com.serenity.api.serenity.dtos.codigo.CodigoResponse;
+import com.serenity.api.serenity.enums.StatusAgendamento;
 import com.serenity.api.serenity.mappers.AgendamentoMapper;
+import com.serenity.api.serenity.models.Agendamento;
 import com.serenity.api.serenity.services.AgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +31,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/agendamentos", produces = {"application/json"})
 @Tag(name = "CRUD-agendamento", description = "Controle de agendamentos")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Bearer")
 public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;
@@ -87,5 +95,69 @@ public class AgendamentoController {
     public ResponseEntity<Void> deletar (@PathVariable UUID id) {
         agendamentoService.deletar(id);
         return noContent().build();
+    }
+
+//    @PatchMapping("/{id}/invite")
+//    public ResponseEntity<AgendamentoResponse> convidar(@PathVariable UUID id, @RequestParam(name = "usuario") UUID idUsuario) {
+//        return ok(new AgendamentoResponse(agendamentoService.convidar(id, idUsuario)));
+//    }
+
+    @PatchMapping("/{id}/invite")
+    public ResponseEntity<AgendamentoResponse> convidarPorEmail(@PathVariable UUID id, @RequestParam(name = "email") @Email String email) {
+        return ok(new AgendamentoResponse(agendamentoService.convidarPorEmail(id, email)));
+    }
+
+    @PatchMapping("/{id}/accept")
+    public ResponseEntity<AgendamentoResponse> aceitar(@PathVariable UUID id) {
+        return ok(new AgendamentoResponse(agendamentoService.aceitar(id)));
+    }
+
+    @PatchMapping("/{id}/reject")
+    public ResponseEntity<AgendamentoResponse> recusar(@PathVariable UUID id) {
+        return ok(new AgendamentoResponse(agendamentoService.recusar(id)));
+    }
+
+    @PatchMapping("/check-in")
+    public ResponseEntity<AgendamentoResponse> realizarCheckin(
+            @RequestParam
+            @Pattern(regexp = "^[0-9]{6}$", message = "Código inválido. Utilize caracteres numéricos de 6 digitos")
+            String digito
+    ) {
+        return ok(new AgendamentoResponse(agendamentoService.realizarCheckin(digito)));
+    }
+    @GetMapping("/check-in")
+    public ResponseEntity<AgendamentoResponse> buscarAgendamento(
+            @RequestParam
+            @Pattern(regexp = "^[0-9]{6}$", message = "Código inválido. Utilize caracteres numéricos de 6 digitos")
+            String digito
+    ) {
+        return ok(new AgendamentoResponse(agendamentoService.buscarPorDigito(digito)));
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<AgendamentoResponse>> buscarPorStatus(@RequestParam Integer status) {
+        List<Agendamento> agendamentos = agendamentoService.buscarPorStatus(status);
+        List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
+                .map(AgendamentoResponse::new)
+                .collect(Collectors.toList());
+        return ok(agendamentoResponses);
+    }
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<AgendamentoResponse>> listarPorUsuario(@PathVariable UUID id) {
+        List<Agendamento> agendamentos = agendamentoService.listarPorUsuario(id);
+        List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
+                .map(AgendamentoResponse::new)
+                .collect(Collectors.toList());
+        return ok(agendamentoResponses);
+    }
+
+    @GetMapping("/escala/{id}")
+    public ResponseEntity<List<AgendamentoResponse>> buscarPorEscala(@PathVariable UUID id) {
+        List<Agendamento> agendamentos = agendamentoService.buscarPorEscala(id);
+        List<AgendamentoResponse> agendamentoResponses = agendamentos.stream()
+                .map(AgendamentoResponse::new)
+                .collect(Collectors.toList());
+        return ok(agendamentoResponses);
     }
 }

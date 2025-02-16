@@ -10,7 +10,7 @@ public record EscalaRequest(
         @NotNull
         Integer qtdColaborador,
         @NotNull
-        Integer qtdHora,
+        Integer horasJornada,
         @NotNull
         Double valor,
         @NotNull

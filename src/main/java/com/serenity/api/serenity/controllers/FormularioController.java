@@ -1,17 +1,12 @@
 package com.serenity.api.serenity.controllers;
 
-import com.serenity.api.serenity.dtos.formulario.FormularioRequest;
-import com.serenity.api.serenity.dtos.formulario.FormularioResponse;
-import com.serenity.api.serenity.dtos.formulario.FormularioUpdateRequest;
-import com.serenity.api.serenity.dtos.formulario.Questao;
-import com.serenity.api.serenity.dtos.formulario.RespostaUsuario;
+import com.serenity.api.serenity.dtos.formulario.*;
 import com.serenity.api.serenity.mappers.FormularioMapper;
 import com.serenity.api.serenity.services.FormularioService;
-import com.serenity.api.serenity.services.FormularioService;
-import com.serenity.api.serenity.services.ImagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.*;
@@ -28,6 +23,7 @@ import static org.springframework.http.ResponseEntity.*;
 @RequestMapping(value = "/forms", produces = {"application/json"})
 @RequiredArgsConstructor
 @Tag(name = "CRUD-formularios", description = "Controle de formulários")
+@SecurityRequirement(name = "Bearer")
 public class FormularioController {
 
     @Operation(summary = "Lista os respostas cadastrados", method = "GET")
@@ -41,13 +37,38 @@ public class FormularioController {
         return ok(FormularioService.getRespostas(id));
     }
 
+    @Operation(summary = "Lista os respostas cadastrados", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "respostas encontrados com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao buscar respostas"),
+            @ApiResponse(responseCode = "204", description = "Nenhuma resposta cadastrado")
+    })
+    @GetMapping("/{id}/google")
+    public ResponseEntity<Map<String, Object>> getRespostasPorQuestao(@PathVariable String id) {
+        return ok(formularioService.getRespostasPorQuestao(id));
+    }
+
+    @GetMapping("/google")
+    public ResponseEntity<List<GoogleForm>> getGoogleForms() {
+        return ok(FormularioService.getGoogleForms());
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<List<FormularioResponse>> integrarForms() {
+        List<FormularioResponse> formularioResponses = formularioService.integrarForms().stream()
+                .map(FormularioResponse::new)
+                .collect(Collectors.toList());
+
+        return created(null).body(formularioResponses);
+    }
+
     @Operation(summary = "Lista os perguntas cadastradas", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",description = "perguntas encontrados com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao buscar perguntas"),
             @ApiResponse(responseCode = "204", description = "Nenhuma pergunta cadastrado")
     })
-    @GetMapping("/questoes/{id}")
+        @GetMapping("/questoes/{id}")
     public ResponseEntity<List<Questao>> getQuestoes(@PathVariable String id) {
         return ok(FormularioService.getQuestoes(id));
     }
@@ -88,7 +109,7 @@ public class FormularioController {
             @ApiResponse(responseCode = "404", description = "formulario não existe")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<FormularioResponse> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<FormularioResponse> buscarPorId(@PathVariable String id) {
         return ok(new FormularioResponse(formularioService.buscarPorId(id)));
     }
 
@@ -100,7 +121,7 @@ public class FormularioController {
             @ApiResponse(responseCode = "404", description = "formulario não existe")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<FormularioResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid FormularioUpdateRequest formularioUpdateRequest) {
+    public ResponseEntity<FormularioResponse> atualizar(@PathVariable String id, @RequestBody @Valid FormularioUpdateRequest formularioUpdateRequest) {
         return ok(new FormularioResponse(formularioService.atualizar(id, mapper.toFormulario(formularioUpdateRequest, formularioService.buscarPorId(id)))));
     }
 
@@ -111,7 +132,7 @@ public class FormularioController {
             @ApiResponse(responseCode = "404", description = "formulario não existe")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
+    public ResponseEntity<Void> deletar(@PathVariable String id) {
         formularioService.deletar(id);
         return noContent().build();
     }

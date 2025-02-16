@@ -1,11 +1,11 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.dtos.evento.EventoExportResponse;
-import com.serenity.api.serenity.dtos.evento.EventoResponse;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Evento;
 import com.serenity.api.serenity.repositories.EventoRepository;
 import com.serenity.api.serenity.utils.CSVUtil;
+import com.serenity.api.serenity.utils.Pilha;
 import com.serenity.api.serenity.utils.SearchUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,11 +23,13 @@ import java.util.UUID;
 public class EventoService {
 
     private final EventoRepository eventoRepository;
-    private final ImagemService imagemService;
+    private final AnexoService anexoService;
 
     public Evento cadastrar(Evento evento) {
         return eventoRepository.save(evento);
     }
+
+    Pilha<UUID> eventosDeletados = new Pilha<>(255);
 
     public List<Evento> listar() {
         return eventoRepository.findAll();
@@ -52,8 +52,14 @@ public class EventoService {
 
     public void deletar(UUID id) {
         Evento evento = buscarPorId(id);
-        if (evento.getImagem() != null) imagemService.deletarAnexo(evento.getImagem().getNome());
+        if (evento.getImagem() != null) anexoService.deletarAnexo(evento.getImagem().getNome());
         eventoRepository.deleteById(id);
+    }
+
+    public void softDelete(UUID id) {
+        Evento evento = buscarPorId(id);
+        evento.softDelete();
+        eventosDeletados.push(id);
     }
 
     public Evento atualizar(UUID id, Evento evento) {
@@ -72,5 +78,12 @@ public class EventoService {
                 .toList();
 
         return CSVUtil.exportar(eventoResponses);
+    }
+
+    public Evento restaurarEvento() {
+        Evento eventoRestaurado = buscarPorId(eventosDeletados.pop());
+        eventoRestaurado.setDeletedAt(null);
+
+        return eventoRestaurado;
     }
 }

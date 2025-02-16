@@ -2,18 +2,20 @@ package com.serenity.api.serenity.dtos.formulario;
 
 import com.serenity.api.serenity.models.Formulario;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 public record FormularioResponse(
-        UUID id,
+        String id,
         String nome,
-        String url
+        LocalDateTime createdAt,
+        LocalDateTime lastModified
 ) {
     public FormularioResponse(Formulario f) {
         this(
                 f.getId(),
                 f.getNome(),
-                f.getUrl()
+                f.getCreatedAt(),
+                f.getLastModified()
         );
     }
 }

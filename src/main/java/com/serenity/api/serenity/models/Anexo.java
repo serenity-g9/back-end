@@ -13,11 +13,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Imagem implements Serializable {
+public class Anexo extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -27,14 +26,5 @@ public class Imagem implements Serializable {
 
     private String nome;
     private String url;
-
-    @Override
-    public String toString() {
-        return String.format("%s;%s;%s\n",
-                id,
-                nome,
-                url
-        );
-    }
-
+    private Integer tipoArquivo;
 }

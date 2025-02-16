@@ -1,13 +1,17 @@
 package com.serenity.api.serenity.models;
 
+import com.serenity.api.serenity.enums.StatusAgendamento;
+import com.serenity.api.serenity.listeners.AgendamentoListener;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Getter
 @Setter
@@ -15,7 +19,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Agendamento implements Serializable {
+@ToString
+@EntityListeners(AgendamentoListener.class)
+public class Agendamento extends BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -23,24 +29,34 @@ public class Agendamento implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    private LocalDateTime horarioEntrada;
+    private LocalDateTime horarioSaida;
+    private LocalDateTime horarioInvitacaoAceito;
+
     @ManyToOne
+    @JoinColumn(name = "escala_id", nullable = false)
     private Escala escala;
 
-    @OneToMany
-    private List<Registro> registros;
+    @ManyToOne
+    private Usuario usuario;
 
-    private LocalDateTime horarioEntrada;
+    @OneToOne
+    private Codigo codEntrada;
 
-    public String toString() {
-        String registrosStr = registros.stream()
-                .map(registro -> registro.getId().toString())
-                .reduce((a, b) -> a + ";" + b).orElse("");
+    @OneToOne
+    private Codigo codSaida;
 
-        return String.format("%s;%s;%s;%s\n",
-                id,
-                escala.getId(),
-                registrosStr,
-                horarioEntrada
-        );
+    public String getStatus() {
+        if (escala.getDemanda().getFim().isBefore(LocalDateTime.now())) {
+            return StatusAgendamento.getValor(4);
+        } else if (usuario == null) {
+            return StatusAgendamento.getValor(0);
+        } else if (horarioInvitacaoAceito == null) {
+            return StatusAgendamento.getValor(1);
+        } else if (codEntrada.getHorarioUtilizado() == null) {
+            return StatusAgendamento.getValor(2);
+        } else {
+            return StatusAgendamento.getValor(3);
+        }
     }
 }

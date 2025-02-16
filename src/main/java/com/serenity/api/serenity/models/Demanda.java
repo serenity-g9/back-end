@@ -3,7 +3,10 @@ package com.serenity.api.serenity.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,14 +17,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Demanda {
+public class Demanda extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     private String nome;
-    private LocalDate inicio;
-    private LocalDate fim;
+    private LocalDateTime inicio;
+    private LocalDateTime fim;
     private Double custoTotal;
     private Integer tipoContrato;
 
@@ -31,7 +34,7 @@ public class Demanda {
     @ManyToOne
     private Usuario responsavel;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Escala> escalas;
+    @OneToMany(mappedBy = "demanda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Escala> escalas = new ArrayList<>();
 
 }

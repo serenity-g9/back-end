@@ -7,6 +7,7 @@ import com.serenity.api.serenity.enums.TipoContrato;
 import com.serenity.api.serenity.models.Demanda;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,8 +15,8 @@ public record DemandaBatchResponse(
         UUID id,
         String nome,
         Double custoTotal,
-        LocalDate inicio,
-        LocalDate fim,
+        LocalDateTime inicio,
+        LocalDateTime fim,
         String tipoContrato,
         UsuarioResponse responsavel,
         List<EscalaResponse> escalas

@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Comissao  implements Faturavel, Serializable {
+public class Comissao extends BaseEntity implements Faturavel, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record DemandaUpdateRequest(
 
@@ -15,9 +16,9 @@ public record DemandaUpdateRequest(
         @NotNull
         Double orcamento,
         @FutureOrPresent
-        LocalDate inicio,
+        LocalDateTime inicio,
         @FutureOrPresent
-        LocalDate fim,
+        LocalDateTime fim,
         @NotNull
         Double custoTotal,
         @NotNull
