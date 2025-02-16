@@ -45,7 +45,7 @@ public class FormularioService {
 
     public static HttpRequestFactory getRequestFactory() throws IOException {
         GoogleCredentials credentials = GoogleCredentials
-                .fromStream(new ByteArrayInputStream(System.getenv("GOOGLE_FORMS_API_CREDENTIALS").getBytes()))
+                .fromStream(new FileInputStream(System.getenv("GOOGLE_FORMS_API_CREDENTIALS_PATH")))
                 .createScoped(List.of("https://www.googleapis.com/auth/forms.responses.readonly", "https://www.googleapis.com/auth/forms.body.readonly", "https://www.googleapis.com/auth/drive.metadata.readonly"));
 
         return new NetHttpTransport().createRequestFactory(new HttpCredentialsAdapter(credentials));
@@ -79,6 +79,7 @@ public class FormularioService {
 
                 respostaUsuarios.add(new RespostaUsuario(
                         response.path("responseId").asText(),
+                        response.path("respondentEmail").asText(),
                         OffsetDateTime.parse(response.path("lastSubmittedTime").asText()).toLocalDateTime(),
                         respostas
                 ));
@@ -123,7 +124,9 @@ public class FormularioService {
 
         Map<String, Object> questoesRespostasMap = new HashMap<>();
         questoesRespostasMap.put("formulario", formulario.getNome());
-        questoesRespostasMap.put("questoes", questoesRespostas);
+        questoesRespostasMap.put("data", questoesRespostas);
+        questoesRespostasMap.put("respostas", respostas);
+        questoesRespostasMap.put("questoes", questoes);
         return questoesRespostasMap;
     }
 
