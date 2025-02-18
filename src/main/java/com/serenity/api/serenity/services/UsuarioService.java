@@ -7,14 +7,18 @@ import com.serenity.api.serenity.dtos.usuario.SenhaPatchRequest;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -88,5 +92,18 @@ public class UsuarioService {
         usuario.setSenha(senhaCriptografada);
 
         usuarioRepository.save(usuario);
+    }
+
+    public AccessTokenResponse buscarUsuarioAtual(Authentication authentication) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(403));
+        }
+
+        String email = ((UserDetails) authentication.getPrincipal()).getUsername();
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrado"));
+
+        return new AccessTokenResponse(usuario, null);
     }
 }
