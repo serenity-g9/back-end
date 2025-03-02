@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -86,4 +87,9 @@ public class EventoService {
 
         return eventoRestaurado;
     }
+
+    public Integer eventosFinalizadoPorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosFinalizados(idUsuario);}
+    public Integer eventosEmBrevePorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosEmBreve(idUsuario);}
+    public Integer eventosOcorrendoPorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosOcorrendo(idUsuario);}
+    public List<Integer> eventosOcorridosIntervalo(UUID idUsuario, LocalDate inicio, LocalDate fim){return eventoRepository.findByEventosPorMes(idUsuario,inicio,fim);}
 }

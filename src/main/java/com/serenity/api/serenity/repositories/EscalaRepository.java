@@ -24,4 +24,7 @@ public interface EscalaRepository extends JpaRepository<Escala, UUID> {
     Page<Agendamento> buscarAgendamentosDisponiveisPorEscala(UUID idEscala, Pageable pageable);
 
     List<Escala> findAllByDemanda(Demanda demanda);
+
+//    @Query("SELECT qtd_colaborador , valor FROM escala WHERE   BETWEEN AND ")
+//    List<Integer> findValorDemandasBy();
 }
