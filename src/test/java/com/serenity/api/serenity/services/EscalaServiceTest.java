@@ -1,6 +1,8 @@
 package com.serenity.api.serenity.services;
 
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
+import com.serenity.api.serenity.models.Agendamento;
+import com.serenity.api.serenity.models.Demanda;
 import com.serenity.api.serenity.models.Escala;
 import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.repositories.EscalaRepository;
@@ -12,10 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
@@ -47,14 +46,18 @@ class EscalaServiceTest {
                         11,
                         5,
                         40,
-                        2500.0
+                        2500.0,
+                        new Demanda(),
+                        List.of(new Agendamento())
                 ),
                 new Escala(
                         UUID.randomUUID(),
                         7,
                         8,
                         50,
-                        4500.0
+                        4500.0,
+                        new Demanda(),
+                        List.of(new Agendamento())
                 )
         );
 
@@ -79,7 +82,9 @@ class EscalaServiceTest {
                 7,
                 8,
                 50,
-                4500.0
+                4500.0,
+                new Demanda(),
+                List.of(new Agendamento())
         );
 
         Mockito.when(escalaRepository.findById(Mockito.any(UUID.class))).thenReturn(Optional.of(escalaEsperada));
