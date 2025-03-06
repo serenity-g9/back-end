@@ -88,8 +88,8 @@ public class EventoService {
         return eventoRestaurado;
     }
 
-    public Integer eventosFinalizadoPorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosFinalizados(idUsuario);}
-    public Integer eventosEmBrevePorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosEmBreve(idUsuario);}
-    public Integer eventosOcorrendoPorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosOcorrendo(idUsuario);}
-    public List<Integer> eventosOcorridosIntervalo(UUID idUsuario, LocalDate inicio, LocalDate fim){return eventoRepository.findByEventosPorMes(idUsuario,inicio,fim);}
+//    public Integer eventosFinalizadoPorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosFinalizados(idUsuario);}
+//    public Integer eventosEmBrevePorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosEmBreve(idUsuario);}
+//    public Integer eventosOcorrendoPorUsuario(UUID idUsuario){return eventoRepository.findByNumeroDeEventosOcorrendo(idUsuario);}
+//    public List<Integer> eventosOcorridosIntervalo(UUID idUsuario, LocalDate inicio, LocalDate fim){return eventoRepository.findByEventosPorMes(idUsuario,inicio,fim);}
 }
