@@ -17,18 +17,4 @@ public interface EventoRepository extends BaseRepository<Evento, UUID> {
 
     @Query("SELECT e FROM Evento e WHERE e.deletedAt IS NULL ORDER BY e.nome ASC")
     List<Evento> findAllByOrderByNomeAsc();
-
-    @Query("select count(*) from evento where  responsavel_id = idUsuario and now() > fim ")
-    Integer findByNumeroDeEventosFinalizados(UUID idUsuario);
-
-    @Query("select count(*) from evento where  responsavel_id = idUsuario and now() < inicio ")
-    Integer findByNumeroDeEventosEmBreve(UUID idUsuario);
-
-    @Query("select count(*) from evento where  responsavel_id = idUsuario and now() between inicio and fim ")
-    Integer findByNumeroDeEvetosOcorrendo(UUID idUsuario);
-
-    @Query("select count(*) from evento where  responsavel_id = idUsuario and between inicio and fim ")
-    Integer findByNumeroDeEventosQuantidadeMes(UUID idUsuario, LocalDate inicio , LocalDate fim);
-
-
 }
