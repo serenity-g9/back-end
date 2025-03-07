@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @EntityListeners(AgendamentoListener.class)
 public class Agendamento extends BaseEntity implements Serializable {
     @Serial
@@ -45,7 +47,9 @@ public class Agendamento extends BaseEntity implements Serializable {
     private Codigo codSaida;
 
     public String getStatus() {
-        if (usuario == null) {
+        if (escala.getDemanda().getFim().isBefore(LocalDateTime.now())) {
+            return StatusAgendamento.getValor(4);
+        } else if (usuario == null) {
             return StatusAgendamento.getValor(0);
         } else if (horarioInvitacaoAceito == null) {
             return StatusAgendamento.getValor(1);

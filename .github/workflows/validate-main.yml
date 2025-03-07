@@ -1,0 +1,22 @@
+name: Validate Docker Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-docker-build:
+    name: Validate Docker Build (No Tests)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image (Without Running Tests)
+        run: |
+          docker build --no-cache -t serenity-api:test .

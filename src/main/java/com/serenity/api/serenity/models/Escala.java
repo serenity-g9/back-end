@@ -32,7 +32,9 @@ public class Escala extends BaseEntity implements Serializable {
     private Double valor;
 
     @ManyToOne
+    @JoinColumn(name = "demanda_id", nullable = false)
     private Demanda demanda;
+
 
     @OneToMany(mappedBy = "escala", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Agendamento> agendamentos = new ArrayList<>();

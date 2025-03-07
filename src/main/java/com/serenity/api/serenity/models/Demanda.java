@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class Demanda extends BaseEntity implements Serializable {
     @ManyToOne
     private Usuario responsavel;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Escala> escalas;
+    @OneToMany(mappedBy = "demanda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Escala> escalas = new ArrayList<>();
 
 }

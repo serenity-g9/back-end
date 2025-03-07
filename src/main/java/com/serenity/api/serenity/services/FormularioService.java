@@ -2,22 +2,12 @@ package com.serenity.api.serenity.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
-import com.serenity.api.serenity.dtos.formulario.Questao;
-import com.serenity.api.serenity.dtos.formulario.Resposta;
-import com.serenity.api.serenity.dtos.formulario.RespostaUsuario;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.serenity.api.serenity.dtos.formulario.*;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Formulario;
 import com.serenity.api.serenity.repositories.FormularioRepository;
@@ -25,8 +15,7 @@ import com.serenity.api.serenity.utils.SortUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -37,39 +26,40 @@ public class FormularioService {
 
     private final FormularioRepository formularioRepository;
 
-    private static final String SECRET_PATH = "secret";
-    private static final String CREDENCIAIS_JSON = SECRET_PATH + "/credenciais.json";
-    private static final List<String> ESCOPOS = List.of("https://www.googleapis.com/auth/drive");
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    public static Credential getCredential() throws IOException, GeneralSecurityException {
-        NetHttpTransport netHttpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        GoogleClientSecrets googleClientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new FileReader(CREDENCIAIS_JSON));
+    public List<Formulario> integrarForms() {
+        List<GoogleForm> googleForms = getGoogleForms();
+        List<Formulario> forms = new ArrayList<>();
 
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                netHttpTransport, JSON_FACTORY, googleClientSecrets, ESCOPOS)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(SECRET_PATH)))
-                .setAccessType("offline")
-                .build();
+        for (GoogleForm googleForm : googleForms) {
+            Formulario formulario = new Formulario();
+            formulario.setId(googleForm.getId());
+            formulario.setNome(googleForm.getNome());
 
-        Credential credential = flow.loadCredential("user");
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8081).build();
+            forms.add(formulario);
+        }
 
-        if (credential != null && (credential.getRefreshToken() != null || credential.getExpiresInSeconds() > 60)) return credential;
+        return formularioRepository.saveAll(forms);
+    }
 
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    public static HttpRequestFactory getRequestFactory() throws IOException {
+        GoogleCredentials credentials = GoogleCredentials
+                .fromStream(new FileInputStream(System.getenv("GOOGLE_FORMS_API_CREDENTIALS_PATH")))
+                .createScoped(List.of("https://www.googleapis.com/auth/forms.responses.readonly", "https://www.googleapis.com/auth/forms.body.readonly", "https://www.googleapis.com/auth/drive.metadata.readonly"));
+
+        return new NetHttpTransport().createRequestFactory(new HttpCredentialsAdapter(credentials));
     }
 
     public static List<RespostaUsuario> getRespostas(String idForm) {
         String url = "https://forms.googleapis.com/v1/forms/" + idForm + "/responses";
 
         try {
-            String respostaJson = getJsonResponse(url);
-            JsonNode respostaNode = MAPPER.readTree(respostaJson);
+            String jsonResponse = getJsonResponse(url);
+            JsonNode node = MAPPER.readTree(jsonResponse);
 
             List<RespostaUsuario> respostaUsuarios = new ArrayList<>();
-            for (JsonNode response : respostaNode.path("responses")) {
+            for (JsonNode response : node.path("responses")) {
 
                 List<Resposta> respostas = new ArrayList<>();
                 for (JsonNode answer : response.path("answers")) {
@@ -89,6 +79,7 @@ public class FormularioService {
 
                 respostaUsuarios.add(new RespostaUsuario(
                         response.path("responseId").asText(),
+                        response.path("respondentEmail").asText(),
                         OffsetDateTime.parse(response.path("lastSubmittedTime").asText()).toLocalDateTime(),
                         respostas
                 ));
@@ -102,21 +93,72 @@ public class FormularioService {
         }
     }
 
+    public Map<String, Object> getRespostasPorQuestao(String idForm) {
+        Formulario formulario = buscarPorId(idForm);
+
+        List<Questao> questoes = getQuestoes(idForm);
+        List<RespostaUsuario> respostas = getRespostas(idForm);
+
+        List<QuestaoRespostas> questoesRespostas = new ArrayList<>();
+
+        for (Questao questao : questoes) {
+            QuestaoRespostas questaoRespostas = new QuestaoRespostas(
+                    questao,
+                    new ArrayList<RespostaQuestao>()
+            );
+
+            for (RespostaUsuario respostaUsuario : respostas) {
+                for (Resposta resposta : respostaUsuario.getRespostas()) {
+                    if (resposta.getIdQuestao().equals(questao.getId())) {
+                        questaoRespostas.getRespostas().add(new RespostaQuestao(
+                                respostaUsuario.getId(),
+                                resposta.getValores(),
+                                respostaUsuario.getHorarioEnviado()
+                        ));
+                    }
+                }
+            }
+
+            questoesRespostas.add(questaoRespostas);
+        }
+
+        Map<String, Object> questoesRespostasMap = new HashMap<>();
+        questoesRespostasMap.put("formulario", formulario.getNome());
+        questoesRespostasMap.put("data", questoesRespostas);
+        questoesRespostasMap.put("respostas", respostas);
+        questoesRespostasMap.put("questoes", questoes);
+        return questoesRespostasMap;
+    }
+
     public static List<Questao> getQuestoes(String idForm) {
         String url = "https://forms.googleapis.com/v1/forms/" + idForm;
 
         try {
-            String respostaJson = getJsonResponse(url);
-            JsonNode respostaNode = MAPPER.readTree(respostaJson);
+            String jsonResponse = getJsonResponse(url);
+            JsonNode node = MAPPER.readTree(jsonResponse);
 
             List<Questao> questoes = new ArrayList<>();
-            for (JsonNode item : respostaNode.path("items")) {
-                questoes.add(
-                        new Questao(
-                                item.path("questionItem").path("question").path("questionId").asText(),
-                                item.path("title").asText()
-                        )
-                );
+            for (JsonNode item : node.path("items")) {
+                JsonNode questionNode = item.path("questionItem").path("question");
+
+                String tipo;
+                if (questionNode.has("choiceQuestion")) {
+                    tipo = questionNode.path("choiceQuestion").path("type").asText();
+                } else if (questionNode.has("dateQuestion")) {
+                    tipo = "DATE";
+                } else if (questionNode.has("timeQuestion")) {
+                    tipo = "TIME";
+                } else if (questionNode.has("textQuestion")) {
+                    tipo = "TEXT";
+                } else {
+                    tipo = "UNKNOWN";
+                }
+
+                questoes.add(new Questao(
+                        questionNode.path("questionId").asText(),
+                        item.path("title").asText(),
+                        tipo
+                ));
             }
 
             return SortUtil.selectionSort(questoes.toArray(new Questao[0]));
@@ -126,10 +168,31 @@ public class FormularioService {
         }
     }
 
-    public static String getJsonResponse(String url) throws GeneralSecurityException, IOException {
-        HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        HttpRequestFactory requestFactory = httpTransport.createRequestFactory(getCredential());
+    public static List<GoogleForm> getGoogleForms() {
+        String url = "https://www.googleapis.com/drive/v3/files?q=mimeType='application/vnd.google-apps.form'&fields=files(id,name)";
+        try {
+            String jsonResponse = getJsonResponse(url);
 
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode root = objectMapper.readTree(jsonResponse);
+            List<GoogleForm> forms = new ArrayList<>();
+
+            if (root.has("files")) {
+                for (JsonNode file : root.get("files")) {
+                    String id = file.has("id") ? file.get("id").asText() : "";
+                    String name = file.has("name") ? file.get("name").asText() : "";
+                    forms.add(new GoogleForm(id, name));
+                }
+            }
+
+            return forms;
+        } catch (GeneralSecurityException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String getJsonResponse(String url) throws GeneralSecurityException, IOException {
+        HttpRequestFactory requestFactory = getRequestFactory();
         return requestFactory.buildGetRequest(new GenericUrl(url)).execute().parseAsString();
     }
 
@@ -141,16 +204,16 @@ public class FormularioService {
         return formularioRepository.findAll();
     }
 
-    public Formulario buscarPorId(UUID id) {
+    public Formulario buscarPorId(String id) {
         return formularioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("formulário"));
     }
 
-    public void deletar(UUID id) {
+    public void deletar(String id) {
         buscarPorId(id);
         formularioRepository.softDeleteById(id);
     }
 
-    public Formulario atualizar(UUID id, Formulario formulario) {
+    public Formulario atualizar(String id, Formulario formulario) {
         buscarPorId(id);
         formulario.setId(id);
 

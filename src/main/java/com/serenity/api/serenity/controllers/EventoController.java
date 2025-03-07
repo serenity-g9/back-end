@@ -126,11 +126,11 @@ public class EventoController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
-        eventoService.deletar(id);
+        eventoService.softDelete(id);
         return noContent().build();
     }
 
-    @PatchMapping("/restaurar")
+    @PostMapping("/restaurar")
     public ResponseEntity<EventoResponse> restaurar() {
         return ok(new EventoResponse(eventoService.restaurarEvento()));
     }

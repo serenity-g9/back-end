@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -96,9 +97,14 @@ public class AgendamentoController {
         return noContent().build();
     }
 
+//    @PatchMapping("/{id}/invite")
+//    public ResponseEntity<AgendamentoResponse> convidar(@PathVariable UUID id, @RequestParam(name = "usuario") UUID idUsuario) {
+//        return ok(new AgendamentoResponse(agendamentoService.convidar(id, idUsuario)));
+//    }
+
     @PatchMapping("/{id}/invite")
-    public ResponseEntity<AgendamentoResponse> convidar(@PathVariable UUID id, @RequestParam(name = "usuario") UUID idUsuario) {
-        return ok(new AgendamentoResponse(agendamentoService.convidar(id, idUsuario)));
+    public ResponseEntity<AgendamentoResponse> convidarPorEmail(@PathVariable UUID id, @RequestParam(name = "email") @Email String email) {
+        return ok(new AgendamentoResponse(agendamentoService.convidarPorEmail(id, email)));
     }
 
     @PatchMapping("/{id}/accept")
@@ -112,12 +118,12 @@ public class AgendamentoController {
     }
 
     @PatchMapping("/check-in")
-    public ResponseEntity<CodigoResponse> realizarCheckin(
+    public ResponseEntity<AgendamentoResponse> realizarCheckin(
             @RequestParam
             @Pattern(regexp = "^[0-9]{6}$", message = "Código inválido. Utilize caracteres numéricos de 6 digitos")
             String digito
     ) {
-        return ok(new CodigoResponse(agendamentoService.realizarCheckin(digito)));
+        return ok(new AgendamentoResponse(agendamentoService.realizarCheckin(digito)));
     }
     @GetMapping("/check-in")
     public ResponseEntity<AgendamentoResponse> buscarAgendamento(

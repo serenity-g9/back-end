@@ -8,7 +8,7 @@ public enum FuncaoAlocacao {
     LIMPEZA(4, "Limpeza"),
     GARCOM(5, "Garçom"),
     DOSADOR(6, "Dosador"),
-    BARBACK(7, "Barback"),
+    BARTENDER(7, "Bartender"),
     LIDER_DE_BAR(8, "Líder de bar"),
     COORDENADOR(9, "Coordenador"),
     RH(10, "RH"),
