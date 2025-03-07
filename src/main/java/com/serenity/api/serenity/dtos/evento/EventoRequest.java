@@ -25,7 +25,7 @@ public record EventoRequest(
         @NotNull
         Endereco endereco,
 
-        UUID idFormulario,
+        String idFormulario,
         UUID idResponsavel
 ){
 
