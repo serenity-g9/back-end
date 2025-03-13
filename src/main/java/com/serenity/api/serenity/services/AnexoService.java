@@ -76,7 +76,7 @@ public class AnexoService {
     }
 
     public Anexo buscarPorId(UUID id) {
-        return anexoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Imagem"));
+        return anexoRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("Anexo"));
     }
 
     public void deletar(UUID id) {
