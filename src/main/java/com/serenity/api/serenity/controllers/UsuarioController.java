@@ -2,10 +2,7 @@ package com.serenity.api.serenity.controllers;
 
 import com.serenity.api.serenity.dtos.autenticacao.AccessTokenResponse;
 import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
-import com.serenity.api.serenity.dtos.usuario.SenhaPatchRequest;
-import com.serenity.api.serenity.dtos.usuario.UsuarioRequest;
-import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
-import com.serenity.api.serenity.dtos.usuario.UsuarioUpdateRequest;
+import com.serenity.api.serenity.dtos.usuario.*;
 import com.serenity.api.serenity.mappers.UsuarioMapper;
 import com.serenity.api.serenity.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,6 +31,7 @@ import static org.springframework.http.ResponseEntity.*;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    // consertar isso aqui depois
     private final UsuarioMapper mapper;
 
     @Operation(summary = "Lista os emails cadastrados", method = "GET")
@@ -126,6 +124,12 @@ public class UsuarioController {
         return noContent().build();
     }
 
+    @PatchMapping("/{id}/info")
+    public ResponseEntity<Void> mudarInformacao (@PathVariable UUID id, @RequestBody @Valid InfoPatchRequest  infoPatchRequest) {
+        usuarioService.atualizarInformacoesUsuario(id, infoPatchRequest);
+        return ResponseEntity.noContent().build();
+    }
+    
     @GetMapping("/me")
     public ResponseEntity<AccessTokenResponse> buscarUsuarioAtual(Authentication request) {
         return ok(usuarioService.buscarUsuarioAtual(request));

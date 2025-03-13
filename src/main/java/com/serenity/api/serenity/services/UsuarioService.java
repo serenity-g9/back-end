@@ -3,9 +3,11 @@ package com.serenity.api.serenity.services;
 import com.serenity.api.serenity.configuration.security.jwt.GerenciadorTokenJwt;
 import com.serenity.api.serenity.dtos.autenticacao.AccessTokenResponse;
 import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
+import com.serenity.api.serenity.dtos.usuario.InfoPatchRequest;
 import com.serenity.api.serenity.dtos.usuario.SenhaPatchRequest;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
 import com.serenity.api.serenity.models.Usuario;
+import com.serenity.api.serenity.models.embeddable.Contato;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -20,7 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -94,6 +98,17 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
+    public void atualizarInformacoesUsuario(UUID id, InfoPatchRequest infoPatchRequest) {
+        Usuario usuario = buscarPorId(id);
+        Contato contato = usuario.getContato();
+
+        contato.setCelular(Objects.requireNonNullElse(infoPatchRequest.celular(), contato.getCelular()));
+        contato.setNome(Objects.requireNonNullElse(infoPatchRequest.novoNome(), contato.getNome()));
+        contato.setDataNascimento(Objects.requireNonNullElse(infoPatchRequest.dataNascimento(), contato.getDataNascimento()));
+
+        usuarioRepository.save(usuario);
+    }
+    
     public AccessTokenResponse buscarUsuarioAtual(Authentication authentication) {
         if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(403));
