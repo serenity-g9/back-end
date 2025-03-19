@@ -24,4 +24,10 @@ public interface EscalaRepository extends JpaRepository<Escala, UUID> {
     Page<Agendamento> buscarAgendamentosDisponiveisPorEscala(UUID idEscala, Pageable pageable);
 
     List<Escala> findAllByDemanda(Demanda demanda);
+
+    @Query("SELECT MAX(e.numeroColete) FROM Escala e")
+    Integer findLastNumeroColete();
+
+    @Query("SELECT MAX(e.numeroPulseira) FROM Escala e")
+    Integer findLastNumeroPulseira();
 }

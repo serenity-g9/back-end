@@ -102,6 +102,21 @@ public class AgendamentoService {
         }
 
         agendamento.setHorarioInvitacaoAceito(LocalDateTime.now());
+        String endereco = String.format("%s - %s - %s",
+                agendamento.getEscala().getDemanda().getEvento().getEndereco().getLocal(),
+                agendamento.getEscala().getDemanda().getEvento().getEndereco().getLogradouro(),
+                agendamento.getEscala().getDemanda().getEvento().getEndereco().getNumero());
+
+        emailService.queueConfirmacaoParticipacaoEmail(
+                "zyalvlayz@gmail.com",
+                "annamarinho71@gmail.com",
+                agendamento.getEscala().getDemanda().getEvento().getNome(),
+                endereco,
+                "Empresa teste",
+                agendamento.getEscala().getDemanda().getEvento().getInicio()
+        );
+
+        emailService.process();
         return atualizar(agendamento.getId(), agendamento);
     }
 
@@ -168,4 +183,9 @@ public class AgendamentoService {
         Codigo codigo = codigoService.buscarPorDigito(digito);
         return agendamentoRepository.findAgendamentoByCodEntrada(codigo);
     }
+
+//    public Integer getQuantidadePessoasConfirmadas() {
+//        return this.agendamentoRepository.countAllByCodEntradaIsNull();
+//    }
+
 }

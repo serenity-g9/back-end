@@ -12,7 +12,8 @@ public enum FuncaoAlocacao {
     LIDER_DE_BAR(8, "Líder de bar"),
     COORDENADOR(9, "Coordenador"),
     RH(10, "RH"),
-    APOIO_DE_RH(11, "Apoio de RH");
+    APOIO_DE_RH(11, "Apoio de RH"),
+    MOCHILEIRO(12, "Mochileiro");
 
     private final int id;
     private final String valor;

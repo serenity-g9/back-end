@@ -27,4 +27,6 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, UUID> 
     List<Agendamento> findAllByUsuarioAndDeletedAtIsNull(Usuario usuario);
 
     Agendamento findAgendamentoByCodEntrada(Codigo codigo);
+
+    Integer countAllByIdAndCodEntradaIsNull(UUID id);
 }

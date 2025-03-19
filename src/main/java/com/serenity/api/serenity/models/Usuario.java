@@ -1,12 +1,14 @@
 package com.serenity.api.serenity.models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.serenity.api.serenity.models.embeddable.Contato;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -27,6 +29,17 @@ public class Usuario extends BaseEntity implements Serializable {
     private String email;
     private String senha;
     private Integer tipoUsuario;
+    
+//    @ManyToOne
+//    @JoinColumn(name = "documento_id")
+//    private Anexo anexo;
+//
+//    @Enumerated(EnumType.STRING)
+//    private TipoAnexo tipoAnexo;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<DocumentoUsuario> documentosCliente;
 
     @Embedded
     Contato contato;

@@ -46,6 +46,8 @@ class EscalaServiceTest {
                         11,
                         5,
                         40,
+                        102,
+                        102,
                         2500.0,
                         new Demanda(),
                         List.of(new Agendamento())
@@ -55,6 +57,8 @@ class EscalaServiceTest {
                         7,
                         8,
                         50,
+                        202,
+                        202,
                         4500.0,
                         new Demanda(),
                         List.of(new Agendamento())
@@ -82,6 +86,8 @@ class EscalaServiceTest {
                 7,
                 8,
                 50,
+                102,
+                102,
                 4500.0,
                 new Demanda(),
                 List.of(new Agendamento())

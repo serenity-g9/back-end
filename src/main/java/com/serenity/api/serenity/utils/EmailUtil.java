@@ -321,4 +321,77 @@ public class EmailUtil {
                                 </body>
                     
                     </html>""";
+    public static final String TEMPLATE_CONFIRMACAO_PARTICIPACAO = """
+            <!DOCTYPE html>
+            <html lang="pt">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Confirmação de Participação</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        background-color: #f4f4f4;
+                    }
+                    .container {
+                        max-width: 600px;
+                        margin: 20px auto;
+                        background: #ffffff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                    }
+                    .header {
+                        text-align: center;
+                        padding: 20px;
+                        background-color: #007bff;
+                        color: white;
+                        font-size: 24px;
+                        border-top-left-radius: 8px;
+                        border-top-right-radius: 8px;
+                    }
+                    .content {
+                        padding: 20px;
+                        text-align: center;
+                        font-size: 16px;
+                        color: #333;
+                    }
+                    .btn {
+                        display: inline-block;
+                        margin-top: 20px;
+                        padding: 10px 20px;
+                        background-color: #007bff;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        font-weight: bold;
+                    }
+                    .footer {
+                        margin-top: 20px;
+                        text-align: center;
+                        font-size: 12px;
+                        color: #777;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">Confirmação de Participação</div>
+                    <div class="content">
+                        <p>Olá,</p>
+                        <p>Você está confirmado para o evento <strong>{{nomeEvento}}</strong>.</p>
+                        <p><strong>Data:</strong> {{dataEvento}}</p>
+                        <p><strong>Local:</strong> {{endereco}}</p>
+                        <p>Aguardamos ansiosamente sua presença!</p>
+                        <a href="{{linkConfirmacao}}" class="btn">Ver Detalhes</a>
+                    </div>
+                    <div class="footer">
+                        {{Serinity}} | Todos os direitos reservados.
+                    </div>
+                </div>
+            </body>
+            </html>
+            """;
 }

@@ -14,6 +14,8 @@ public record EscalaResponse(
         String funcaoEscala,
         Integer qtdColaborador,
         Integer horasJornada,
+        Integer numeroColete,
+        Integer numeroPulseira,
         Double valor
 ) {
     public EscalaResponse(Escala escala) {
@@ -22,6 +24,8 @@ public record EscalaResponse(
                 escala.getFuncaoEscala() != null ? FuncaoAlocacao.getValor(escala.getFuncaoEscala()) : null,
                 escala.getQtdColaborador(),
                 escala.getHorasJornada(),
+                escala.getNumeroColete(),
+                escala.getNumeroPulseira(),
                 escala.getValor()
         );
     }

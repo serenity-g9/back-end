@@ -1,5 +1,11 @@
 package com.serenity.api.serenity.enums;
 
+import lombok.Data;
+import lombok.Getter;
+
+import java.util.List;
+
+@Getter
 public enum TipoAnexo {
     IMG_EVENTO(0, "img_evento"),
     IMG_PERFIL(1, "img_perfil"),
@@ -20,5 +26,8 @@ public enum TipoAnexo {
         }
 
         return null;
+    }
+    public static List<TipoAnexo> getDocumentos() {
+        return List.of(ASO, RG);
     }
 }

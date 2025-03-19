@@ -29,6 +29,8 @@ public class Escala extends BaseEntity implements Serializable {
     private Integer funcaoEscala;
     private Integer qtdColaborador;
     private Integer horasJornada;
+    private Integer numeroColete;
+    private Integer numeroPulseira;
     private Double valor;
 
     @ManyToOne

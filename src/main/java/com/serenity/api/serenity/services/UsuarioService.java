@@ -3,9 +3,15 @@ package com.serenity.api.serenity.services;
 import com.serenity.api.serenity.configuration.security.jwt.GerenciadorTokenJwt;
 import com.serenity.api.serenity.dtos.autenticacao.AccessTokenResponse;
 import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
+import com.serenity.api.serenity.dtos.usuario.SalvarDocumentoUsuarioRequest;
 import com.serenity.api.serenity.dtos.usuario.SenhaPatchRequest;
+import com.serenity.api.serenity.enums.TipoAnexo;
+import com.serenity.api.serenity.exceptions.DocumentoTipoAnexoJaExistenteException;
 import com.serenity.api.serenity.exceptions.NaoEncontradoException;
+import com.serenity.api.serenity.models.Anexo;
+import com.serenity.api.serenity.models.DocumentoUsuario;
 import com.serenity.api.serenity.models.Usuario;
+import com.serenity.api.serenity.repositories.DocumentoUsuarioRepository;
 import com.serenity.api.serenity.repositories.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -22,6 +28,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,6 +36,8 @@ import java.util.UUID;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final DocumentoUsuarioRepository documentoUsuarioRepository;
+    private final AnexoService anexoService;
 
     private final PasswordEncoder passwordEncoder;
     private final GerenciadorTokenJwt gerenciadorTokenJwt;
@@ -106,4 +115,35 @@ public class UsuarioService {
 
         return new AccessTokenResponse(usuario, null);
     }
+
+    public Usuario cadastrarDocumento(UUID idUsuario, SalvarDocumentoUsuarioRequest salvarDocumentoUsuarioRequest) {
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow(() -> new NaoEncontradoException("Usuário não encontrado: " + idUsuario));
+
+        if (documentoUsuarioRepository.existsDocumentoUsuarioByTipoAnexo(salvarDocumentoUsuarioRequest.getTipoAnexo())) {
+            throw new DocumentoTipoAnexoJaExistenteException(salvarDocumentoUsuarioRequest.getTipoAnexo());
+        }
+
+        Anexo anexo = anexoService.cadastrar(salvarDocumentoUsuarioRequest.getContentFile(), salvarDocumentoUsuarioRequest.getTipoAnexo().getId());
+
+        DocumentoUsuario documentoUsuario = DocumentoUsuario.builder()
+                .tipoAnexo(salvarDocumentoUsuarioRequest.getTipoAnexo())
+                .anexo(anexo)
+                .usuario(usuario)
+                .build();
+
+        documentoUsuario = documentoUsuarioRepository.save(documentoUsuario);
+
+        usuario.getDocumentosCliente().add(documentoUsuario);
+
+        return usuarioRepository.save(usuario);
+    }
+
+    public List<DocumentoUsuario> listarDocumentosPeloUsuario(UUID usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new NaoEncontradoException("Usuário não encontrado: " + usuarioId));
+
+        return documentoUsuarioRepository.findByUsuario(usuario);
+    }
+
+
 }

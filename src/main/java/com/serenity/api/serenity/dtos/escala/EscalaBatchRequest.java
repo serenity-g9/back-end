@@ -10,6 +10,10 @@ public record EscalaBatchRequest(
         @NotNull
         Integer horasJornada,
         @NotNull
+        Integer numeroColete,
+        @NotNull
+        Integer numeroPulseira,
+        @NotNull
         Double valor
 ) {
 }

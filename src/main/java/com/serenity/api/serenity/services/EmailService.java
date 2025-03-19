@@ -20,6 +20,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Transactional
@@ -85,6 +86,35 @@ public class EmailService {
             throw new MailParseException(e);
         }
 
+    }
+
+    public void queueConfirmacaoParticipacaoEmail(
+            final String remetente,
+            final String destinatario,
+            final String nomeEvento,
+            final String endereco,
+            final String empresa,
+            final LocalDateTime dataEvento
+    ){
+        MimeMessage message = mailSender.createMimeMessage();
+        String conteudo = EmailUtil.TEMPLATE_CONFIRMACAO_PARTICIPACAO
+                .replace("{{nomeEvento}}", nomeEvento)
+                .replace("{{dataEvento}}", dataEvento.toString())
+                .replace("{{endereco}}", endereco)
+                .replace("{{empresa}}", empresa);
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(remetente);
+            helper.setTo(destinatario);
+            helper.setSubject("Confirmacao participação Evento");
+            helper.setText(conteudo, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new MailParseException(e);
+        }
+
+        fila.insert(message);
     }
 }
 

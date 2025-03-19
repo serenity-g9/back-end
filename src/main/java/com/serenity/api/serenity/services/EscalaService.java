@@ -35,6 +35,10 @@ public class EscalaService {
     private final DemandaService demandaService;
 
     public Escala cadastrar(Escala escala) {
+        Integer ultimoNumeroColete  = this.escalaRepository.findLastNumeroColete();
+        Integer ultimoNumeroPulseira = this.escalaRepository.findLastNumeroPulseira();
+        escala.setNumeroColete(ultimoNumeroColete != null ? ultimoNumeroColete + 1 : 1); // inicia em 1 caso não tenha iniciado
+        escala.setNumeroPulseira(ultimoNumeroColete != null ? ultimoNumeroPulseira + 1 : 1); // inicia em 1 caso não tenha iniciado
         return escalaRepository.save(escala);
     }
 

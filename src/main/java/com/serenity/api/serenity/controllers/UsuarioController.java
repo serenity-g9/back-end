@@ -1,12 +1,15 @@
 package com.serenity.api.serenity.controllers;
 
+import com.serenity.api.serenity.dtos.anexo.AnexoResponse;
 import com.serenity.api.serenity.dtos.autenticacao.AccessTokenResponse;
 import com.serenity.api.serenity.dtos.autenticacao.LoginRequest;
-import com.serenity.api.serenity.dtos.usuario.SenhaPatchRequest;
-import com.serenity.api.serenity.dtos.usuario.UsuarioRequest;
-import com.serenity.api.serenity.dtos.usuario.UsuarioResponse;
-import com.serenity.api.serenity.dtos.usuario.UsuarioUpdateRequest;
+import com.serenity.api.serenity.dtos.evento.EventoRequest;
+import com.serenity.api.serenity.dtos.usuario.*;
+import com.serenity.api.serenity.enums.TipoAnexo;
 import com.serenity.api.serenity.mappers.UsuarioMapper;
+import com.serenity.api.serenity.models.Anexo;
+import com.serenity.api.serenity.models.DocumentoUsuario;
+import com.serenity.api.serenity.models.Usuario;
 import com.serenity.api.serenity.services.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,7 +22,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -129,5 +134,29 @@ public class UsuarioController {
     @GetMapping("/me")
     public ResponseEntity<AccessTokenResponse> buscarUsuarioAtual(Authentication request) {
         return ok(usuarioService.buscarUsuarioAtual(request));
+    }
+
+    @GetMapping("/usuario/anexos/documentos")
+    public ResponseEntity<List<TipoAnexo>> getDocumentos() {
+        List<TipoAnexo> documentos = TipoAnexo.getDocumentos();
+        return ResponseEntity.ok(documentos);
+    }
+
+    @PostMapping(value = "/documentos")
+    public ResponseEntity<UsuarioResponse> cadastrarDocumento(@RequestPart("data") SalvarDocumentoUsuarioRequest salvarDocumentoUsuarioRequest, @RequestPart(value = "file", required = false) MultipartFile file) {
+        salvarDocumentoUsuarioRequest.setContentFile(file);
+        Usuario cadasatrarDocumentoUsuario = usuarioService.cadastrarDocumento(salvarDocumentoUsuarioRequest.getIdUsuario(), salvarDocumentoUsuarioRequest);
+        return accepted().body(new UsuarioResponse(cadasatrarDocumentoUsuario));
+    }
+
+    @GetMapping(value = "/{id}/documentos")
+    public ResponseEntity<List<DocumentoUsuarioResponse>> buscarDocumentos(@PathVariable UUID id) {
+        List<DocumentoUsuario> documentoUsuarioList = usuarioService.listarDocumentosPeloUsuario(id);
+
+        return documentoUsuarioList.isEmpty() ? ok(new ArrayList<>()) : ok(documentoUsuarioList
+                .stream()
+                .map(DocumentoUsuarioResponse::new)
+                .toList()
+            );
     }
 }
