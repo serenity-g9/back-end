@@ -1,5 +1,9 @@
 package com.serenity.api.serenity.services;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobContainerClientBuilder;
@@ -21,20 +25,14 @@ import java.util.UUID;
 @Transactional
 @RequiredArgsConstructor
 public class AnexoService {
-    @Value("${azure.storage.connection-string}")
-    private String connectionString;
 
-    @Value("${azure.storage.container-name}")
-    private String containerName;
-
+    private final AmazonS3 amazonS3;
     private final AnexoRepository anexoRepository;
 
-    public Anexo anexar(MultipartFile file) {
-        BlobContainerClient containerClient = new BlobContainerClientBuilder()
-                .connectionString(connectionString)
-                .containerName(containerName)
-                .buildClient();
+    @Value("${cloud.aws.s3.bucket-name}")
+    private String bucketName;
 
+    public Anexo anexar(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
         String fileExtension = "";
 
@@ -44,16 +42,26 @@ public class AnexoService {
 
         String fileName = UUID.randomUUID() + fileExtension;
 
-        BlobClient blobClient = containerClient.getBlobClient(fileName);
-
         try {
-            blobClient.upload(file.getInputStream(), file.getSize(), true);
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(file.getSize());
+            metadata.setContentType(file.getContentType());
+
+            PutObjectRequest request = new PutObjectRequest(
+                    bucketName,
+                    fileName,
+                    file.getInputStream(),
+                    metadata
+            );
+
+            amazonS3.putObject(request);
 
             Anexo anexo = new Anexo();
-            anexo.setNome(blobClient.getBlobName());
-            anexo.setUrl(blobClient.getBlobUrl());
+            anexo.setNome(fileName);
+            anexo.setUrl(amazonS3.getUrl(bucketName, fileName).toString());
 
             return anexo;
+
         } catch (IOException ioe) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(500));
         }
@@ -87,12 +95,10 @@ public class AnexoService {
     }
 
     public void deletarAnexo(String nome) {
-        BlobContainerClient containerClient = new BlobContainerClientBuilder()
-                .connectionString(connectionString)
-                .containerName(containerName)
-                .buildClient();
-
-        BlobClient blobClient = containerClient.getBlobClient(nome);
-        blobClient.delete();
+        try {
+            amazonS3.deleteObject(bucketName, nome);
+        } catch (AmazonS3Exception e) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(500), "Erro ao deletar arquivo no S3", e);
+        }
     }
 }
