@@ -1,7 +1,9 @@
 package com.serenity.api.serenity.services;
 
+import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.azure.storage.blob.BlobClient;
@@ -19,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -58,7 +62,7 @@ public class AnexoService {
 
             Anexo anexo = new Anexo();
             anexo.setNome(fileName);
-            anexo.setUrl(amazonS3.getUrl(bucketName, fileName).toString());
+            anexo.setUrl(gerarUrlImagem(fileName));
 
             return anexo;
 
@@ -101,4 +105,17 @@ public class AnexoService {
             throw new ResponseStatusException(HttpStatusCode.valueOf(500), "Erro ao deletar arquivo no S3", e);
         }
     }
+
+    private String gerarUrlImagem(String fileName){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR_OF_DAY, 1);
+        Date expirationDate = calendar.getTime();
+
+        GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, fileName)
+                .withMethod(HttpMethod.GET)
+                .withExpiration(expirationDate);
+
+        return amazonS3.generatePresignedUrl(generatePresignedUrlRequest).toString();
+    }
+
 }
