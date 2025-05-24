@@ -12,7 +12,7 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 
 # Build the project (this generates the JAR file) and completely skip tests
-RUN mvn clean package -DskipTests -Dmaven.test.skip=true
+RUN mvn clean package
 
 # Second Stage: Create a lightweight runtime image
 FROM eclipse-temurin:17-jdk-alpine
