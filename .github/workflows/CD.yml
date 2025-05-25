@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 # Adicionado: Garante que o código do seu repositório esteja disponível para o runner
+        uses: actions/checkout@v4
 
       - name: Debug - Show IMAGE_NAME
         run: echo "Image Name: ${{ secrets.IMAGE_NAME }}"
