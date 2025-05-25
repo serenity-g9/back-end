@@ -7,11 +7,13 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted # Certifique-se que seu runner está online e configurado para o repositório ou grupo com acesso a ele
+    runs-on: self-hosted # Garanta que seu runner está online e configurado para o repositório ou grupo com acesso a ele
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Adicionado: Garante que o código do seu repositório esteja disponível para o runner
+
       - name: Debug - Show IMAGE_NAME
-        # Indentação: 4 espaços antes de 'run:' em relação a '- name:'
         run: echo "Image Name: ${{ secrets.IMAGE_NAME }}"
 
       - name: Pull Docker image
@@ -24,5 +26,4 @@ jobs:
         run: docker rm serenity || true
 
       - name: Run Docker container
-        # Adiciona --restart=always para reiniciar automaticamente
         run: docker run --name serenity -d -p 8080:8080 --restart=always ${{ secrets.IMAGE_NAME }}:latest
