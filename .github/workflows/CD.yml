@@ -3,13 +3,15 @@ name: "Exemplo de CD"
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted # Certifique-se que seu runner está online e configurado para o repositório ou grupo com acesso a ele
+
     steps:
       - name: Debug - Show IMAGE_NAME
+        # Indentação: 4 espaços antes de 'run:' em relação a '- name:'
         run: echo "Image Name: ${{ secrets.IMAGE_NAME }}"
 
       - name: Pull Docker image
