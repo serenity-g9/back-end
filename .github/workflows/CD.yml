@@ -1,0 +1,23 @@
+name: "Exemplo de CD"
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Pull Docker image
+        run: docker pull $IMAGE_NAME:lastest
+
+      - name: Stop Docker conteiner
+        run: docker stop serenity || true
+
+      - name: Remove Docker conteiner
+        run: docker rm serenity || true
+
+      - name: Run Docker conteiner
+        run: docker run --name serenity -d -p 8080:8080 $IMAGE_NAME:lasted
+      
