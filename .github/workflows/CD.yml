@@ -7,14 +7,15 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted # Garanta que seu runner está online e configurado para o repositório ou grupo com acesso a ele
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Debug - Show IMAGE_NAME
-        run: echo "Image Name: ${{ secrets.IMAGE_NAME }}"
+        run: |
+          echo "Image Name: ${{ secrets.IMAGE_NAME }}"
 
       - name: Pull Docker image
         run: docker pull ${{ secrets.IMAGE_NAME }}:latest
