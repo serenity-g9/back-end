@@ -81,7 +81,7 @@ public class DemandaController {
     }
 
     @Operation(summary = "Deleta uma demanda", method = "DELETE")
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204",description = "Deletado com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao deletar"),
             @ApiResponse(responseCode = "404", description = "Demanda não existe")
