@@ -9,15 +9,18 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Pull Docker image
-        run: docker pull $IMAGE_NAME:lastest
+      - name: Debug - Show IMAGE_NAME
+        run: echo "Image Name: ${{ secrets.IMAGE_NAME }}"
 
-      - name: Stop Docker conteiner
+      - name: Pull Docker image
+        run: docker pull ${{ secrets.IMAGE_NAME }}:latest
+
+      - name: Stop Docker container
         run: docker stop serenity || true
 
-      - name: Remove Docker conteiner
+      - name: Remove Docker container
         run: docker rm serenity || true
 
-      - name: Run Docker conteiner
-        run: docker run --name serenity -d -p 8080:8080 $IMAGE_NAME:lasted
-      
+      - name: Run Docker container
+        # Adiciona --restart=always para reiniciar automaticamente
+        run: docker run --name serenity -d -p 8080:8080 --restart=always ${{ secrets.IMAGE_NAME }}:latest
