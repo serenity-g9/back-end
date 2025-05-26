@@ -27,6 +27,7 @@ public class Usuario extends BaseEntity implements Serializable {
     private String email;
     private String senha;
     private Integer tipoUsuario;
+    private Boolean ativo;
 
     @Embedded
     Contato contato;

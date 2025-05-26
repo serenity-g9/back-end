@@ -126,6 +126,18 @@ public class UsuarioController {
         return noContent().build();
     }
 
+    @Operation(summary = "Altera o ativo de um usuario", method = "PATCH")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
+            @ApiResponse(responseCode = "404", description = "Usuario não existe")
+    })
+    @PatchMapping("/{id}/alterar-ativo/{ativo}")
+    public ResponseEntity<Void> alterarAtivo(@PathVariable UUID id, @PathVariable Boolean ativo) {
+        usuarioService.alterarAtivo(id, ativo);
+        return noContent().build();
+    }
+
     @GetMapping("/me")
     public ResponseEntity<AccessTokenResponse> buscarUsuarioAtual(Authentication request) {
         return ok(usuarioService.buscarUsuarioAtual(request));

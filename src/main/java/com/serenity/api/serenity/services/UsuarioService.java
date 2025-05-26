@@ -39,7 +39,7 @@ public class UsuarioService {
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
         usuario.setSenha(senhaCriptografada);
 
-        System.out.println(usuario);
+        usuario.setAtivo(true);
 
         return usuarioRepository.save(usuario);
     }
@@ -50,6 +50,14 @@ public class UsuarioService {
 
     public Usuario buscarPorId(UUID id) {
         return usuarioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("usuario"));
+    }
+
+    public void alterarAtivo(UUID id, Boolean ativo) {
+        Usuario usuario = buscarPorId(id);
+
+        usuario.setAtivo(ativo);
+
+        usuarioRepository.save(usuario);
     }
 
     public Usuario buscarPorEmail(String email) {
