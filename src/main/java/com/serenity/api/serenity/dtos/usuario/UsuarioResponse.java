@@ -10,6 +10,7 @@ public record UsuarioResponse(
         UUID id,
         String email,
         String tipoUsuario,
+        Boolean ativo,
         Contato contato
 ) {
     public UsuarioResponse(Usuario usuario) {
@@ -17,6 +18,7 @@ public record UsuarioResponse(
                 usuario.getId(),
                 usuario.getEmail(),
                 TipoUsuario.getValor(usuario.getTipoUsuario()),
+                usuario.getAtivo(),
                 usuario.getContato()
         );
     }

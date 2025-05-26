@@ -31,7 +31,6 @@ import static org.springframework.http.ResponseEntity.*;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
-    // consertar isso aqui depois
     private final UsuarioMapper mapper;
 
     @Operation(summary = "Lista os emails cadastrados", method = "GET")
@@ -129,7 +128,19 @@ public class UsuarioController {
         usuarioService.atualizarInformacoesUsuario(id, infoPatchRequest);
         return ResponseEntity.noContent().build();
     }
-    
+
+    @Operation(summary = "Altera o ativo de um usuario", method = "PATCH")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Atualizado com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno ao atualizar"),
+            @ApiResponse(responseCode = "404", description = "Usuario não existe")
+    })
+    @PatchMapping("/{id}/alterar-ativo/{ativo}")
+    public ResponseEntity<Void> alterarAtivo(@PathVariable UUID id, @PathVariable Boolean ativo) {
+        usuarioService.alterarAtivo(id, ativo);
+        return noContent().build();
+    }
+
     @GetMapping("/me")
     public ResponseEntity<AccessTokenResponse> buscarUsuarioAtual(Authentication request) {
         return ok(usuarioService.buscarUsuarioAtual(request));
