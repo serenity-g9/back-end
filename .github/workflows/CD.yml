@@ -1,0 +1,41 @@
+name: "Deploy da Aplicação"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted # Certifique-se de que seu self-hosted runner está configurado e online
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Este debug é útil para verificar se o secret está sendo lido.
+      # Remova-o depois de confirmar que está funcionando.
+      - name: Debug - Show IMAGE_NAME
+        run: |
+          echo "Image Name: ${{ secrets.DOCKER_HUB_IMAGE }}"
+
+      - name: Pull Docker Image (latest tag)
+        # Puxa a imagem com a tag 'latest'
+        run: docker pull ${{ secrets.DOCKER_HUB_IMAGE }}:latest
+
+      - name: Stop Existing Docker Container (if running)
+        # O '|| true' garante que o workflow não falhe se o contêiner não existir.
+        run: docker stop serenity || true
+
+      - name: Remove Existing Docker Container (if exists)
+        # O '|| true' garante que o workflow não falhe se o contêiner não existir.
+        run: docker rm serenity || true
+
+      - name: Run New Docker Container
+        run: |
+          docker run \
+            --name serenity \
+            -d \
+            -p 8080:8080 \
+            --restart=always \
+            ${{ secrets.DOCKER_HUB_IMAGE }}:latest # Executa a imagem com a tag 'latest'
