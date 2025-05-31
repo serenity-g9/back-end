@@ -29,8 +29,8 @@ jobs:
       - name: Create Google Forms Credentials File
         run: |
           mkdir -p /tmp/google_forms_creds
-          # Adicionada a flag '-r' para remover diretórios também
-          rm -rf /tmp/google_forms_creds/google-forms-api-credentials.json
+          # Adicionado 'sudo' para garantir permissão de remoção
+          sudo rm -rf /tmp/google_forms_creds/google-forms-api-credentials.json
           echo "${{ secrets.GOOGLE_FORMS_CREDENTIALS_JSON }}" > /tmp/google_forms_creds/google-forms-api-credentials.json
         env:
           GOOGLE_FORMS_CREDENTIALS_JSON: ${{ secrets.GOOGLE_FORMS_CREDENTIALS_JSON }}
