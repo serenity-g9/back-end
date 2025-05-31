@@ -28,10 +28,12 @@ jobs:
 
       - name: Create Google Forms Credentials File
         run: |
-          mkdir -p /tmp/google_forms_creds
-          # Adicionado 'sudo' para garantir permissão de remoção
+          # Garante que o diretório seja criado/existente com permissões adequadas
+          sudo mkdir -p /tmp/google_forms_creds
+          # Remove qualquer arquivo/diretório existente com privilégios elevados
           sudo rm -rf /tmp/google_forms_creds/google-forms-api-credentials.json
-          echo "${{ secrets.GOOGLE_FORMS_CREDENTIALS_JSON }}" > /tmp/google_forms_creds/google-forms-api-credentials.json
+          # Escreve o conteúdo no arquivo usando sudo tee para permissão de escrita
+          echo "${{ secrets.GOOGLE_FORMS_CREDENTIALS_JSON }}" | sudo tee /tmp/google_forms_creds/google-forms-api-credentials.json > /dev/null
         env:
           GOOGLE_FORMS_CREDENTIALS_JSON: ${{ secrets.GOOGLE_FORMS_CREDENTIALS_JSON }}
 
