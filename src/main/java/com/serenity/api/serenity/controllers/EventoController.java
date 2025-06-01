@@ -74,8 +74,13 @@ public class EventoController {
     @PostMapping
     public ResponseEntity<EventoResponse> cadastrar(@RequestPart("data") EventoRequest eventoRequest, @RequestPart(value = "file", required = false) MultipartFile file) {
         Evento evento = eventoService.cadastrar(mapper.toEvento(eventoRequest));
-        if (file != null) evento.setImagem(anexoService.cadastrar(file, 0));
-        eventoService.atualizar(evento.getId(), evento);
+
+        try {
+            if (file != null) evento.setImagem(anexoService.cadastrar(file, 0));
+            eventoService.atualizar(evento.getId(), evento);
+        } catch (Exception e) {
+            evento.setImagem(null);
+        }
 
         return created(null).body(new EventoResponse(evento));
     }
