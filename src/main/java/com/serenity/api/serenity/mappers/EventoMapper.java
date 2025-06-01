@@ -30,7 +30,7 @@ public abstract class EventoMapper {
     public abstract Evento toEvento(EventoUpdateRequest eventoRequest, @MappingTarget Evento evento);
 
     protected Formulario madIdFormularioToFormulario(String idFormulario) {
-        return idFormulario != null ? formularioService.buscarPorId(idFormulario) : null;
+        return idFormulario != null ? formularioService.buscarPorIdOptional(idFormulario) : null;
     }
     protected Usuario madIdUsuarioToUsuario(UUID idUsuario) {
         return idUsuario != null ? usuarioService.buscarPorId(idUsuario) : null;
