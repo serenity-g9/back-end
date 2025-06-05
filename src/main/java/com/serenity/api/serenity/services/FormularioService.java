@@ -207,6 +207,9 @@ public class FormularioService {
     public Formulario buscarPorId(String id) {
         return formularioRepository.findById(id).orElseThrow(() -> new NaoEncontradoException("formulário"));
     }
+    public Formulario buscarPorIdOptional(String id) {
+        return formularioRepository.findById(id).orElse(null);
+    }
 
     public void deletar(String id) {
         buscarPorId(id);

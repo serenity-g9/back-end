@@ -112,7 +112,7 @@ public class EmailUtil {
                                 															<td class="pad" style="vertical-align: middle; color: #1e0e4b; font-family: 'Inter', sans-serif; font-size: 15px; padding-bottom: 5px; padding-top: 5px; text-align: center;">
                                 																<table class="icons-outer" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-table;">
                                 																	<tr>
-                                																		<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 6px;"><img class="icon" src="https://d15k2d11r6t6rl.cloudfront.net/pub/bfra/r3lss8lq/nva/kc4/gsd/logo-sy.png" height="auto" width="88" align="center" style="display: block; height: auto; margin: 0 auto; border: 0;"></td>
+                                																		<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 6px;"><img class="icon" src="https://drive.usercontent.google.com/download?id=14PqiKEjM6Wld7gbn6LqBtptAAs-vJT-L" height="auto" width="88" align="center" style="display: block; height: auto; margin: 0 auto; border: 0;"></td>
                                 																	</tr>
                                 																</table>
                                 															</td>
@@ -233,8 +233,6 @@ public class EmailUtil {
                                 <v:textbox inset="0px,0px,0px,0px">
                                 <center dir="false" style="color:#ffffff;font-family:sans-serif;font-size:16px">
                                 <![endif]-->
-                                																	<div style="background-color:#182f4e;border-bottom:0px solid transparent;border-left:0px solid transparent;border-radius:4px;border-right:0px solid transparent;border-top:0px solid transparent;color:#ffffff;display:inline-block;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:16px;font-weight:400;mso-border-alt:none;padding-bottom:5px;padding-top:5px;text-align:center;text-decoration:none;width:auto;word-break:keep-all;"><span style="word-break: break-word; padding-left: 20px; padding-right: 20px; font-size: 16px; display: inline-block; letter-spacing: normal;"><span style="word-break: break-word; line-height: 32px;">Recusar</span></span></div><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
-                                																</div>
                                 															</td>
                                 														</tr>
                                 													</table>
@@ -250,8 +248,6 @@ public class EmailUtil {
                                 <v:textbox inset="0px,0px,0px,0px">
                                 <center dir="false" style="color:#ffffff;font-family:sans-serif;font-size:16px">
                                 <![endif]-->
-                                																	<div style="background-color:#ef6c00;border-bottom:0px solid transparent;border-left:0px solid transparent;border-radius:4px;border-right:0px solid transparent;border-top:0px solid transparent;color:#ffffff;display:inline-block;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:16px;font-weight:400;mso-border-alt:none;padding-bottom:5px;padding-top:5px;text-align:center;text-decoration:none;width:auto;word-break:keep-all;"><span style="word-break: break-word; padding-left: 20px; padding-right: 20px; font-size: 16px; display: inline-block; letter-spacing: normal;"><span style="word-break: break-word; line-height: 32px;">Aceitar</span></span></div><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
-                                																</div>
                                 															</td>
                                 														</tr>
                                 													</table>
