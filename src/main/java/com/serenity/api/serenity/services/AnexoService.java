@@ -50,6 +50,7 @@ public class AnexoService {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
             metadata.setContentType(file.getContentType());
+            metadata.setContentDisposition("inline");
 
             PutObjectRequest request = new PutObjectRequest(
                     bucketName,
@@ -107,15 +108,17 @@ public class AnexoService {
     }
 
     private String gerarUrlImagem(String fileName){
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR_OF_DAY, 1);
-        Date expirationDate = calendar.getTime();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.HOUR_OF_DAY, 1);
+//        Date expirationDate = calendar.getTime();
+//
+//        GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, fileName)
+//                .withMethod(HttpMethod.GET)
+//                .withExpiration(expirationDate);
+//
+//        return amazonS3.generatePresignedUrl(generatePresignedUrlRequest).toString();
 
-        GeneratePresignedUrlRequest generatePresignedUrlRequest = new GeneratePresignedUrlRequest(bucketName, fileName)
-                .withMethod(HttpMethod.GET)
-                .withExpiration(expirationDate);
-
-        return amazonS3.generatePresignedUrl(generatePresignedUrlRequest).toString();
+        return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
     }
 
 }
