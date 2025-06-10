@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -144,5 +145,14 @@ public class UsuarioController {
     @GetMapping("/me")
     public ResponseEntity<AccessTokenResponse> buscarUsuarioAtual(Authentication request) {
         return ok(usuarioService.buscarUsuarioAtual(request));
+    }
+
+    @PutMapping("/{id}/imagem")
+    public ResponseEntity<Void> atualizarImagem(
+            @PathVariable UUID id,
+            @RequestParam("imagem") MultipartFile imagem) {
+
+        usuarioService.atualizarImagem(id, imagem);
+        return ResponseEntity.noContent().build();
     }
 }

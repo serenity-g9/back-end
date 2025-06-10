@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -33,6 +34,7 @@ import java.util.UUID;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final AnexoService anexoService;
 
     private final PasswordEncoder passwordEncoder;
     private final GerenciadorTokenJwt gerenciadorTokenJwt;
@@ -72,6 +74,12 @@ public class UsuarioService {
         buscarPorId(id);
 
         usuarioRepository.deleteById(id);
+    }
+
+    public void atualizarImagem(UUID id, MultipartFile imagem) {
+        Usuario usuario = buscarPorId(id);
+        usuario.setImagem(anexoService.cadastrar(imagem, 1));
+        usuarioRepository.save(usuario);
     }
 
     public Usuario atualizar(UUID id, Usuario usuario) {

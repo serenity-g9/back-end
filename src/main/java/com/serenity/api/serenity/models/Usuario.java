@@ -32,6 +32,9 @@ public class Usuario extends BaseEntity implements Serializable {
     @Embedded
     Contato contato;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Anexo imagem;
+
     public Usuario(UUID id, String email, String senha, Integer tipoUsuario) {
         this.id = id;
         this.email = email;
