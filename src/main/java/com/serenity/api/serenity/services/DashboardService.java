@@ -73,7 +73,7 @@ public class DashboardService {
     private Map<YearMonth, Long> buscarQtdEventosPorAnoMes(List<Evento> eventos) {
        return eventos.stream()
             .collect(Collectors.groupingBy(
-                    e -> YearMonth.from(e.getCreatedAt()),
+                    e -> YearMonth.from(e.getInicio()),
                     Collectors.counting()
             ));
     }
