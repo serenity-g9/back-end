@@ -24,7 +24,7 @@ public class DashboardService {
         LocalDateTime inicio = dtInicio.atStartOfDay();
         LocalDateTime fim = dtFim.atStartOfDay();
 
-        List<Evento> eventos = eventoRepository.findEventosByResponsavelAndPeriodo(idUsuario, inicio, fim);
+        List<Evento> eventos = eventoRepository.findEventosByPeriodo(inicio, fim);
 
         Map<String, Integer> qtdPorStatusEvento = contarEventosPorStatus(eventos);
         Double balanco = somarOrcamentoEventos(eventos);
