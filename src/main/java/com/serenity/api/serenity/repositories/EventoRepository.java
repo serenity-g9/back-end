@@ -18,10 +18,9 @@ public interface EventoRepository extends BaseRepository<Evento, UUID> {
 
     @Query("""
     SELECT e FROM Evento e
-    WHERE e.responsavel.id = :idUsuario
-      AND (:inicio IS NULL OR e.inicio >= :inicio)
+    WHERE (:inicio IS NULL OR e.inicio >= :inicio)
       AND (:fim IS NULL OR e.fim <= :fim)
       AND e.deletedAt IS NULL
     """)
-    List<Evento> findEventosByResponsavelAndPeriodo(UUID idUsuario, LocalDateTime inicio, LocalDateTime fim);
+    List<Evento> findEventosByPeriodo(LocalDateTime inicio, LocalDateTime fim);
 }
