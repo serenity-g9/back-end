@@ -9,19 +9,14 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public record DemandaUpdateRequest(
+public record   DemandaUpdateRequest(
 
         @NotBlank
         String nome,
-        @NotNull
-        Double orcamento,
         @FutureOrPresent
         LocalDateTime inicio,
         @FutureOrPresent
         LocalDateTime fim,
         @NotNull
-        Double custoTotal,
-        @NotNull
-        Integer tipoContrato,
-        Evento evento) {
+        Double custoTotal) {
 }
